@@ -7,7 +7,7 @@ CC := cc # This is the main compiler
 FF := gfortran
 SRCDIR := src
 BUILDDIR := build
-TARGET := bin/mbpbind
+TARGET := bin/metbp.linux
 LINKCC := cc
  
 SRCEXT := c
