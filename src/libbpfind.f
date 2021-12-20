@@ -37,7 +37,8 @@ C
 
        subroutine callbpfindc(cif , accn, ht, hd, 
      1 hdval, ang, angval, ch, sg, 
-     2 cor, eval)bind(c, name ='callbpfindc')
+     2 cor, eval, chain, chainval, 
+     3 nmr, nmrval)bind(c, name ='callbpfindc')
        use iso_c_binding, only: c_char , c_null_char
 C       character(kind=c_char), dimension(*), intent(in)    ::  argv
 C       character(kind=c_char), intent(in) ::  a1(20), a2(20)
@@ -52,6 +53,10 @@ C       character(kind=c_char), intent(in) ::  a1(20), a2(20)
        character(kind=c_char,len=1),dimension(512),intent(in) ::sg
        character(kind=c_char,len=1),dimension(512),intent(in) ::cor
        character(kind=c_char,len=1),dimension(512),intent(in) ::eval
+       character(kind=c_char,len=1),dimension(512),intent(in) ::chain
+       character(kind=c_char,len=1),dimension(512),intent(in) ::chainval
+       character(kind=c_char,len=1),dimension(512),intent(in) ::nmr
+       character(kind=c_char,len=1),dimension(512),intent(in) ::nmrval
         ! here I have a string with fixed length
         character*512 val1(50)
         character (len=512) ::params
@@ -96,7 +101,7 @@ C        read(params,*) narg
               params (i:i) = accn(i)
         end if
         end do loop_accn
-c         write(*,*) "       BASE-PAIRS COMPUTATION STARTS"
+         write(*,*) "       BASE-PAIRS COMPUTATION STARTS"
 
 c        write(*,*) params
 
@@ -267,6 +272,81 @@ c       write(*,*) params
             val1(narg) = params
         end if
 
+        params = "";  
+        loop_chain: do i=1, 512
+        if ( chain(i) == c_null_char ) then
+              exit loop_chain
+        else
+              params (i:i) = chain(i)
+        end if
+        end do loop_chain
+
+c        write(*,*) params
+
+        if(params.ne.'-dummyval') then
+              narg = narg + 1
+            val1(narg) = params
+        end if
+
+        params = "";  
+        loop_chainval: do i=1, 512
+        if ( chainval(i) == c_null_char ) then
+              exit loop_chainval
+        else
+              params (i:i) = chainval(i)
+        end if
+        end do loop_chainval
+
+c       write(*,*) params
+
+        if(params.ne.'-dummyval') then
+              narg = narg + 1
+            val1(narg) = params
+        end if
+
+
+
+        params = "";  
+        loop_nmr: do i=1, 512
+        if ( nmr(i) == c_null_char ) then
+              exit loop_nmr
+        else
+              params (i:i) = nmr(i)
+        end if
+        end do loop_nmr
+
+c        write(*,*) params
+
+        if(params.ne.'-dummyval') then
+              narg = narg + 1
+            val1(narg) = params
+        end if
+
+        params = "";  
+        loop_nmrval: do i=1, 512
+        if ( nmrval(i) == c_null_char ) then
+              exit loop_nmrval
+        else
+              params (i:i) = nmrval(i)
+        end if
+        end do loop_nmrval
+
+c       write(*,*) params
+
+        if(params.ne.'-dummyval') then
+              narg = narg + 1
+            val1(narg) = params
+        end if
+
+
+
+
+
+
+
+
+
+
 
         narg = narg + 1
         val1(narg) = "-NONUP"
@@ -334,7 +414,7 @@ c        val1(narg) = "-c1"
        character*512 val1(50),valp,valv
        character*15 prnvar(40)
 	real invdegree
-       common /basenms/adevar(200),guavar(200),cytvar(200),uravar(200)
+       common /basenms/adevar(43),guavar(36),cytvar(27),uravar(42)
        COMMON /HBQUA/BASE(21,20000),energy(20,20000),
      1                    yangle(20,20000)
        COMMON /HBQTYP/TYPE(20,20000),FEATURE(20,20000)
@@ -354,6 +434,24 @@ c       common /options/cutang,cuteng,cutoff,hetatm
        common /cum/pchaind(1000000),pcd(1000000),molid
        common /str/strseq(1000000)
 	data ans/'No ','Yes'/
+      data adevar/'  A',' A ','A  ','ADE','DA5','DA3','1MA','MIA',' +A',
+     1    'AMP','AMO','12A','AET','PSD','AVC','APC','COM','MAD','A23',
+     2    'ATP','2MA','A2M','T6A','RIA','6MZ','6IA',' DA','DA ','ADP',
+     3    '5AA','PR5','2AD','3DA','ANZ','AVC','TSB','QSI','VAA',' RA',
+     4    'RA ','RA5','RA3','SAM'/
+      data guavar/'  G',' G ','G  ','DG ',' DG','GUA','DG5','DG3','2MG',
+     1    'OMG','G7M','GNP','7MG','1MG','5CG',' +G','+G ','GDP','M2G',
+     2    '  I',' I ','I  ','GMP','GTP',' DG','PDG',' YG','YG ','YYG',
+     3    '2PR','XUG',' RG','RG ','RG5','RG3','6OG'/
+      data cytvar/'  C',' C ','C  ','CYT','DC5','DC3','5MC',' +C','+C ',
+     1    'OMC','S4C','CB2','5IC','CCC','1SC',' DC','DC ','CBV','DCZ',
+     2    'CSL','CBR','C38','BLS',' RC','RC ','RC5','RC3'/
+      data uravar/'  T',' T ','T  ',' DT','DT ','THY','DT5','DT3','  U',
+     1    ' U ','U  ','URA','H2U','5MU','2MU','4SU','FMU','CMO','OMU',
+     2    '70U',' +U','+U ','DHU','UR3','RT ',' RT','5BU','S4U','MTU',
+     3    'MNU','UMS',' IU','IU ','UD5','PYO','SUR','SSU',' RU','RU ',
+     4    'RU5','RU3','FMN'/
+
 c	write(*,*) "up to this also working"
 	ierror=0
         degree = 180.0/3.14159
@@ -480,55 +578,55 @@ C Reading various types of names (three letter codes) of different modified base
 C These files can be updated to accomodate new residue names of newly detected
 C bases.
 C
-         call getenv('NUCLEIC_ACID_DIR',filen2)
+c         call getenv('NUCLEIC_ACID_DIR',filen2)
 c        filen2='../PROGRAMS'
-        filen2=trim(filen2)//'/AdeVariants.name'
-        open(unit=14,file=filen2,status='OLD',ERR=256)
+c        filen2=trim(filen2)//'/AdeVariants.name'
+c        open(unit=14,file=filen2,status='OLD',ERR=256)
 c        open(unit=14,file='/mnt/f/Work/bpfind/AdeVariants.name')
-        i=1
-        do while (i.le.200)
-           read(14,15,end=115) adevar(i)
-           i=i+1
-        enddo
-115     navar=i-1
-        close(unit=14)
-        call getenv('NUCLEIC_ACID_DIR',filen2)
+c        i=1
+c        do while (i.le.200)
+c           read(14,15,end=115) adevar(i)
+c           i=i+1
+c        enddo
+115     navar=43
+c        close(unit=14)
+c        call getenv('NUCLEIC_ACID_DIR',filen2)
 c        filen2='../PROGRAMS'
-        filen2=trim(filen2)//'/GuaVariants.name'
-        open(unit=14,file=filen2,status='OLD',ERR=256)
+c        filen2=trim(filen2)//'/GuaVariants.name'
+c        open(unit=14,file=filen2,status='OLD',ERR=256)
 c        open(unit=14,file='/mnt/f/Work/bpfind/GuaVariants.name')
-        i=1
-        do while(i.le.200)
-           read(14,15,end=114) guavar(i)
-           i=i+1
-        enddo
-114     ngvar=i-1
-        close(unit=14)
-        call getenv('NUCLEIC_ACID_DIR',filen2)
+c        i=1
+c        do while(i.le.200)
+c           read(14,15,end=114) guavar(i)
+c           i=i+1
+c        enddo
+114     ngvar=36
+c        close(unit=14)
+c        call getenv('NUCLEIC_ACID_DIR',filen2)
 c        filen2='../PROGRAMS'
-        filen2=trim(filen2)//'/CytVariants.name'
-        open(unit=14,file=filen2,status='OLD',ERR=256)
+c        filen2=trim(filen2)//'/CytVariants.name'
+c        open(unit=14,file=filen2,status='OLD',ERR=256)
 c        open(unit=14,file='/mnt/f/Work/bpfind/CytVariants.name')
-        i=1
-        do while(i.le.200)
-           read(14,15,end=117) cytvar(i)
-           i=i+1
-        enddo
-117     ncvar=i-1
-        close(unit=14)
-        call getenv('NUCLEIC_ACID_DIR',filen2)
+c        i=1
+c        do while(i.le.200)
+c           read(14,15,end=117) cytvar(i)
+c           i=i+1
+c        enddo
+117     ncvar=27
+c        close(unit=14)
+c        call getenv('NUCLEIC_ACID_DIR',filen2)
 c        filen2='../PROGRAMS'
-        filen2=trim(filen2)//'/UraVariants.name'
-        open(unit=14,file=filen2,status='OLD',ERR=256)
+c        filen2=trim(filen2)//'/UraVariants.name'
+c        open(unit=14,file=filen2,status='OLD',ERR=256)
 c        open(unit=14,file='/mnt/f/Work/bpfind/UraVariants.name')
-        i=1
-        do while(i.le.200)
-           read(14,15,end=118) uravar(i)
-           i=i+1
-        enddo
+c        i=1
+c        do while(i.le.200)
+c           read(14,15,end=118) uravar(i)
+c           i=i+1
+c        enddo
 118     continue
-	close(unit=14)
-        nuvar=i-1
+c	close(unit=14)
+        nuvar=42
 15     format(a3)
 
 c	write(*,*) 'Options used are:'
@@ -2801,11 +2899,11 @@ c        endif
 	ierror=1
         return
 256     continue
-        write(6,*)'Error opening database files, AdeVariants.name, etc.'
-        write(6,*) 'Please make sure to keep these files in a directory 
-     1and pass that absolute path through NUCLEIC_ACID_DIR environment
-     2variable using Unix Shell command.'
-	ierror=1
+c        write(6,*)'Error opening database files, AdeVariants.name, etc.'
+c        write(6,*) 'Please make sure to keep these files in a directory 
+c     1and pass that absolute path through NUCLEIC_ACID_DIR environment
+c     2variable using Unix Shell command.'
+c	ierror=1
 	return
 5       format(A80)
 255       format('#',A80)
@@ -4192,7 +4290,7 @@ c        write(6,*) data(1:55),' In Character:',cda(nresid),' in num',ird
        common /residue/resid(900000)
        common /num/kresd(1000000),prd(1000000)
        common /cum/pchaind(1000000),pcd(1000000),molid
-       common /basenms/adevar(200),guavar(200),cytvar(200),uravar(200)
+       common /basenms/adevar(43),guavar(36),cytvar(27),uravar(42)
   
 !------------------------------------
 C       chainid='XXXX'
@@ -4311,7 +4409,7 @@ c     1 ya,za,ocp,':',l,':',iresd(l),':',lresno,':'
         character*1 base,allins
        COMMON /BETA/IRESD(900000),ISTS(1000000),IENS(1000000),nres,
      1   allins(1000000),nforce,navar,ngvar,ncvar,nuvar,mresd(1000000)
-       common /basenms/adevar(200),guavar(200),cytvar(200),uravar(200)
+       common /basenms/adevar(43),guavar(36),cytvar(27),uravar(42)
 
    	do i=1,navar
 	   if(bs.eq.adevar(i)) base='a'

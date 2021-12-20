@@ -1,4 +1,9 @@
-#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "biodefs.h"
+#include "bioio.h"
 #include "rnabp.h"
 #include "molecule.h"
 #include "util.h"
@@ -8,8 +13,7 @@
 #include "tree.h"
 #include "sysparams.h"
 
-extern "C" void callbpfindc(char [],  char [], char [], char [], char [], char [], char [], char [], char [], char [], char [], char[], char[]);
-
+extern void callbpfindc(char [],  char [], char [], char [], char [], char [], char [], char [], char [], char [], char [], char[], char[], char[], char[]);
 
 int main(int argc, char* argv[]) {
 
@@ -21,49 +25,65 @@ int main(int argc, char* argv[]) {
       now(time_out);
       fprintf(stdout, "Process starts on %s at %s\n", date_out, time_out);
 
-      sysparams syspar = sysparams();
+      struct sysparams syspar;
+      sysparams_init(&syspar);
 
-      runparams runpar;
+      struct runparams runpar;
       runpar.detailflag = 0;
+      runpar.allbaseflag = 0;
 
-      string* file_array  = new string[argc];
+      char file_array[1000][512];
+      char arg[512];
       int file_count = 0;
       for (int i = 1; i < argc; ++i) {
 
-	    std::string arg = argv[i];
-	    if(arg.substr(0,6) == "--help"){
+	    strcpy(arg, argv[i]);
+	    if(strncmp(arg, "--help",6) == 0 ){
 		  //show_help();
 		  exit(1);
 	    	  
-	    }else if(arg.substr(0, 6) == "-comp="){
-		  if(arg.substr(6) == "bp"){
+	    }else if(strncmp(arg,"-mode=", 6) == 0){
+		  if(strcmp(arg+6, "bp") == 0){
 			runpar.detailflag = 0;
-		  }else if(arg.substr(6) == "nuc"){
+		  }else if(strcmp(arg+6,"nuc") == 0){
 			runpar.detailflag = 1;
-		  }else if(arg.substr(6) == "all"){
+		  }else if(strcmp(arg+6,"all") == 0){
 			runpar.detailflag = 2;
 		  }else{
 			fprintf(stderr, "Error in function %s()... Invalid value suppled for -comp. Supply \"nuc, bp or all\"\n", __func__);
 			exit(EXIT_FAILURE);
 		  }
 
-	    }else if(arg.substr(0,7) == "-chain="){
+	    }else if(strncmp(arg, "-bponly=", 8)== 0){
+		  if(strcmp(arg+8, "true") == 0){
+			runpar.allbaseflag = 0;
+		  }else if(strcmp(arg+8,"false") == 0){
+			runpar.allbaseflag = 1;
+		  }else{
+			fprintf(stderr, "Error in function %s()... Invalid value suppled for -comp. Supply \"nuc, bp or all\"\n", __func__);
+			exit(EXIT_FAILURE);
+		  }
+
+	    }else if(strncmp(arg, "-chain=", 7) == 0){
 		  strcpy(syspar.chainparam, "-ML");
-		  strcpy(syspar.chainvalparam,arg.substr(7).c_str());
-	    }else if(arg.substr(0,8)=="-hbdist="){
+		  strcpy(syspar.chainvalparam,arg+7);
+	    }else if(strncmp(arg, "-nmrmdl=", 8) == 0){
+		  strcpy(syspar.chainparam, "-MD");
+		  strcpy(syspar.chainvalparam,arg+8);
+	    }else if(strncmp(arg, "-hbdist=", 8) == 0){
 		  strcpy(syspar.hdparam, "-HD");
-		  strcpy(syspar.hdvalparam,arg.substr(8).c_str());
-	    }else if(arg.substr(0,8)=="-cutang="){
+		  strcpy(syspar.hdvalparam,arg+8);
+	    }else if(strncmp(arg, "-cutang=", 8) ==0){
 		  strcpy(syspar.angparam, "-VA");
-		  strcpy(syspar.angvalparam, arg.substr(8).c_str());
-	    }else if(arg.substr(0,13)=="-sugmed=false"){
+		  strcpy(syspar.angvalparam, arg+8);
+	    }else if(strncmp(arg,"-sugmed=false", 13) == 0){
 		  strcpy(syspar.sgparam, "-SG");
-	    }else if(arg.substr(0,12)=="-chmed=false"){
+	    }else if(strncmp(arg,"-chmed=false", 12) == 0){
 		  strcpy(syspar.chparam, "-CH");
-	    }else if(arg.substr(0,13)=="-hetatm=false"){
+	    }else if(strncmp(arg, "-hetatm=false",13)== 0){
 		  strcpy(syspar.htparam, "-dummyval");
 	    }else{
-		  file_array[file_count] = arg;
+		  strcpy(file_array[file_count], arg);
 		  file_count++;
 	    }
 
@@ -83,7 +103,8 @@ int main(int argc, char* argv[]) {
       char param_path[512];
       strcpy(param_path, nucfiledir);
       strcat(param_path, "metal_params.cif");
-      Paremeters metparams = Paremeters(param_path);
+      struct parameters metparams;
+      parameters_create(&metparams, param_path);
       //printf("Hetre\n");
       //return 0;
 
@@ -96,12 +117,19 @@ int main(int argc, char* argv[]) {
       char cif_file[512];
       char dat_file[512];
       char dbn_file[512];
+      char fasta_file[512];
+      char bpseq_file[512];
+      char helix_file[512];
+      
       char met_file[512];
       char metdetail_file[512];
       char hoh_file[512];
       char hohdetail_file[512];
       //Molecule rna = Molecule(cor_file, &bp);
-      Molecule mol = Molecule(long(80000), true, true);
+//      Molecule mol = Molecule(long(80000), TRUE, TRUE);
+      struct molecule mol;
+      mol_init(&mol);
+      mol_create(&mol, (int)80000, TRUE, TRUE);
 
       char rule = 'A';
       for (int i = 0; i < file_count; ++i) {
@@ -121,11 +149,11 @@ int main(int argc, char* argv[]) {
 
 
 	    char file_loc[512];
-	    strcpy(file_loc, file_array[i].c_str()); 
+	    strcpy(file_loc, file_array[i]); 
 	    file_name_split(file_path, file_name, ext, file_loc);
-	    syspar.accn = file_name;
-	    syspar.ext = ext;
-	    syspar.file_dir = file_path;
+	    strcpy(syspar.accn, file_name);
+	    strcpy(syspar.ext, ext);
+	    strcpy(syspar.file_dir, file_path);
 	    if (strcmp(ext, ".cif") != 0 && strcmp(ext, ".pdb") != 0) {
 		  printf("Error... please supply .cif or .pdb file.\n");
 		  exit(EXIT_FAILURE);
@@ -142,14 +170,18 @@ int main(int argc, char* argv[]) {
 			syspar.hdparam, syspar.hdvalparam, syspar.angparam, 
 			syspar.angvalparam, syspar.chparam, syspar.sgparam, 
 			syspar.corparam, syspar.evaltypeparam,
-			syspar.chainparam, syspar.chainvalparam);
+			syspar.chainparam, syspar.chainvalparam,
+			syspar.nmrparam, syspar.nmrvalparam);
 
 
 	    file_name_join(out_file, file_path, file_name, ".out");
-	    file_name_join(cif_file, file_path, file_name, ".cif");
+	    file_name_join(cif_file, file_path, file_name, ext);
 	    file_name_join(cor_file, file_path, file_name, "_rna.pdb");
 	    file_name_join(dat_file, file_path, file_name, ".dat");
 	    file_name_join(dbn_file, file_path, file_name, ".dbn");
+	    file_name_join(bpseq_file, file_path, file_name, ".bpseq");
+	    file_name_join(helix_file, file_path, file_name, ".hlx");
+	    file_name_join(fasta_file, file_path, file_name, ".fasta");
 
 	     
 
@@ -172,21 +204,36 @@ int main(int argc, char* argv[]) {
 	    current_time = time(NULL);
 	    fprintf(runpar.summaryfp, "Date         : %s\n",ctime(&current_time));
 
-	    rnabp bp = rnabp(out_file);
+	    
+	    struct rnabp bp;
+	    rnabp_scanf(&bp, out_file);
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
 	    //if(bp.nres <50 || bp.nres > 180) continue;
-	    Structure sec = Structure(dat_file, dbn_file, bp.nres);
+	    struct structure sec; 
+	    structure_init(&sec, dat_file, bp.nres);
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
 	    //exit(1);
-	    Molecule rna = Molecule(cor_file, &bp);
-	    //        mol.reset(true, true);
+	    struct molecule rna;
+	    mol_init(&rna);
+
+	    
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
+	    mol_scan_rna(&rna, cor_file, &bp);
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
+	    //        mol.reset(TRUE, TRUE);
 	    //        mol.scan_cif(cif_file, find_nucleic);
 	    //Molecule rna = Molecule(&mol);
 
-	    fprintf(runpar.summaryfp, "No of Nucleic Acids found: %6ld\n",rna.size);
+	    fprintf(runpar.summaryfp, "No of Nucleic Acids found: %6d\n",rna.size);
 	    if(rna.size > 0){
 		  struct counting_tree_t* rna_tree;
 		  rna_tree = counting_tree_getnode(rna.residue[0].atom[0].resname);
 		  for(long k=1; k<rna.size; ++k){
-			Residue* res = rna.residue+k;
+			struct residue* res = rna.residue+k;
 			counting_tree_insert(rna_tree, res->atom[0].resname);
 		  }
 		  int count =0;
@@ -202,16 +249,39 @@ int main(int argc, char* argv[]) {
 
 
 
-	    mol.reset(true, true);
-	    mol.scan_cif(cif_file, find_amino);
-	    Molecule pro = Molecule(&mol);
+//	    mol_scan_cif(&mol,cif_file, find_amino);
+	    struct atom* atoms = NULL;
+	    int numatoms= 0;
 
-	    fprintf(runpar.summaryfp, "No of Amino Acids found: %6ld\n",pro.size);
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
+	    if(strcmp(ext, ".cif") == 0){
+		  scancif(cif_file, is_std_amino, NULL, NULL, &atoms, &numatoms, PRO_TYPE, "auth", 'S');
+		  fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    }else if(strcmp(ext, ".pdb") ==0 ){
+		  scanpdb(cif_file, is_std_amino, NULL, NULL, &atoms, &numatoms, PRO_TYPE, 'S');
+	    }else{
+		  fprintf(stderr, "Error in function %s()... Unrecognized file type supplied.\n", __func__);
+		  exit(EXIT_FAILURE);
+	    }
+
+
+	    fprintf(stderr, "Trace..... Executing File %s at line %d pro=%d.\n", __FILE__, __LINE__, numatoms);
+	    mol_reset(&mol,TRUE, TRUE);
+	    mol_polulate(&mol, atoms, numatoms);
+	    free(atoms);
+	    atoms = NULL;
+	    numatoms = 0;
+	    struct molecule pro;
+	    mol_init(&pro);
+	    mol_copy(&pro, &mol);
+
+	    fprintf(runpar.summaryfp, "No of Amino Acids found: %6d\n",pro.size);
 	    if(pro.size > 0){
 		  struct counting_tree_t* pro_tree;
 		  pro_tree = counting_tree_getnode(pro.residue[0].atom[0].resname);
 		  for(long k=1; k<pro.size; ++k){
-			Residue* res = pro.residue+k;
+			struct residue* res = pro.residue+k;
 			counting_tree_insert(pro_tree, res->atom[0].resname);
 		  }
 		  int count =0;
@@ -222,20 +292,40 @@ int main(int argc, char* argv[]) {
 	    }
 
 
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    if(strcmp(ext, ".cif") == 0){
+		  scancif(cif_file, is_metal, NULL, NULL, &atoms, &numatoms, METAL_TYPE, "auth", 'S');
+	    }else if(strcmp(ext, ".pdb") ==0 ){
+		  scanpdb(cif_file, is_metal, NULL, NULL, &atoms, &numatoms, METAL_TYPE, 'S');
+	    }else{
+		  fprintf(stderr, "Error in function %s()... Unrecognized file type supplied.\n", __func__);
+		  exit(EXIT_FAILURE);
+	    }
+	    
+	    fprintf(stderr, "Trace..... Executing File %s at line %d metal=%d.\n", __FILE__, __LINE__, numatoms);
+	    
+	    mol_reset(&mol,TRUE, TRUE);
+	    mol_polulate(&mol, atoms, numatoms);
+	    free(atoms);
+	    atoms = NULL;
+	    numatoms = 0;
 
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 	    //printf("pro: %ld\n", pro.size);
-	    mol.reset(true, true);
-	    mol.scan_cif(cif_file, is_metal);
-	    Molecule metal = Molecule(&mol);
+//	    mol_reset(&mol,TRUE, TRUE);
+//	    mol_scan_cif(&mol,cif_file, is_metal);
+	    struct molecule metal;
+	    mol_init(&metal);
+	    mol_copy(&metal, &mol);
 	    //printf("MET: %s ::\n", metal.residue[0].atom[0].resname);
 
 
-	    fprintf(runpar.summaryfp, "No of metals found: %6ld\n",metal.size);
+	    fprintf(runpar.summaryfp, "No of metals found: %6d\n",metal.size);
 	    if(metal.size > 0){
 		  struct counting_tree_t* met_tree;
 		  met_tree = counting_tree_getnode(metal.residue[0].atom[0].resname);
 		  for(long k=1; k<metal.size; ++k){
-			Residue* res = metal.residue+k;
+			struct residue* res = metal.residue+k;
 			for(long l=0; l<res->size; ++l){
 			      counting_tree_insert(met_tree, res->atom[0].resname);
 			}
@@ -247,11 +337,27 @@ int main(int argc, char* argv[]) {
 		  counting_tree_free(met_tree);
 	    }
 
+	    if(strcmp(ext, ".cif") == 0){
+		  scancif(cif_file, is_HOH, NULL, NULL, &atoms, &numatoms, SOLVENT_TYPE, "auth", 'S');
+	    }else if(strcmp(ext, ".pdb") ==0 ){
+		  scanpdb(cif_file, is_HOH, NULL, NULL, &atoms, &numatoms, SOLVENT_TYPE, 'S');
+	    }else{
+		  fprintf(stderr, "Error in function %s()... Unrecognized file type supplied.\n", __func__);
+		  exit(EXIT_FAILURE);
+	    }
+	    mol_reset(&mol,TRUE, TRUE);
+	    mol_polulate(&mol, atoms, numatoms);
+	    free(atoms);
+	    atoms = NULL;
+	    numatoms = 0;
 
-	    mol.reset(true, true);
-	    mol.scan_cif(cif_file, is_HOH);
-	    Molecule hoh = Molecule(&mol);
-	    fprintf(runpar.summaryfp, "Total no of Water Molecules found : %6ld\n\n", hoh.size);
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+//	    mol_reset(&mol,TRUE, TRUE);
+//	    mol_scan_cif(&mol,cif_file, is_HOH);
+	    struct molecule hoh;
+	    mol_init(&hoh);
+	    mol_copy(&hoh, &mol);
+	    fprintf(runpar.summaryfp, "Total no of Water Molecules found : %6d\n\n", hoh.size);
 	    
 	    //printf("HOH: %s\n", hoh.residue[0].atom[0].resname);
 	    //exit(1);
@@ -302,6 +408,7 @@ int main(int argc, char* argv[]) {
 		  }
 		  
 		  fprintf(runpar.metalfp, "mmCIF        : %s\n",file_name);
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 		  comp_metal_sites(&metal, &hoh, &rna, &bp,&pro, &metparams, &sec, rule,
 			      file_path, file_name, &runpar);
 		  if( fclose(runpar.hohdetailfp) == EOF ) {			/* close output file   */
@@ -339,9 +446,55 @@ int main(int argc, char* argv[]) {
 
 
 
+	    mol_free(&rna);
+	    mol_free(&pro);
+	    mol_free(&metal);
+	    mol_free(&hoh);
+
+	    rnabp_free(&bp);
 	    now(time_out);
 	    printf("Finishing Computation on: %s   at %s\n\n", file_name, time_out);
+
+	    if( remove(cor_file) != 0 ){    /* Exception Handling */ 
+		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
+		  exit(EXIT_FAILURE);
+	    }
+
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
+	    if( remove(out_file) != 0 ){    /* Exception Handling */ 
+		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
+		  exit(EXIT_FAILURE);
+	    }
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    if( remove(dat_file) != 0 ){    /* Exception Handling */ 
+		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
+		  exit(EXIT_FAILURE);
+	    }
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    if( remove(fasta_file) != 0 ){    /* Exception Handling */ 
+		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
+		  exit(EXIT_FAILURE);
+	    }
+
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    if( remove(helix_file) != 0 ){    /* Exception Handling */ 
+		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
+		  exit(EXIT_FAILURE);
+	    }
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    if( remove(dbn_file) != 0 ){    /* Exception Handling */ 
+		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
+		  exit(EXIT_FAILURE);
+	    }
+	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    if( remove(bpseq_file) != 0 ){    /* Exception Handling */ 
+		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
+		  exit(EXIT_FAILURE);
+	    }
+	    
       }
+      mol_free(&mol);
       today(date_out);
       now(time_out);
       fprintf(stdout, "Process ends on %s at %s\n", date_out, time_out);
