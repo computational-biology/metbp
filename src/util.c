@@ -61,7 +61,7 @@ char get_res_loc(struct atom* atom, char restype){
         }
     }
     //return 'X';
-    fprintf(stderr, "Error.... in function %s(). Wrong restype found \n", __func__);
+    fprintf(stderr, "Error.... in function %s(). Wrong restype found.\n", __func__);
     //atom->print();
     exit(EXIT_FAILURE);
 }

@@ -1,6 +1,6 @@
 synopsis:
 
-		This program is for finding metal binding sites.
+		This program is for finding metal and base pair interactions.
 
 
 install:
@@ -9,7 +9,7 @@ install:
 	and transfer all the files of 'sys' folder to some suitable location.
 	We prefer the following.
 
-		sudo cp bin/metallic   /usr/local/bin/
+		sudo cp bin/metbp.linux   /usr/local/bin/
 
 		sudo cp sys/*   /usr/local/bin/
 
@@ -22,9 +22,9 @@ setup:
 		export NUCLEIC_ACID_DIR=/usr/local/bin
 
 
-run:    
+run:
 
-		metallic [optional switches] <accn>.cif
+	metbp.linux [OPTIONS] [mmCIF/PDB]
 
 example:
 

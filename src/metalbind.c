@@ -106,7 +106,7 @@ void site_fprint_summary(struct site* self, FILE* fp){
 		  exit(EXIT_FAILURE);
 	    }
       }
-      fprintf(fp, "SUMM  %6d  %-3s  %-3s  %3d =  %3d  %3d  %3d  %3d    %3d  =  %3d  %3d  %3d  %3d\n",
+     /* fprintf(fp, "SUMM  %6d  %-3s  %-3s  %3d =  %3d  %3d  %3d  %3d    %3d  =  %3d  %3d  %3d  %3d\n",
 		  self->metal->resid,
 		  self->metal->chain,
 		  self->metal->resname,
@@ -115,7 +115,16 @@ void site_fprint_summary(struct site* self, FILE* fp){
 		  wmncount,
 		  wmpcount,
 		  wmwcount,
-		  wmmcount);
+		  wmmcount
+		  );
+		  */
+		  
+		  fprintf(fp, "SUMM  %6d  %-3s  %-3s  %3d =  %3d  %3d  %3d  %3d\n",
+		  self->metal->resid,
+		  self->metal->chain,
+		  self->metal->resname,
+		  self->ligand.size, ncount, pcount, wcount, mcount
+		  );
 }
 
 void site_fprint_wmed_basepair(struct site* self, FILE *fp, struct rnabp *bp, int *flag, int detail_flag, int* bpflag,
@@ -173,7 +182,7 @@ void site_fprint_wmed_basepair(struct site* self, FILE *fp, struct rnabp *bp, in
 
 	    if(*flag == 0){
 		  *flag = 1;
-		  fprintf(fp, "\n\n      |  Metal Detail   | Water Detsils   |      Base Pair Details                  |"
+		  fprintf(fp, "\n\n      |  Metal Detail   | Water Details   |      Base Pair Details                  |"
 			      "  outcome      "
 			      "    |\n");
 		  fprintf(fp,      "      "
@@ -267,7 +276,7 @@ void site_fprint_basepair(struct site* self, FILE* fp, struct rnabp* bp, int* fl
 
 		  if(*flag == 0){
 			*flag = 1;
-			fprintf(fp, "\n\n      |  Metal Detail       |   Base Pair Detsils                    |   outcome      "
+			fprintf(fp, "\n\n      |  Metal Detail       |   Base Pair Details                    |   outcome      "
 				    "         "
 				    "          |\n");
 			fprintf(fp,      "      "
@@ -358,7 +367,7 @@ void site_fprint_basepair_motifs(struct site* self, FILE* fp, struct rnabp* bp, 
 
 		  if(*flag == 0){
 			*flag = 1;
-			fprintf(fp, "\n\n      |  Metal Detail  |   Base Pair Detsils                                   "
+			fprintf(fp, "\n\n      |  Metal Detail  |   Base Pair Details                                   "
 				    "         "
 				    "           |\n");
 			fprintf(fp,      "      "
@@ -1205,7 +1214,7 @@ void site_fprint_chelate(struct site* self, FILE* fp, int* flag, int detail_flag
 			}else if(restype == 'N' && (bindloc =='P' && bindloc2 == 'S')){
 			      strcpy(name,"gamma");
 			}else if(restype == 'P' ){
-			      strcpy(name,"gamma");
+			      strcpy(name,"P-alpha");
 			}else{
 			      fprintf(stderr, "Error in function %s()... Invalid binding location found %c %c %c.\n", __func__, restype, bindloc, bindloc2);
 			      exit(EXIT_FAILURE);
@@ -1280,7 +1289,7 @@ void comp_metal_sites(struct molecule* met,
 
       for(int i=0; i<nsites; ++i){
 	    if(i == 0){
-		  fprintf(runpar->summaryfp, "\n\n\n\n            +---------------------- S U M M A R Y  R E P O R T "
+		  /*fprintf(runpar->summaryfp, "\n\n\n\n            +---------------------- S U M M A R Y  R E P O R T "
 			      "---------------------+\n\n\n\n");
 		  fprintf(runpar->summaryfp, "      |  Metal Detail  |   Inner Coordination     |     Water Mediated "
 			      "         |\n");
@@ -1288,6 +1297,17 @@ void comp_metal_sites(struct molecule* met,
 		  fprintf(runpar->summaryfp, "      ---------------------------------------------------------------------------\n");
 		  fprintf(runpar->summaryfp, "       resid  chn  mtl  cord   NUC  PRO  H2O  MET    cnt     NUC  PRO  H2O  MET \n");
 		  fprintf(runpar->summaryfp, "      ---------------------------------------------------------------------------\n");
+	    */
+	    
+	    fprintf(runpar->summaryfp, "\n\n\n\n            +---------------------- S U M M A R Y  R E P O R T "
+			      "---------------------+\n\n\n\n");
+		  fprintf(runpar->summaryfp, "      |  Metal Detail  |   Inner Coordination     "
+			      "         |\n");
+
+		  fprintf(runpar->summaryfp, "      ---------------------------------------------\n");
+		  fprintf(runpar->summaryfp, "       resid  chn  mtl  cord   NUC  PRO  H2O  MET \n");
+		  fprintf(runpar->summaryfp, "      ---------------------------------------------\n");
+	   
 	    }
 	    site_fprint_summary(sites+i,runpar->summaryfp);
       }

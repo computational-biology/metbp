@@ -438,7 +438,7 @@ c       common /options/cutang,cuteng,cutoff,hetatm
      1    'AMP','AMO','12A','AET','PSD','AVC','APC','COM','MAD','A23',
      2    'ATP','2MA','A2M','T6A','RIA','6MZ','6IA',' DA','DA ','ADP',
      3    '5AA','PR5','2AD','3DA','ANZ','AVC','TSB','QSI','VAA',' RA',
-     4    'RA ','RA5','RA3','SAM'/
+     4    'RA ','RA5','RA3','$$$'/
       data guavar/'  G',' G ','G  ','DG ',' DG','GUA','DG5','DG3','2MG',
      1    'OMG','G7M','GNP','7MG','1MG','5CG',' +G','+G ','GDP','M2G',
      2    '  I',' I ','I  ','GMP','GTP',' DG','PDG',' YG','YG ','YYG',
