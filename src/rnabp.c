@@ -183,7 +183,7 @@ void rnabp_scanf(struct rnabp* self, char* outfile){
         break;
     }
     if(self->nres == 0){
-        fprintf(stderr, "No RNA found\n");
+        //fprintf(stderr, "No RNA found\n");
 		self->bp = NULL;
         fclose(fp);
         return;

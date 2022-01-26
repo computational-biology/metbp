@@ -101,7 +101,7 @@ C        read(params,*) narg
               params (i:i) = accn(i)
         end if
         end do loop_accn
-         write(*,*) "       BASE-PAIRS COMPUTATION STARTS"
+C         write(*,*) "       BASE-PAIRS COMPUTATION STARTS"
 
 c        write(*,*) params
 

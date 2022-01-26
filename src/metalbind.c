@@ -562,7 +562,7 @@ void site_fprint_angle(struct site* self, FILE* fp){
 		  "         |\n");
       fprintf(fp,      "      "
 		  "---------------------------------------------------------------------------------------------\n");
-      fprintf(fp, "       resid  chn  mtl   resid  chn  res  atm      resid  chn  res  atm     angle   energy\n");
+      fprintf(fp, "       resid  chn  mtl   resid  chn  res  atm      resid  chn  res  atm     angle    \n");
       fprintf(fp, "      "
 		  "---------------------------------------------------------------------------------------------\n");
       for(int i=0; i<self->ligand.size; ++i){
@@ -571,7 +571,8 @@ void site_fprint_angle(struct site* self, FILE* fp){
 		  struct atom* c = self->ligand.mol[j]->residue[self->ligand.resindx[j]].atom+self->ligand.offset[j];
 		  struct atom* b = self->metal;
 		  //                double angdeg = b->angl_deg(a, c);
-		  double angdeg = angle3d(a->center, b->center, c->center);
+		  double angrad = angle3d(a->center, b->center, c->center);
+		  double angdeg = todeg(angrad);
 		  fprintf(fp, "ANGL  %6d  %-3s  %-3s  %6d  %-3s  %-3s  %-3s  :  %6d  %-3s  %-3s  %-3s    %6.2lf\n",
 			      self->metal->resid,
 			      self->metal->chain,
@@ -1393,7 +1394,7 @@ void comp_metal_sites(struct molecule* met,
       }
 
 
-
+/*  From here open for water mediated.
 
       for(int k=0; k<nsites; ++k){
 
@@ -1440,6 +1441,8 @@ void comp_metal_sites(struct molecule* met,
 
       //    rnamap.gen_verna(nuc_file);
 
+
+  up to here for water mediated. */
       free(bparray);
       bparray = NULL;
 

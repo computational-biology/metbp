@@ -190,7 +190,7 @@ int main(int argc, char* argv[]) {
 		  strcpy(syspar.cifparam, "-cif");
 	    }
 	    now(time_out);
-	    printf("Starting Computation on: %s   at %s\n", file_name, time_out);
+	    printf("            CURRENT FILE: %s         STARTED:%d of %d at %s\n", file_name, i+1, file_count, time_out);
 	    callbpfindc(syspar.cifparam, syspar.accnparam, syspar.htparam, 
 			syspar.hdparam, syspar.hdvalparam, syspar.angparam, 
 			syspar.angvalparam, syspar.chparam, syspar.sgparam, 
@@ -232,22 +232,22 @@ int main(int argc, char* argv[]) {
 	    
 	    struct rnabp bp;
 	    rnabp_scanf(&bp, out_file);
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    //fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 	    
 	    //if(bp.nres <50 || bp.nres > 180) continue;
 	    struct structure sec; 
 	    structure_init(&sec, dat_file, bp.nres);
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    //fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 	    
 	    //exit(1);
 	    struct molecule rna;
 	    mol_init(&rna);
 
 	    
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    //fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 	    
 	    mol_scan_rna(&rna, cor_file, &bp);
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    //fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 	    
 	    //        mol.reset(TRUE, TRUE);
 	    //        mol.scan_cif(cif_file, find_nucleic);
@@ -278,11 +278,11 @@ int main(int argc, char* argv[]) {
 	    struct atom* atoms = NULL;
 	    int numatoms= 0;
 
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
 	    
 	    if(strcmp(ext, ".cif") == 0){
 		  scancif(cif_file, is_std_amino, NULL, NULL, &atoms, &numatoms, PRO_TYPE, "auth", 'S');
-		  fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+		  //fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 		  
 	    }else if(strcmp(ext, ".pdb") ==0 ){
 		  scanpdb(cif_file, is_std_amino, NULL, NULL, &atoms, &numatoms, PRO_TYPE, 'S');
@@ -292,7 +292,7 @@ int main(int argc, char* argv[]) {
 	    }
 
 
-	    fprintf(stderr, "Trace..... Executing File %s at line %d pro=%d.\n", __FILE__, __LINE__, numatoms);
+	    //fprintf(stderr, "Trace..... Executing File %s at line %d pro=%d.\n", __FILE__, __LINE__, numatoms);
 	    mol_reset(&mol,TRUE, TRUE);
 	    mol_polulate(&mol, atoms, numatoms);
 	    free(atoms);
@@ -318,7 +318,7 @@ int main(int argc, char* argv[]) {
 	    }
 
 
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    //fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 	    if(strcmp(ext, ".cif") == 0){
 		  scancif(cif_file, is_metal, NULL, NULL, &atoms, &numatoms, METAL_TYPE, "auth", 'S');
 	    }else if(strcmp(ext, ".pdb") ==0 ){
@@ -328,7 +328,7 @@ int main(int argc, char* argv[]) {
 		  exit(EXIT_FAILURE);
 	    }
 	    
-	    fprintf(stderr, "Trace..... Executing File %s at line %d metal=%d.\n", __FILE__, __LINE__, numatoms);
+	    
 	    
 	    mol_reset(&mol,TRUE, TRUE);
 	    mol_polulate(&mol, atoms, numatoms);
@@ -336,7 +336,7 @@ int main(int argc, char* argv[]) {
 	    atoms = NULL;
 	    numatoms = 0;
 
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
 	    //printf("pro: %ld\n", pro.size);
 //	    mol_reset(&mol,TRUE, TRUE);
 //	    mol_scan_cif(&mol,cif_file, is_metal);
@@ -377,7 +377,7 @@ int main(int argc, char* argv[]) {
 	    atoms = NULL;
 	    numatoms = 0;
 
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
 //	    mol_reset(&mol,TRUE, TRUE);
 //	    mol_scan_cif(&mol,cif_file, is_HOH);
 	    struct molecule hoh;
@@ -416,7 +416,8 @@ int main(int argc, char* argv[]) {
 		  }
 		  
 		  
-
+ 
+		  /* Open this part for water mediated
 		  runpar.hohfp	= fopen( hoh_file, "w" );
 		  if ( runpar.hohfp == NULL ) {
 			fprintf ( stderr, "couldn't open file '%s'; %s\n",
@@ -433,21 +434,29 @@ int main(int argc, char* argv[]) {
 			exit (EXIT_FAILURE);
 		  }
 		  
+		  up to this part for water mediated
+		  */
+		  
 		  fprintf(runpar.metalfp, "mmCIF        : %s\n",file_name);
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
 		  comp_metal_sites(&metal, &hoh, &rna, &bp,&pro, &metparams, &sec, rule,
 			      file_path, file_name, &runpar);
-		  if( fclose(runpar.hohdetailfp) == EOF ) {			/* close output file   */
+		  
+		  /*  Open this part for water mediated
+		  if( fclose(runpar.hohdetailfp) == EOF ) {			
 			fprintf ( stderr, "couldn't close file '%s'; %s\n",
 				    hohdetail_file, strerror(errno) );
 			exit (EXIT_FAILURE);
 		  }
 
-		  if( fclose(runpar.hohfp) == EOF ) {			/* close output file   */
+		  if( fclose(runpar.hohfp) == EOF ) {			
 			fprintf ( stderr, "couldn't close file '%s'; %s\n",
 				    hoh_file, strerror(errno) );
 			exit (EXIT_FAILURE);
 		  }
+		  
+		  Up to  this part for water mediated
+		  */
 
 		  if( fclose(runpar.metdetailfp) == EOF ) {			/* close output file   */
 			fprintf ( stderr, "couldn't close file '%s'; %s\n",
@@ -479,41 +488,41 @@ int main(int argc, char* argv[]) {
 
 	    rnabp_free(&bp);
 	    now(time_out);
-	    printf("Finishing Computation on: %s   at %s\n\n", file_name, time_out);
+//	    printf("Finishing Computation on: %s   at %s\n\n", file_name, time_out);
 
 	    if( remove(cor_file) != 0 ){    /* Exception Handling */ 
 		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
 		  exit(EXIT_FAILURE);
 	    }
 
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 	    
-//	    if( remove(out_file) != 0 ){    /* Exception Handling */ 
-//		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
-//		  exit(EXIT_FAILURE);
-//	    }
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
+	    if( remove(out_file) != 0 ){    /* Exception Handling */ 
+		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
+		  exit(EXIT_FAILURE);
+	    }
+	    
 	    if( remove(dat_file) != 0 ){    /* Exception Handling */ 
 		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
 		  exit(EXIT_FAILURE);
 	    }
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
 	    if( remove(fasta_file) != 0 ){    /* Exception Handling */ 
 		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
 		  exit(EXIT_FAILURE);
 	    }
 
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
 	    if( remove(helix_file) != 0 ){    /* Exception Handling */ 
 		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
 		  exit(EXIT_FAILURE);
 	    }
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
 	    if( remove(dbn_file) != 0 ){    /* Exception Handling */ 
 		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
 		  exit(EXIT_FAILURE);
 	    }
-	    fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+	    
 	    if( remove(bpseq_file) != 0 ){    /* Exception Handling */ 
 		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
 		  exit(EXIT_FAILURE);
