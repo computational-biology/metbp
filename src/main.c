@@ -459,7 +459,7 @@ int main(int argc, char* argv[]) {
 		  }
 		  
 		  Up to  this part for water mediated
-		  */
+		  */ 
 
 		  if( fclose(runpar.metdetailfp) == EOF ) {			/* close output file   */
 			fprintf ( stderr, "couldn't close file '%s'; %s\n",
