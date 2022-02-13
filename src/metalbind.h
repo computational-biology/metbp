@@ -53,17 +53,17 @@ struct ligand{
     void ligand_init(struct ligand* self);
     void ligand_add(struct ligand* self, struct proximity* prox, int index, int offset, char loc, char rule, double dist);
 
-struct mediated{
-    int waterindx[MAX_SIZE];
-    int link_count[MAX_SIZE];
-    double angle[MAX_SIZE];
-    struct ligand ligand;
-    int size;
-};
-    void mediated_init(struct mediated* self);
-    void mediated_add(struct mediated* self, struct proximity* prox,  int index, int offset, char loc, char rule, int water_indx, double dist, double
-    angle);
-
+//struct mediated{
+//    int waterindx[MAX_SIZE];
+//    int link_count[MAX_SIZE];
+//    double angle[MAX_SIZE];
+//    struct ligand ligand;
+//    int size;
+//};
+//    void mediated_init(struct mediated* self);
+//    void mediated_add(struct mediated* self, struct proximity* prox,  int index, int offset, char loc, char rule, int water_indx, double dist, double
+//    angle);
+//
 struct site{
     struct atom* metal;
     int atomic_no;
@@ -73,7 +73,7 @@ struct site{
 
 
     struct ligand ligand;
-    struct mediated wmed;
+//    struct mediated wmed;
 
 };
 
@@ -81,14 +81,14 @@ struct site{
     void site_init(struct site* self);
 
     void site_fprint_summary(struct site* self, FILE* fp);
-    void site_fprint_wmed_basepair(struct site* self, FILE *fp, struct rnabp *bp, int *flag, int detail_flag, int* bpflag, int allbaseflag);
+//    void site_fprint_wmed_basepair(struct site* self, FILE *fp, struct rnabp *bp, int *flag, int detail_flag, int* bpflag, int allbaseflag);
 
     void site_fprint_basepair(struct site* self, FILE* fp, struct rnabp* bp, int* flag, int detail_flag, int* bpflag, int allbaseflag);
 
     void site_fprint_basepair_motifs(struct site* self, FILE* fp, struct rnabp* bp, struct structure* struc, int* flag, int detail_flag);
-    void site_fprint_wmed_basepair_motifs(struct site* self, FILE* fp, struct rnabp* bp, struct structure* struc, int* flag, int detail_flag);
-
-    void site_fprint_wmed(struct site* self, FILE* fp);
+//    void site_fprint_wmed_basepair_motifs(struct site* self, FILE* fp, struct rnabp* bp, struct structure* struc, int* flag, int detail_flag);
+//
+//    void site_fprint_wmed(struct site* self, FILE* fp);
 
 
 
@@ -141,7 +141,26 @@ void site_comp_protein(struct site* self, char rule,
 
 void site_comp_water(struct site* self, char rule, struct current_params *mprm);
 
-void site_comp_water_mediated(struct site* self, char rule, struct current_params *mprm); 
+//void site_comp_water_mediated(struct site* self, char rule, struct current_params *mprm); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //    void fill_proximity(struct molecule *mol, char moltype);
 //    void comp_nucleic(char rule,
 //                 Current_params* mprm);
@@ -210,7 +229,8 @@ void comp_metal_sites(struct molecule* met,
                       char rule,
                       char* file_path,
                       char* file_name,
-		      struct runparams* runpar); 
+		      struct runparams* runpar,
+		      struct sysparams* syspar); 
 
 
 

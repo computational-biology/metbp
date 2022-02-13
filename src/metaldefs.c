@@ -26,14 +26,8 @@ void parameters_create(struct parameters* self, const char *param_file) {
    char* token;
    char* token1;
    while(fgets(line, 1024, fp) != NULL){
-      if(strncmp(line, "_metal_dist.metal_symb", 22) == 0){
-         while(fgets(line, 1024, fp) != NULL){
-            if(line[0] != '_'){
-               break;
-            }
-         }
+      if(strncmp(line, "DIST", 4) != 0) continue;
          break;
-      }
    }
    for(int i=0; i< NUM_METAL; ++i){
       strcpy(self->name[i],"-");
@@ -41,10 +35,12 @@ void parameters_create(struct parameters* self, const char *param_file) {
    self->n = 0;
    _global_metal_size = 0;
    do{
-
+      // printf("%s", line);
       if(line[0] == '#') break;
-
-      token1 = strtok(line, sep);
+      
+      token1 = strtok(line, sep);  // DIST TAG
+      
+      token1 = strtok(NULL, sep);
 
 
       token = strtok(NULL, sep); // atomic_no; // atomic_no is the index;
@@ -88,6 +84,10 @@ void parameters_create(struct parameters* self, const char *param_file) {
 
       token = strtok(NULL, sep);
       self->c_dst[atomic_no] = (strcmp(token, "?") == 0) ? -9.9 : atof(token);
+      
+      
+      token = strtok(NULL, sep);
+      self->s_dst[atomic_no] = (strcmp(token, "?") == 0) ? -9.9 : atof(token);
 
 
 
@@ -112,14 +112,7 @@ int is_metal(char* metal){
     return 0;
 }
 
-int is_metal1(char* metal){
-   if(strcmp(metal, "MG") == 0) return 0;
-   if(strcmp(metal, "CA") == 0) return 0;
-   if(strcmp(metal, "ZN") == 0) return 0;
-   if(strcmp(metal, "MN") == 0) return 0;
-   return -1;
 
-}
 
 int get_atomic_no(char* metal){
     for(int i=0; i<_global_metal_size; ++i){
@@ -163,11 +156,12 @@ double calc_angle_energy(char* metal, double angle){
         self->hoh_dst2 = prm->hoh_dst[atomic_no];
         self->c_dst2 = prm->c_dst[atomic_no];
         self->p_dst2 = prm->p_dst[atomic_no];
+        self->s_dst2= prm->s_dst[atomic_no];
         self->met_dst2 = prm->met_dst[atomic_no];
-        if(rule != '0'){
+        /*if(rule != '0'){
             self->c_dst2 = -9.9;
             self->p_dst2 = -9.9;
-        }
+        }*/
 
         if(self->o_dst2 >= 0.0)
             self->o_dst2 = (self->o_dst2 + adjust) * (self->o_dst2 + adjust);
@@ -179,6 +173,8 @@ double calc_angle_energy(char* metal, double angle){
             self->c_dst2 = (self->c_dst2 + adjust) * (self->c_dst2 + adjust);
         if(self->p_dst2 >= 0.0)
             self->p_dst2 = (self->p_dst2 + adjust) * (self->p_dst2 + adjust);
+        if(self->s_dst2 >= 0.0)
+            self->s_dst2 = (self->s_dst2 + adjust) * (self->s_dst2 + adjust);
         if(self->met_dst2 >= 0.0)
             self->met_dst2 = (self->met_dst2 + adjust) * (self->met_dst2 + adjust);
     }

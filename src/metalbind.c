@@ -38,37 +38,37 @@ void ligand_add(struct ligand* self, struct proximity* prox, int index, int offs
 }
 
 
-void mediated_init(struct mediated* self){
-      self->size = 0;
-      ligand_init(&(self->ligand));
-      for(int i=0; i<MAX_SIZE; ++i){
-	    self->link_count[i] = 0;
-      }
-}
-void mediated_add(struct mediated* self, struct proximity* prox,  int index, int offset, char loc, char rule, int water_indx, double dist, double
-	    angle){
-      assert(self->size < MAX_SIZE);
-      self->waterindx[self->size] = water_indx;
-      self->angle[self->size] = angle;
-
-
-      ligand_add(&(self->ligand), prox, index, offset, loc, rule, dist);
-      int max_link = self->link_count[self->size];
-      self->size =self->size + 1;
-      for(int i=0; i<self->size; ++i){
-	    if(self->waterindx[i] == water_indx){
-		  if(self->link_count[i] > max_link){
-			max_link = self->link_count[i];
-		  }
-	    }
-      }
-      for(int i=0; i< self->size; ++i){
-	    if(self->waterindx[i] == water_indx){
-		  self->link_count[i] = max_link +1;
-	    }
-      }
-}
-
+//void mediated_init(struct mediated* self){
+//      self->size = 0;
+//      ligand_init(&(self->ligand));
+//      for(int i=0; i<MAX_SIZE; ++i){
+//	    self->link_count[i] = 0;
+//      }
+//}
+//void mediated_add(struct mediated* self, struct proximity* prox,  int index, int offset, char loc, char rule, int water_indx, double dist, double
+//	    angle){
+//      assert(self->size < MAX_SIZE);
+//      self->waterindx[self->size] = water_indx;
+//      self->angle[self->size] = angle;
+//
+//
+//      ligand_add(&(self->ligand), prox, index, offset, loc, rule, dist);
+//      int max_link = self->link_count[self->size];
+//      self->size =self->size + 1;
+//      for(int i=0; i<self->size; ++i){
+//	    if(self->waterindx[i] == water_indx){
+//		  if(self->link_count[i] > max_link){
+//			max_link = self->link_count[i];
+//		  }
+//	    }
+//      }
+//      for(int i=0; i< self->size; ++i){
+//	    if(self->waterindx[i] == water_indx){
+//		  self->link_count[i] = max_link +1;
+//	    }
+//      }
+//}
+//
 
 
 void site_init(struct site* self) {
@@ -78,7 +78,7 @@ void site_init(struct site* self) {
       prox_init(&(self->prox));
       //        self->ligand = Ligand();
       ligand_init(&(self->ligand));
-      mediated_init(&(self->wmed));
+//      mediated_init(&(self->wmed));
 }
 
 void site_fprint_summary(struct site* self, FILE* fp){
@@ -86,26 +86,26 @@ void site_fprint_summary(struct site* self, FILE* fp){
       int ncount = 0;
       int wcount = 0;
       int mcount = 0;
-      int wmpcount = 0;
-      int wmncount = 0;
-      int wmwcount = 0;
-      int wmmcount = 0;
+//      int wmpcount = 0;
+//      int wmncount = 0;
+//      int wmwcount = 0;
+//      int wmmcount = 0;
       for(int i=0; i<self->ligand.size; ++i){
 	    if(self->ligand.restype[i] == 'N') ncount++;
 	    else if(self->ligand.restype[i] == 'P') pcount++;
 	    else if(self->ligand.restype[i] == 'W') wcount ++;
 	    else if(self->ligand.restype[i] == 'M') mcount ++;
       }
-      for(int i=0; i<self->wmed.size; ++i){
-	    if(self->wmed.ligand.restype[i] == 'N') wmncount++;
-	    else if(self->wmed.ligand.restype[i] == 'P') wmpcount++;
-	    else if(self->wmed.ligand.restype[i] == 'W') wmwcount ++;
-	    else if(self->wmed.ligand.restype[i] == 'M') wmmcount ++;
-	    else{
-		  fprintf(stderr,"Error...  Wrong type %c\n", self->wmed.ligand.restype[i]);
-		  exit(EXIT_FAILURE);
-	    }
-      }
+//      for(int i=0; i<self->wmed.size; ++i){
+//	    if(self->wmed.ligand.restype[i] == 'N') wmncount++;
+//	    else if(self->wmed.ligand.restype[i] == 'P') wmpcount++;
+//	    else if(self->wmed.ligand.restype[i] == 'W') wmwcount ++;
+//	    else if(self->wmed.ligand.restype[i] == 'M') wmmcount ++;
+//	    else{
+//		  fprintf(stderr,"Error...  Wrong type %c\n", self->wmed.ligand.restype[i]);
+//		  exit(EXIT_FAILURE);
+//	    }
+//      }
      /* fprintf(fp, "SUMM  %6d  %-3s  %-3s  %3d =  %3d  %3d  %3d  %3d    %3d  =  %3d  %3d  %3d  %3d\n",
 		  self->metal->resid,
 		  self->metal->chain,
@@ -127,109 +127,109 @@ void site_fprint_summary(struct site* self, FILE* fp){
 		  );
 }
 
-void site_fprint_wmed_basepair(struct site* self, FILE *fp, struct rnabp *bp, int *flag, int detail_flag, int* bpflag,
-	    int allbaseflag){
-      if(bp == NULL) return;
-
-      //int resindx1;
-      //int link = 80;
-
-
-
-      /*for(int i=0; i<ligand.size; ++i){
-	if(ligand.restype[i] == 'W'){
-	resindx1 = ligand.resindx[i];
-	if(bp->bp[resindx1].numbp > 0){
-	link++;
-	}
-	}
-	}*/
-      int tag  = 0;
-      for(int i=0; i< self->wmed.size; ++i){
-	    int windx = self->wmed.waterindx[i];
-
-	    struct atom* water = self->ligand.mol[windx]->residue[self->ligand.resindx[windx]].atom+ self->ligand.offset[windx];
-	    if(self->wmed.ligand.restype[i] != 'N') continue;
-
-	    struct molecule* mol = self->wmed.ligand.mol[i];
-	    int resindx = self->wmed.ligand.resindx[i];
-	    int offset  = self->wmed.ligand.offset[i];
-	    struct atom* atm = mol->residue[resindx].atom + offset;
-	    if(atm->resid != bp->bp[resindx].cifid){
-		  fprintf(stderr, "Error... invalid mapping in RNA and Basepair...\n");
-		  exit(EXIT_FAILURE);
-	    }
-	    if(allbaseflag == 0){
-		  if(bp->bp[resindx].numbp <= 0) continue;
-	    }
-	    char location[5] = "---";
-	    if(self->wmed.ligand.loc[i] == 'N'){
-		  strcpy(location,"NUC");
-	    }else if(self->wmed.ligand.loc[i] == 'P'){
-		  strcpy(location, "PHP");
-	    }else if(self->wmed.ligand.loc[i] == 'S'){
-		  strcpy(location, "SUG");
-	    }
-	    else{
-		  fprintf(stderr, "Error in function %s()... invalid ligand type found.\n", __func__);
-		  exit(EXIT_FAILURE);
-	    }
-	    if(detail_flag == 0){
-		  if(strcmp(location, "PHP") ==0) continue;
-		  if(strcmp(location, "SUG") == 0 && strcmp(atm->loc,"O2*") != 0) continue;
-
-	    }
-
-	    if(*flag == 0){
-		  *flag = 1;
-		  fprintf(fp, "\n\n      |  Metal Detail   | Water Details   |      Base Pair Details                  |"
-			      "  outcome      "
-			      "    |\n");
-		  fprintf(fp,      "      "
-			      "---------------------------------------------------------------------------------------------------\n");
-		  fprintf(fp, "       resid  chn  mtl    resid  chn  res  loc  res  atm   resid  chn   resid  chn     pair------>> "
-			      "\n");
-		  fprintf(fp, "      "
-			      "---------------------------------------------------------------------------------------------------\n");
-
-
-	    }
-	    tag = 1;
-	    *bpflag = 1;
-	    fprintf(fp, "WMBP  %6d  %-3s  %-3s   %6d  %-3s  %-3s  %-3s  %3s  %-3s  ",
-			self->metal->resid,
-			self->metal->chain,
-			self->metal->resname,
-			water->resid,
-			water->chain,
-			water->resname,
-			location,
-			atm->resname,
-			atm->loc);
-
-	    if(allbaseflag == 0){
-		  bp_fprint(bp->bp+resindx,fp);
-	    }else{
-		  if(bp->bp[resindx].numbp <= 0){
-			fprintf(fp, "    ~~  ~        ~~  ~       ~~~~~~~~    ~~~~  ");
-		  }else{
-			bp_fprint(bp->bp+resindx,fp);
-		  }
-	    }
-
-	    fprintf(fp, "\n");
-	    //fprintf(fp,"\n");
-
-      }
-
-      //fprintf(fp, "WMBP  %6d  %-3s  %-3s\n",
-      //        water->resid,
-      //        water->chain,
-      //        water->resname);
-      if(tag == 1)
-	    fprintf(fp,"\n");
-
-}
+//void site_fprint_wmed_basepair(struct site* self, FILE *fp, struct rnabp *bp, int *flag, int detail_flag, int* bpflag,
+//	    int allbaseflag){
+//      if(bp == NULL) return;
+//
+//      //int resindx1;
+//      //int link = 80;
+//
+//
+//
+//      /*for(int i=0; i<ligand.size; ++i){
+//	if(ligand.restype[i] == 'W'){
+//	resindx1 = ligand.resindx[i];
+//	if(bp->bp[resindx1].numbp > 0){
+//	link++;
+//	}
+//	}
+//	}*/
+//      int tag  = 0;
+//      for(int i=0; i< self->wmed.size; ++i){
+//	    int windx = self->wmed.waterindx[i];
+//
+//	    struct atom* water = self->ligand.mol[windx]->residue[self->ligand.resindx[windx]].atom+ self->ligand.offset[windx];
+//	    if(self->wmed.ligand.restype[i] != 'N') continue;
+//
+//	    struct molecule* mol = self->wmed.ligand.mol[i];
+//	    int resindx = self->wmed.ligand.resindx[i];
+//	    int offset  = self->wmed.ligand.offset[i];
+//	    struct atom* atm = mol->residue[resindx].atom + offset;
+//	    if(atm->resid != bp->bp[resindx].cifid){
+//		  fprintf(stderr, "Error... invalid mapping in RNA and Basepair...\n");
+//		  exit(EXIT_FAILURE);
+//	    }
+//	    if(allbaseflag == 0){
+//		  if(bp->bp[resindx].numbp <= 0) continue;
+//	    }
+//	    char location[5] = "---";
+//	    if(self->wmed.ligand.loc[i] == 'N'){
+//		  strcpy(location,"NUC");
+//	    }else if(self->wmed.ligand.loc[i] == 'P'){
+//		  strcpy(location, "PHP");
+//	    }else if(self->wmed.ligand.loc[i] == 'S'){
+//		  strcpy(location, "SUG");
+//	    }
+//	    else{
+//		  fprintf(stderr, "Error in function %s()... invalid ligand type found.\n", __func__);
+//		  exit(EXIT_FAILURE);
+//	    }
+//	    if(detail_flag == 0){
+//		  if(strcmp(location, "PHP") ==0) continue;
+//		  if(strcmp(location, "SUG") == 0 && strcmp(atm->loc,"O2*") != 0) continue;
+//
+//	    }
+//
+//	    if(*flag == 0){
+//		  *flag = 1;
+//		  fprintf(fp, "\n\n      |  Metal Detail   | Water Details   |      Base Pair Details                  |"
+//			      "  outcome      "
+//			      "    |\n");
+//		  fprintf(fp,      "      "
+//			      "---------------------------------------------------------------------------------------------------\n");
+//		  fprintf(fp, "       resid  chn  mtl    resid  chn  res  loc  res  atm   resid  chn   resid  chn     pair------>> "
+//			      "\n");
+//		  fprintf(fp, "      "
+//			      "---------------------------------------------------------------------------------------------------\n");
+//
+//
+//	    }
+//	    tag = 1;
+//	    *bpflag = 1;
+//	    fprintf(fp, "WMBP  %6d  %-3s  %-3s   %6d  %-3s  %-3s  %-3s  %3s  %-3s  ",
+//			self->metal->resid,
+//			self->metal->chain,
+//			self->metal->resname,
+//			water->resid,
+//			water->chain,
+//			water->resname,
+//			location,
+//			atm->resname,
+//			atm->loc);
+//
+//	    if(allbaseflag == 0){
+//		  bp_fprint(bp->bp+resindx,fp);
+//	    }else{
+//		  if(bp->bp[resindx].numbp <= 0){
+//			fprintf(fp, "    ~~  ~        ~~  ~       ~~~~~~~~    ~~~~  ");
+//		  }else{
+//			bp_fprint(bp->bp+resindx,fp);
+//		  }
+//	    }
+//
+//	    fprintf(fp, "\n");
+//	    //fprintf(fp,"\n");
+//
+//      }
+//
+//      //fprintf(fp, "WMBP  %6d  %-3s  %-3s\n",
+//      //        water->resid,
+//      //        water->chain,
+//      //        water->resname);
+//      if(tag == 1)
+//	    fprintf(fp,"\n");
+//
+//}
 
 void site_fprint_basepair(struct site* self, FILE* fp, struct rnabp* bp, int* flag, int detail_flag, int* bpflag,
 	    int allbaseflag){
@@ -405,155 +405,155 @@ void site_fprint_basepair_motifs(struct site* self, FILE* fp, struct rnabp* bp, 
       //}
       //fprintf(fp, "\n");
 }
-void site_fprint_wmed_basepair_motifs(struct site* self, FILE* fp, struct rnabp* bp, struct structure* struc, int* flag, int detail_flag){
-      if(bp == NULL) return;
-      int resindx;
-      int link = 0;
-      for(int i=0; i<self->ligand.size; ++i){
-	    if(self->wmed.ligand.restype[i] == 'N'){
-		  resindx = self->wmed.ligand.resindx[i];
-		  if(bp->bp[resindx].numbp > 0){
-			link++;
-		  }
-	    }
-      }
-      for(int i=0; i< self->wmed.ligand.size; ++i){
-	    if(self->wmed.ligand.restype[i] == 'N'){
-		  resindx = self->wmed.ligand.resindx[i];
-		  struct molecule* mol = self->wmed.ligand.mol[i];
-		  struct atom* atm = mol->residue[resindx].atom +self->wmed.ligand.offset[i];
-		  if(atm->resid != bp->bp[resindx].cifid){
-			fprintf(stderr, "Error... invalid mapping in RNA and Basepair...\n");
-			exit(EXIT_FAILURE);
-		  }
-		  //if(bp->bp[resindx].numbp <= 0) continue;
-		  char location[5] = "---";
-		  if(self->wmed.ligand.loc[i] == 'N'){
-			strcpy(location,"NUC");
-		  }else if(self->wmed.ligand.loc[i] == 'P'){
-			strcpy(location, "PHP");
-		  }else if(self->wmed.ligand.loc[i] == 'S'){
-			strcpy(location, "SUG");
-		  }
-		  else{
-			fprintf(stderr, "Error in function %s()... invalid ligand type found.\n", __func__);
-			exit(EXIT_FAILURE);
-		  }
-
-		  if(detail_flag == 0){
-			if(bp->bp[resindx].numbp <= 0) continue;
-			if(strcmp(location, "PHP") ==0) continue;
-			if(strcmp(location, "SUG") == 0 && strcmp(atm->loc,"O2*") != 0) continue;
-
-		  }
-		  if(*flag == 0){
-			*flag = 1;
-
-			fprintf(fp, "\n\n      |  Metal Detail  |   Base Pair Detsils                                   "
-				    "         "
-				    "           |\n");
-			fprintf(fp,      "      "
-				    "----------------------------------------------------------------------------------------------\n");
-			fprintf(fp, "       resid  chn  mtl sec  bp    type   atm         resid \n");
-			fprintf(fp, "      "
-				    "----------------------------------------------------------------------------------------------\n");
-
-
-		  }
-
-		  /*fprintf(fp, "BP    %6d  %-3s  %-3s  %3d  %-3s  %-3s  ",
-		    metal->resid,
-		    metal->chain,
-		    metal->resname,
-		    link,
-		    location,
-		    atm->loc);*/
-
-		  //bp->bp[resindx].fprint_bp(fp);
-		  int waterindx = self->wmed.waterindx[i];
-		  struct atom* water = self->ligand.mol[waterindx]->residue[self->ligand.resindx[waterindx]].atom+self->ligand.offset[waterindx];
-		  if(resindx != 0){
-			bp_fprint_short(bp->bp+resindx-1,fp,'F', self->metal, water,  struc->secseq[resindx-1], atm->loc);
-		  }
-
-		  bp_fprint_short(bp->bp+resindx,fp, 'T', self->metal, water, struc->secseq[resindx], atm->loc);
-		  if(resindx != bp->nres-1){
-			bp_fprint_short(bp->bp+resindx+1,fp, 'F', self->metal,water, struc->secseq[resindx+1], atm->loc);
-		  }
-		  fprintf(fp,"\n\n");
-
-	    }
-      }
-      //if(*flag == 1){
-      //    fprintf(fp, "#");
-      //}
-      //fprintf(fp, "\n");
-}
-
-void site_fprint_wmed(struct site* self, FILE* fp){
-      if(self->wmed.size <= 0) return;
-      fprintf(fp, "      |  Metal Detail  |   Water atom detail    |  Mediated atom detail  |      outcome   "
-		  "         |\n");
-      fprintf(fp,      "      "
-		  "----------------------------------------------------------------------------------------------\n");
-      fprintf(fp, "       resid  chn  mtl   resid  chn  res  lnk      resid  chn  res  atm     loc    dist    "
-		  "angle\n");
-      fprintf(fp, "      "
-		  "----------------------------------------------------------------------------------------------\n");
-      for(int i=0; i<self->wmed.size; ++i){
-	    char location[5] = "---";
-	    char restype1 = self->wmed.ligand.restype[i];
-	    char loc1 = self->wmed.ligand.loc[i];
-	    if(restype1 == 'P'){
-		  strcpy(location, "PRO");
-	    }else if(restype1 == 'W'){
-		  strcpy(location, "H2O");
-	    }else if(restype1 == 'M'){
-		  strcpy(location, "MET");
-	    }else if(restype1 == 'N'){
-		  if(loc1 == 'N'){
-			strcpy(location, "NUC");
-		  }else if(loc1 == 'P'){
-			strcpy(location, "PHP");
-		  }else if(loc1 == 'S'){
-			strcpy(location, "SUG");
-		  }
-		  else{
-			fprintf(stderr, "Error in function %s()... invalid ligand type found.\n", __func__);
-			exit(EXIT_FAILURE);
-		  }
-	    }
-	    int k = self->wmed.waterindx[i];
-	    struct atom* water = self->ligand.mol[k]->residue[self->ligand.resindx[k]].atom + self->ligand.offset[k];
-	    assert(strcmp(water->resname, "HOH")==0);
-	    struct residue* res1 = self->wmed.ligand.mol[i]->residue+self->wmed.ligand.resindx[i];
-	    struct atom* medatm = res1->atom + self->wmed.ligand.offset[i];
-	    double dist = sqrt(self->wmed.ligand.dist[i]);
-	    double angle = self->wmed.angle[i];
-	    int link = self->wmed.link_count[i];
-
-	    fprintf(fp, "WMED  %6d  %-3s  %-3s  %6d  %-3s  %-3s  %3d     %6d  %-3s  %-3s  %-3s     %-3s  %6.3lf   "
-			"%6.3lf\n",
-			self->metal->resid,
-			self->metal->chain,
-			self->metal->resname,
-			water->resid,
-			water->chain,
-			water->resname,
-			link,
-			medatm->resid,
-			medatm->chain,
-			medatm->resname,
-			medatm->loc,
-			location,
-			dist,
-			angle
-
-		   );
-      }
-      fprintf(fp, "#\n");
-}
-
+//void site_fprint_wmed_basepair_motifs(struct site* self, FILE* fp, struct rnabp* bp, struct structure* struc, int* flag, int detail_flag){
+//      if(bp == NULL) return;
+//      int resindx;
+//      int link = 0;
+//      for(int i=0; i<self->ligand.size; ++i){
+//	    if(self->wmed.ligand.restype[i] == 'N'){
+//		  resindx = self->wmed.ligand.resindx[i];
+//		  if(bp->bp[resindx].numbp > 0){
+//			link++;
+//		  }
+//	    }
+//      }
+//      for(int i=0; i< self->wmed.ligand.size; ++i){
+//	    if(self->wmed.ligand.restype[i] == 'N'){
+//		  resindx = self->wmed.ligand.resindx[i];
+//		  struct molecule* mol = self->wmed.ligand.mol[i];
+//		  struct atom* atm = mol->residue[resindx].atom +self->wmed.ligand.offset[i];
+//		  if(atm->resid != bp->bp[resindx].cifid){
+//			fprintf(stderr, "Error... invalid mapping in RNA and Basepair...\n");
+//			exit(EXIT_FAILURE);
+//		  }
+//		  //if(bp->bp[resindx].numbp <= 0) continue;
+//		  char location[5] = "---";
+//		  if(self->wmed.ligand.loc[i] == 'N'){
+//			strcpy(location,"NUC");
+//		  }else if(self->wmed.ligand.loc[i] == 'P'){
+//			strcpy(location, "PHP");
+//		  }else if(self->wmed.ligand.loc[i] == 'S'){
+//			strcpy(location, "SUG");
+//		  }
+//		  else{
+//			fprintf(stderr, "Error in function %s()... invalid ligand type found.\n", __func__);
+//			exit(EXIT_FAILURE);
+//		  }
+//
+//		  if(detail_flag == 0){
+//			if(bp->bp[resindx].numbp <= 0) continue;
+//			if(strcmp(location, "PHP") ==0) continue;
+//			if(strcmp(location, "SUG") == 0 && strcmp(atm->loc,"O2*") != 0) continue;
+//
+//		  }
+//		  if(*flag == 0){
+//			*flag = 1;
+//
+//			fprintf(fp, "\n\n      |  Metal Detail  |   Base Pair Detsils                                   "
+//				    "         "
+//				    "           |\n");
+//			fprintf(fp,      "      "
+//				    "----------------------------------------------------------------------------------------------\n");
+//			fprintf(fp, "       resid  chn  mtl sec  bp    type   atm         resid \n");
+//			fprintf(fp, "      "
+//				    "----------------------------------------------------------------------------------------------\n");
+//
+//
+//		  }
+//
+//		  /*fprintf(fp, "BP    %6d  %-3s  %-3s  %3d  %-3s  %-3s  ",
+//		    metal->resid,
+//		    metal->chain,
+//		    metal->resname,
+//		    link,
+//		    location,
+//		    atm->loc);*/
+//
+//		  //bp->bp[resindx].fprint_bp(fp);
+//		  int waterindx = self->wmed.waterindx[i];
+//		  struct atom* water = self->ligand.mol[waterindx]->residue[self->ligand.resindx[waterindx]].atom+self->ligand.offset[waterindx];
+//		  if(resindx != 0){
+//			bp_fprint_short(bp->bp+resindx-1,fp,'F', self->metal, water,  struc->secseq[resindx-1], atm->loc);
+//		  }
+//
+//		  bp_fprint_short(bp->bp+resindx,fp, 'T', self->metal, water, struc->secseq[resindx], atm->loc);
+//		  if(resindx != bp->nres-1){
+//			bp_fprint_short(bp->bp+resindx+1,fp, 'F', self->metal,water, struc->secseq[resindx+1], atm->loc);
+//		  }
+//		  fprintf(fp,"\n\n");
+//
+//	    }
+//      }
+//      //if(*flag == 1){
+//      //    fprintf(fp, "#");
+//      //}
+//      //fprintf(fp, "\n");
+//}
+//
+//void site_fprint_wmed(struct site* self, FILE* fp){
+//      if(self->wmed.size <= 0) return;
+//      fprintf(fp, "      |  Metal Detail  |   Water atom detail    |  Mediated atom detail  |      outcome   "
+//		  "         |\n");
+//      fprintf(fp,      "      "
+//		  "----------------------------------------------------------------------------------------------\n");
+//      fprintf(fp, "       resid  chn  mtl   resid  chn  res  lnk      resid  chn  res  atm     loc    dist    "
+//		  "angle\n");
+//      fprintf(fp, "      "
+//		  "----------------------------------------------------------------------------------------------\n");
+//      for(int i=0; i<self->wmed.size; ++i){
+//	    char location[5] = "---";
+//	    char restype1 = self->wmed.ligand.restype[i];
+//	    char loc1 = self->wmed.ligand.loc[i];
+//	    if(restype1 == 'P'){
+//		  strcpy(location, "PRO");
+//	    }else if(restype1 == 'W'){
+//		  strcpy(location, "H2O");
+//	    }else if(restype1 == 'M'){
+//		  strcpy(location, "MET");
+//	    }else if(restype1 == 'N'){
+//		  if(loc1 == 'N'){
+//			strcpy(location, "NUC");
+//		  }else if(loc1 == 'P'){
+//			strcpy(location, "PHP");
+//		  }else if(loc1 == 'S'){
+//			strcpy(location, "SUG");
+//		  }
+//		  else{
+//			fprintf(stderr, "Error in function %s()... invalid ligand type found.\n", __func__);
+//			exit(EXIT_FAILURE);
+//		  }
+//	    }
+//	    int k = self->wmed.waterindx[i];
+//	    struct atom* water = self->ligand.mol[k]->residue[self->ligand.resindx[k]].atom + self->ligand.offset[k];
+//	    assert(strcmp(water->resname, "HOH")==0);
+//	    struct residue* res1 = self->wmed.ligand.mol[i]->residue+self->wmed.ligand.resindx[i];
+//	    struct atom* medatm = res1->atom + self->wmed.ligand.offset[i];
+//	    double dist = sqrt(self->wmed.ligand.dist[i]);
+//	    double angle = self->wmed.angle[i];
+//	    int link = self->wmed.link_count[i];
+//
+//	    fprintf(fp, "WMED  %6d  %-3s  %-3s  %6d  %-3s  %-3s  %3d     %6d  %-3s  %-3s  %-3s     %-3s  %6.3lf   "
+//			"%6.3lf\n",
+//			self->metal->resid,
+//			self->metal->chain,
+//			self->metal->resname,
+//			water->resid,
+//			water->chain,
+//			water->resname,
+//			link,
+//			medatm->resid,
+//			medatm->chain,
+//			medatm->resname,
+//			medatm->loc,
+//			location,
+//			dist,
+//			angle
+//
+//		   );
+//      }
+//      fprintf(fp, "#\n");
+//}
+//
 
 
 void site_fprint_angle(struct site* self, FILE* fp){
@@ -928,10 +928,11 @@ void site_comp_nucleic(struct site* self, char rule,
 
 		  int len = strlen(curatom->loc);
 		  char symb = curatom->loc[0];
-		  if(len == 2){ //Then it is Nucleobase for Cor dataset
+		  if(len == 2){ //Then it is Nucleobase
 			if((symb == 'O' && dst2 <= mprm->o_dst2)
 				    ||( symb == 'N' && dst2 <= mprm->n_dst2)
-				    ||( symb == 'C' && dst2 <= mprm->c_dst2)){
+				    ||( symb == 'C' && dst2 <= mprm->c_dst2)
+				    ||( symb == 'S' && dst2 <= mprm->s_dst2)){
 
 			      ligand_add(&(self->ligand), &(self->prox), resindx, offset,
 					  'N',
@@ -943,7 +944,8 @@ void site_comp_nucleic(struct site* self, char rule,
 		  }else if(len == 3 && (curatom->loc[2] == '*' || curatom->loc[2] == '\'')){ // sugar backbone for cor
 			// file
 			if((symb == 'O' && dst2 <= mprm->o_dst2)
-				    ||( symb == 'C' && dst2 <= mprm->c_dst2)){
+				    ||( symb == 'C' && dst2 <= mprm->c_dst2)
+				    ||( symb == 'S' && dst2 <= mprm->s_dst2)){
 
 			      ligand_add(&(self->ligand),&(self->prox), resindx, offset, 'S', rule, sqrt(dst2));
 			      //                        map->add_site(this, &self->ligand, ligand.size-1);
@@ -952,7 +954,9 @@ void site_comp_nucleic(struct site* self, char rule,
 			}
 		  }else{ // phosphate case
 			if((len == 3 && symb == 'O' && dst2 <= mprm->o_dst2)
-				    ||(len == 3 && symb == 'P' && dst2 <= mprm->p_dst2)){
+				    ||(len == 3 && symb == 'P' && dst2 <= mprm->p_dst2)
+				    /*||( symb == 'S' && dst2 <= mprm->s_dst2) */
+				    ){
 
 			      ligand_add(&(self->ligand),&(self->prox), resindx, offset, 'P', rule, sqrt(dst2));
 			      //                        map->add_site(this, &self->ligand, ligand.size-1);
@@ -989,7 +993,8 @@ void site_comp_protein(struct site* self, char rule,
 		  //if(len == 2){ //Then it is Nucleobase for Cor dataset
 		  if((symb == 'O' && dst2 <= mprm->o_dst2)
 			      ||( symb == 'N' && dst2 <= mprm->n_dst2)
-			      ||( symb == 'C' && dst2 <= mprm->c_dst2)){
+			      ||( symb == 'C' && dst2 <= mprm->c_dst2)
+			      ||( symb == 'S' && dst2 <= mprm->s_dst2)){
 
 			ligand_add(&(self->ligand),&(self->prox), resindx, offset, 'P', rule, sqrt(dst2));
 			//                        map->add_site(this, &self->ligand, ligand.size-1);
@@ -1016,43 +1021,47 @@ void site_comp_water(struct site* self, char rule, struct current_params *mprm) 
       }
 }
 
-void site_comp_water_mediated(struct site* self, char rule, struct current_params *mprm) {
-      double metdist2=0.0, wdist2=0.0, includist2=0.0;
-      includist2 = mprm->hb_dst + mprm->o_dst2 + 1.0;
-      includist2 *= includist2;
-      double hbdst2 = (mprm->hb_dst +0.0001) * (mprm->hb_dst + 0.0001);
-      for(int i=0; i<self->ligand.size; ++i){
-	    if(self->ligand.restype[i] != 'W') continue;
-	    struct residue* wres = self->ligand.mol[i]->residue + self->ligand.resindx[i];
+//void site_comp_water_mediated(struct site* self, char rule, struct current_params *mprm) {
+//      double metdist2=0.0, wdist2=0.0, includist2=0.0;
+//      includist2 = mprm->hb_dst + mprm->o_dst2 + 1.0;
+//      includist2 *= includist2;
+//      double hbdst2 = (mprm->hb_dst +0.0001) * (mprm->hb_dst + 0.0001);
+//      for(int i=0; i<self->ligand.size; ++i){
+//	    if(self->ligand.restype[i] != 'W') continue;
+//	    struct residue* wres = self->ligand.mol[i]->residue + self->ligand.resindx[i];
+//
+//	    struct atom* water = wres->atom + self->ligand.offset[i];
+//	    for(int j=0; j<self->prox.size; ++j){
+//		  struct residue* res = self->prox.mol[j]->residue+ self->prox.resindx[j];
+//		  for(int k=0; k<res->size; ++k){
+//			struct atom* curratm = res->atom + k;
+//			metdist2 = distsqr(self->metal->center, curratm->center);
+//			wdist2 = distsqr(water->center, curratm->center);
+//			int flag = 1;
+//			if(rule != '0'){
+//			      if(curratm->loc[0] == 'N' || curratm->loc[0] == 'O')
+//				    flag = 1;
+//			      else
+//				    flag = 0;
+//			}
+//			double angle = angle3d(self->metal->center, water->center, curratm->center);
+//			if(metdist2 <= includist2 &&
+//				    metdist2 > hbdst2 &&
+//				    wdist2 < hbdst2   &&
+//				    angle >= -520.0   &&
+//				    flag == 1
+//			  ){
+//			      char loc= get_res_loc(curratm, self->prox.restype[j]);
+//			      mediated_add(&(self->wmed), &(self->prox), j, k, loc, rule, i, wdist2, angle);
+//			}
+//		  }
+//	    }
+//      }
+//}
 
-	    struct atom* water = wres->atom + self->ligand.offset[i];
-	    for(int j=0; j<self->prox.size; ++j){
-		  struct residue* res = self->prox.mol[j]->residue+ self->prox.resindx[j];
-		  for(int k=0; k<res->size; ++k){
-			struct atom* curratm = res->atom + k;
-			metdist2 = distsqr(self->metal->center, curratm->center);
-			wdist2 = distsqr(water->center, curratm->center);
-			int flag = 1;
-			if(rule != '0'){
-			      if(curratm->loc[0] == 'N' || curratm->loc[0] == 'O')
-				    flag = 1;
-			      else
-				    flag = 0;
-			}
-			double angle = angle3d(self->metal->center, water->center, curratm->center);
-			if(metdist2 <= includist2 &&
-				    metdist2 > hbdst2 &&
-				    wdist2 < hbdst2   &&
-				    angle >=-520.0 &&
-				    flag == 1
-			  ){
-			      char loc= get_res_loc(curratm, self->prox.restype[j]);
-			      mediated_add(&(self->wmed), &(self->prox), j, k, loc, rule, i, wdist2, angle);
-			}
-		  }
-	    }
-      }
-}
+
+
+
 //    void fill_proximity(struct molecule *mol, char moltype);
 //    void comp_nucleic(char rule,
 //                 Current_params* mprm);
@@ -1128,7 +1137,7 @@ void site_populate(struct site* self,
       site_fill_proximity(self, hoh, 'W');
       site_comp_water(self, rule, &mprm);
 
-      site_comp_water_mediated(self, rule, &mprm);
+//      site_comp_water_mediated(self, rule, &mprm);
 
       //site_addproxatm(site, hoh, 'W');
       //site_addhoh(site, hoh, rule, &mprm);
@@ -1256,7 +1265,8 @@ void comp_metal_sites(struct molecule* met,
 	    char rule,
 	    char* file_path,
 	    char* file_name,
-	    struct runparams* runpar) {
+	    struct runparams* runpar,
+	    struct sysparams* syspar) {
       int nsites = mol_atom_count(met);
       struct atom** met_atoms = (struct atom**) malloc (nsites * sizeof(struct atom*)); //new struct atom*[nsites];
       int count; // should be same as nsites;
@@ -1367,7 +1377,11 @@ void comp_metal_sites(struct molecule* met,
       }
 
       fprintf(pmlfp, "load %s.cif\n", file_name);
-      fprintf(pmlfp, "select polyall, polymer\n");
+      if(strcmp(syspar->chainparam, "-ML") == 0){
+          fprintf(pmlfp, "select polyall, chain %s\n", syspar->chainvalparam);
+      }else{
+          fprintf(pmlfp, "select polyall, polymer\n");
+      }
 
       fprintf(pmlfp, "select waterall, solvent\n");
 

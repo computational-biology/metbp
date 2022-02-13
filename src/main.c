@@ -28,35 +28,53 @@ int main(int argc, char* argv[]) {
       runpar.detailflag = 0;
       runpar.allbaseflag = 0;
 
+      char* nucdir = getenv("NUCLEIC_ACID_DIR");
+      if(nucdir == NULL){
+	    fprintf(stderr, "Error... NUCLEIC_ACID_DIR not Defined.\n");
+	    exit(EXIT_FAILURE);
+      }
+      char nucfiledir[512];
+      strcpy(nucfiledir,nucdir);
+      //Paremeters metparams = Paremeters("/usr/local/bin/metal_params.cif");
+
+      char param_path[512];
+      strcpy(param_path, nucfiledir);
+      strcat(param_path, "metal.params");
+      struct parameters metparams;
+      parameters_create(&metparams, param_path);
+      printf("Welcome to Metal Detection Program!\n");
+
       char file_array[1000][512];
       char arg[512];
       int file_count = 0;
       for (int i = 1; i < argc; ++i) {
 
 	    strcpy(arg, argv[i]);
-	    if(strncmp(arg, "-help", 5) == 0 ){
+	    if(strncmp(arg, "--help", 6) == 0 ){
 		  show_help();
 		  exit(EXIT_SUCCESS);
 	    	  
 	    }
-	    if(strncmp(arg, "-version", 8) == 0 ){
+	    if(strncmp(arg, "--version", 9) == 0 ){
 		  fprintf(stdout, "MetBP Release: %s\n", global_version);
 		  exit(EXIT_SUCCESS);
 	    }
-	    if(strncmp(arg, "-pub", 4) == 0 ){
+	    if(strncmp(arg, "--pub", 5) == 0 ){
 		  fprintf(stdout, "MetBP: The paper is submitted. So, the reference is pending.\n");
 		  exit(EXIT_SUCCESS);
 	    }
-	    if(strncmp(arg, "-genhelp", 8) == 0 ){
+	    if(strncmp(arg, "--genhelp", 9) == 0 ){
 		  gen_help();
 		  exit(EXIT_SUCCESS);
 	    }
-	    if(strncmp(arg, "-contact", 8) == 0 ){
+	    if(strncmp(arg, "--contact", 9) == 0 ){
 		  fprintf(stdout, "Parthajit Roy, roy.parthajit@gmail.com\n");
 		  fprintf(stdout, "Dr. Dhananjay Bhattacharyya, dhananjay.bhattacharyya.retd@saha.ac.in\n");
 		  exit(EXIT_SUCCESS);
 	    }
-	    if(strncmp(arg,"-mode=", 6) == 0){
+	    if(strncmp(arg, "-paramfile=", 11) == 0){
+		  parameters_create(&metparams, arg + 11);
+	    }else if(strncmp(arg,"-mode=", 6) == 0){
 		  if(strcmp(arg+6, "bp") == 0){
 			runpar.detailflag = 0;
 		  }else if(strcmp(arg+6,"nuc") == 0){
@@ -108,12 +126,6 @@ int main(int argc, char* argv[]) {
       }
 
 
-      char* nucdir = getenv("NUCLEIC_ACID_DIR");
-      if(nucdir == NULL){
-	    fprintf(stderr, "Error... NUCLEIC_ACID_DIR not Defined.\n");
-	    exit(EXIT_FAILURE);
-      }
-      printf("Welcome to Metal Detection Program!\n");
 
       char date_out[100];
       char time_out[100];
@@ -121,15 +133,6 @@ int main(int argc, char* argv[]) {
       now(time_out);
       fprintf(stdout, "Process starts on %s at %s\n", date_out, time_out);
 
-      char nucfiledir[512];
-      strcpy(nucfiledir,nucdir);
-      //Paremeters metparams = Paremeters("/usr/local/bin/metal_params.cif");
-
-      char param_path[512];
-      strcpy(param_path, nucfiledir);
-      strcat(param_path, "metal_params.cif");
-      struct parameters metparams;
-      parameters_create(&metparams, param_path);
       //printf("Hetre\n");
       //return 0;
 
@@ -440,7 +443,7 @@ int main(int argc, char* argv[]) {
 		  fprintf(runpar.metalfp, "mmCIF        : %s\n",file_name);
 	    
 		  comp_metal_sites(&metal, &hoh, &rna, &bp,&pro, &metparams, &sec, rule,
-			      file_path, file_name, &runpar);
+			      file_path, file_name, &runpar, &syspar);
 		  
 		  /*  Open this part for water mediated
 		  if( fclose(runpar.hohdetailfp) == EOF ) {			

@@ -31,6 +31,7 @@ struct parameters{
     double hoh_dst[NUM_METAL];
     double c_dst[NUM_METAL];
     double p_dst[NUM_METAL];
+    double s_dst[NUM_METAL];  // sulpher dist
     double met_dst[NUM_METAL];
 };
     void parameters_init(struct parameters* self);
@@ -56,6 +57,7 @@ struct current_params{
     double n_dst2;
     double hoh_dst2;
     double c_dst2;
+    double s_dst2;
     double p_dst2;
     double met_dst2;
 };
