@@ -1,10 +1,10 @@
 ##MetBP : A standalone command line tool for detection and analysis of metal-ion and Basepair interactions
 ___________
 
-####Synopsis
+#### Synopsis
 >This program is for finding metal and base pair interactions.
 
-####Installation
+#### Installation
 >Download at least all the files of sys and bin directory.
 	Transfer the 'bin/metallic' executable file to some path folder
 	and transfer all the files of *'sys'* folder to some suitable location.
@@ -15,7 +15,7 @@ ___________
 >		sudo cp sys/*   /usr/local/bin/
 
 
-####Setup
+#### Setup
 >For setting the environment, do the following from your bash shell
 	of write the same in your .bashrc file. We prefer the following.
 	Note: System will read the system files from this folder.
