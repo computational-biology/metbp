@@ -76,8 +76,8 @@ In MetBP, we follow the BPFIND algo
 
 
 > ### Domain related command line options.
->> **–hbdist=[value]:** MetBP uses 3.8A as default distance for donor-acceptor atom distance for hydrogen bonding interactions. However, this can be changed with this option.  <br>
-**EXAMPLE** 
+>> **–hbdist=[value]:** MetBP uses 3.8A as default distance for donor-acceptor atom distance for hydrogen bonding interactions. However, this can be changed with this option.  <br><br><br>
+**EXAMPLE** <br>
     `metbp.linux 1n32.cif -hbdist=4.1`<br>
 **-sugmed=[true/false]:** By default MetBP considers pentose sugar O2’ atom for sugar edge based pairing. This is called a sugar mediated base pair. If the user does not want that, then they can set it to ‘false’. <br>
 **EXAMPLE**
