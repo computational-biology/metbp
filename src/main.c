@@ -37,11 +37,11 @@ int main(int argc, char* argv[]) {
       strcpy(nucfiledir,nucdir);
       //Paremeters metparams = Paremeters("/usr/local/bin/metal_params.cif");
 
-      char param_path[512];
-      strcpy(param_path, nucfiledir);
-      strcat(param_path, "metal.params");
+      //char param_path[512];
+      //strcpy(param_path, nucfiledir);
+      //strcat(param_path, "metal.params");
       struct parameters metparams;
-      parameters_create(&metparams, param_path);
+      parameters_create_default(&metparams);
       printf("Welcome to Metal Detection Program!\n");
 
       char file_array[1000][512];

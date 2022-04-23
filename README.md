@@ -105,6 +105,9 @@ In MetBP, we follow the BPFIND algo
 
 
 
+| Metal Symbol | Atomic No | Oxygen Dist | Nitrogen Dist | H2O Dist | Carbon Dist | Sulfur Dist | Phosp Dist | Metal Dist|
+|---------|---------|---------|---------|---------|---------|---------|---------|---------
+|   Na   | 11      | 2.90  | 3.1    | 3        | ?        |?         | ? | 2.9|
 
 
 

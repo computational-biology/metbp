@@ -36,6 +36,7 @@ struct parameters{
 };
     void parameters_init(struct parameters* self);
 
+void parameters_create_default(struct parameters* self);
 void parameters_create(struct parameters* self, const char *param_file) ;
 int is_metal(char* metal);
 
