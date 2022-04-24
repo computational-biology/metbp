@@ -24,6 +24,8 @@ int main(int argc, char* argv[]) {
       struct sysparams syspar;
       sysparams_init(&syspar);
 
+      strcpy(syspar.version, global_version);
+
       struct runparams runpar;
       runpar.detailflag = 0;
       runpar.allbaseflag = 0;
@@ -72,14 +74,28 @@ int main(int argc, char* argv[]) {
 		  fprintf(stdout, "Dr. Dhananjay Bhattacharyya, dhananjay.bhattacharyya.retd@saha.ac.in\n");
 		  exit(EXIT_SUCCESS);
 	    }
-	    if(strncmp(arg, "-paramfile=", 11) == 0){
+	    if(strncmp(arg, "-default", 8) == 0 ){
+
+		  parameters_fprint(stdout, &metparams);
+		  exit(EXIT_SUCCESS);
+	    }
+	    if(strncmp(arg, "-diff", 5) == 0){
+		  syspar.diff_file = 'T';
+	    }else if(strncmp(arg, "-paramfile=", 11) == 0){
 		  parameters_create(&metparams, arg + 11);
+		  syspar.is_default_metal_prm = 'F';
 	    }else if(strncmp(arg,"-mode=", 6) == 0){
 		  if(strcmp(arg+6, "bp") == 0){
+			strcpy(syspar.mode, "BASE-PAIRS (-mode=bp)");
+			strcpy(syspar.mode_code, "bp");
 			runpar.detailflag = 0;
 		  }else if(strcmp(arg+6,"nuc") == 0){
+			strcpy(syspar.mode, "NUCLEIC ACIDS (-mode=nuc)");
+			strcpy(syspar.mode_code, "nuc");
 			runpar.detailflag = 1;
 		  }else if(strcmp(arg+6,"all") == 0){
+			strcpy(syspar.mode, "ALL (-mode=all)");
+			strcpy(syspar.mode_code, "all");
 			runpar.detailflag = 2;
 		  }else{
 			fprintf(stderr, "Error in function %s()... Invalid value suppled for -comp. Supply \"nuc, bp or all\"\n", __func__);
@@ -151,8 +167,11 @@ int main(int argc, char* argv[]) {
       
       char met_file[512];
       char metdetail_file[512];
-      char hoh_file[512];
-      char hohdetail_file[512];
+      char allbp_json_file[512];
+      char allmet_json_file[512];
+
+//      char hoh_file[512];
+//      char hohdetail_file[512];
       //Molecule rna = Molecule(cor_file, &bp);
 //      Molecule mol = Molecule(long(80000), TRUE, TRUE);
       struct molecule mol;
@@ -193,7 +212,8 @@ int main(int argc, char* argv[]) {
 		  strcpy(syspar.cifparam, "-cif");
 	    }
 	    now(time_out);
-	    printf("            CURRENT FILE: %s         STARTED:%d of %d at %s\n", file_name, i+1, file_count, time_out);
+	    fprintf(stdout, "            CURRENT FILE: %s         STARTED:%d of %d at %s\n", file_name, i+1, file_count, time_out);
+	    fprintf(stdout, "            RUNNING MODE: %s\n\n", syspar.mode);
 	    callbpfindc(syspar.cifparam, syspar.accnparam, syspar.htparam, 
 			syspar.hdparam, syspar.hdvalparam, syspar.angparam, 
 			syspar.angvalparam, syspar.chparam, syspar.sgparam, 
@@ -215,6 +235,8 @@ int main(int argc, char* argv[]) {
 
 	    char summaryfp_file_name[512];
 	    file_name_join(summaryfp_file_name, file_path, file_name, ".sum");
+	    file_name_join(allbp_json_file, file_path, file_name, "_basepair.json");
+	    file_name_join(allmet_json_file, file_path, file_name, "_metinfo.json");
 	    
 
 	    runpar.summaryfp	= fopen( summaryfp_file_name, "w" );
@@ -235,27 +257,45 @@ int main(int argc, char* argv[]) {
 	    
 	    struct rnabp bp;
 	    rnabp_scanf(&bp, out_file);
-	    //fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
+
+
+
+	    FILE	*allbp_json_fp;										/* output-file pointer */
+
+	    allbp_json_fp	= fopen( allbp_json_file, "w" );
+	    if ( allbp_json_fp == NULL ) {
+		  fprintf ( stderr, "couldn't open file '%s'; %s\n",
+			      allbp_json_file, strerror(errno) );
+		  exit (EXIT_FAILURE);
+	    }
+
+	    rnabp_fprint_json(&bp, syspar.accn, allbp_json_fp);
+	    
+	    if( fclose(allbp_json_fp) == EOF ) {			/* close output file   */
+		  fprintf ( stderr, "couldn't close file '%s'; %s\n",
+			      allbp_json_file, strerror(errno) );
+		  exit (EXIT_FAILURE);
+	    }
+
 	    
 	    //if(bp.nres <50 || bp.nres > 180) continue;
 	    struct structure sec; 
 	    structure_init(&sec, dat_file, bp.nres);
-	    //fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 	    
 	    //exit(1);
 	    struct molecule rna;
 	    mol_init(&rna);
 
 	    
-	    //fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 	    
 	    mol_scan_rna(&rna, cor_file, &bp);
-	    //fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 	    
 	    //        mol.reset(TRUE, TRUE);
 	    //        mol.scan_cif(cif_file, find_nucleic);
 	    //Molecule rna = Molecule(&mol);
 
+
+	    
 	    fprintf(runpar.summaryfp, "No of Nucleic Acids found: %6d\n",rna.size);
 	    if(rna.size > 0){
 		  struct counting_tree_t* rna_tree;
@@ -285,7 +325,6 @@ int main(int argc, char* argv[]) {
 	    
 	    if(strcmp(ext, ".cif") == 0){
 		  scancif(cif_file, is_std_amino, NULL, NULL, &atoms, &numatoms, PRO_TYPE, "auth", 'S');
-		  //fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 		  
 	    }else if(strcmp(ext, ".pdb") ==0 ){
 		  scanpdb(cif_file, is_std_amino, NULL, NULL, &atoms, &numatoms, PRO_TYPE, 'S');
@@ -295,7 +334,6 @@ int main(int argc, char* argv[]) {
 	    }
 
 
-	    //fprintf(stderr, "Trace..... Executing File %s at line %d pro=%d.\n", __FILE__, __LINE__, numatoms);
 	    mol_reset(&mol,TRUE, TRUE);
 	    mol_polulate(&mol, atoms, numatoms);
 	    free(atoms);
@@ -321,7 +359,6 @@ int main(int argc, char* argv[]) {
 	    }
 
 
-	    //fprintf(stderr, "Trace..... Executing File %s at line %d.\n", __FILE__, __LINE__);
 	    if(strcmp(ext, ".cif") == 0){
 		  scancif(cif_file, is_metal, NULL, NULL, &atoms, &numatoms, METAL_TYPE, "auth", 'S');
 	    }else if(strcmp(ext, ".pdb") ==0 ){
@@ -394,10 +431,25 @@ int main(int argc, char* argv[]) {
 	    //comp_metal_sites()
 	    if(metal.size>0){
 
-		  file_name_join(met_file, file_path, file_name, ".met");
-		  file_name_join(metdetail_file, file_path, file_name, ".det");
-		  file_name_join(hoh_file, file_path, file_name, ".hoh");
-		  file_name_join(hohdetail_file, file_path, file_name, "_detail.hoh");
+
+		  if(syspar.diff_file == 'F'){
+			file_name_join(met_file, file_path, file_name, ".met");
+			file_name_join(metdetail_file, file_path, file_name, ".det");
+//			file_name_join(hoh_file, file_path, file_name, ".hoh");
+//			file_name_join(hohdetail_file, file_path, file_name, "_detail.hoh");
+		  }else{
+
+			char fname[128];
+			strcpy(fname, file_name);
+			strcat(fname, "_diff_");
+			strcat(fname, syspar.mode_code);
+
+			file_name_join(met_file, file_path, fname, ".met");
+			file_name_join(metdetail_file, file_path, fname, ".det");
+//			file_name_join(hoh_file, file_path, fname, ".hoh");
+//			file_name_join(hohdetail_file, file_path, file_name, "_detail.hoh");
+
+		  }
 		  
 
 		  runpar.metalfp	= fopen( met_file, "w" );
@@ -440,7 +492,8 @@ int main(int argc, char* argv[]) {
 		  up to this part for water mediated
 		  */
 		  
-		  fprintf(runpar.metalfp, "mmCIF        : %s\n",file_name);
+		  syspar_print_params(&syspar, runpar.metalfp);
+		  syspar_print_params(&syspar, runpar.metdetailfp);
 	    
 		  comp_metal_sites(&metal, &hoh, &rna, &bp,&pro, &metparams, &sec, rule,
 			      file_path, file_name, &runpar, &syspar);

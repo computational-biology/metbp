@@ -1,15 +1,10 @@
-##MetBP : *A standalone command line tool for detection and analysis of metal-ion and Basepair interactions*
-___________
+## MetBP : *A standalone command line tool for detection and analysis of metal-ion and Basepair interactions*
 
-
-
-
-----
 
 ## Synopsis  
 
 
->Metal Basepair interaction program is a software tool that detects and analyzes metal interactions with RNA (It can handle DNA anso) base pairs from the crystal structure files stored in mmCIF or PDB format. The program gives results in suitable format in plain text as well as in machine readible JSON and CSV formats also. The program is a stand alone command line based tool developped for Linux. The program is written in C and FORTRAN.
+> Metal Basepair interaction program is a software tool that detects and analyzes metal interactions with RNA (It can handle DNA anso) base pairs from the crystal structure files stored in mmCIF or PDB format. The program gives results in suitable format in plain text as well as in machine readible JSON and CSV formats also. The program is a stand alone command line based tool developped for Linux. The program is written in C and FORTRAN.
 
 ## Installation 
 >Download at least all the files of sys and bin directory.
@@ -22,12 +17,15 @@ ___________
 >		sudo cp sys/*   /usr/local/bin/
 
 
-## Setup
->For setting the environment, do the following from your bash shell
-	of write the same in your .bashrc file. We prefer the following.
-	Note: System will read the system files from this folder.
+## Compilation
+> run make. The executable file will be stored in the bin directory.
+## Dependencies
+> The compilation process needs a C and a FORTRAN compiler. We have assumed *gcc* for C and *gfortran* for FORTRAN. We have made the Makefile accordingly. If the user wants a different compiler, change the makefile accordingly. 
 
->		export NUCLEIC_ACID_DIR=/usr/local/bin
+## About The Makefile
+> 
+We have given a ready made make file for easy compilation.  The Makefile assumes *gcc* as C compiler and *gfortran* as FORTRAN compiler. If, however, the user do not have access to these compilers and to something else instead, they need a small modification in the Makefile. For example, if you have *clang* as C compiler and *f77* as fortran compiler, then chage the following in the Makefile. 
+	change `CC := gcc -std=c99` to `CC := clang` and change `FF := gfortran` to `FF := f77`
 
 ##  Basepairs
 >Nucleic acids forms base-base interactions for their stebelization. These base-base interactions are called basepairs. In DNA we mainly observe that a Guanine forms a basepair with a Cytosine and an Adenine forms a baspair with Thymie. In RNA, however, varieties of basepairs are observed. Typically 158 types of base pairs are theoratically possible, though only 126 of them are found in nature. Out of them five base pairs are called canonical and the rest are called non-canonical. The canonical basepairs are GC cWW, AU cWW and GU   cWW. 

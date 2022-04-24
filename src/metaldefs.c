@@ -15,7 +15,23 @@ int _global_metal_size=0;
         self->n = 0;
     }
 
-
+void parameters_fprint(FILE* fp, struct parameters* self){
+    fprintf(fp, "       MET   NO     OXY     NITRO    SULPH     MET\n");
+    fprintf(fp, "       ---------------------------------------------\n");
+    for(int i=0; i<128; ++i){
+        if(self->name[i][0] != '-'){
+            
+			fprintf(fp, "PARAMS %3s  %3d  %6.2lf    %6.2lf   %6.2lf   %6.2lf\n", 
+				  	self->name[i],
+					self->atomic_no[i],
+					self->o_dst[i],
+					self->n_dst[i],
+					self->s_dst[i],
+					self->met_dst[i]);
+		}
+	}
+	fprintf(fp, "\nNote: The values that are -ve are not used for computations.\n\n");
+}
 void parameters_create_default(struct parameters* self) {
 
       char strprm[128][1024];
@@ -120,6 +136,8 @@ void parameters_create_default(struct parameters* self) {
 	    self->n ++;
 	    strcpy(line, strprm[self->n]);
       }while(1);
+      
+      //parameters_fprint(stdout, self);
 
 }
 void parameters_create(struct parameters* self, const char *param_file) {

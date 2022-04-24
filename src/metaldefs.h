@@ -38,6 +38,7 @@ struct parameters{
 
 void parameters_create_default(struct parameters* self);
 void parameters_create(struct parameters* self, const char *param_file) ;
+void parameters_fprint(FILE* fp, struct parameters* self);
 int is_metal(char* metal);
 
 int is_metal1(char* metal);

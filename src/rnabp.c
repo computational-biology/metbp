@@ -7,7 +7,6 @@
 
 
 
-
     void bp_free(struct basepair* self){
 	  for(int i=0; i<self->numbp; ++i){
 		free(self->bp[i]);
@@ -108,6 +107,62 @@
 
 
 
+void bp_fprint_json(FILE* fp, struct basepair* bp, int indx, char* json_str){
+       if(json_str[0] != '\0'){
+	     fprintf(fp,"%s,\n", json_str);
+       }
+      int cnt = 0;
+      cnt += sprintf(json_str + cnt,"        {\n");
+//      fprintf(fp, "\"serial1\":%d,\n", bp->corid);
+      cnt += sprintf(json_str + cnt, "            \"resnum1\":%d,\n", bp->cifid);
+      cnt += sprintf(json_str + cnt, "            \"chain1\":\"%s\",\n", bp->chain);
+      if(bp->ins[0] == '?'){
+	    cnt += sprintf(json_str + cnt, "            \"ins1\":null,\n");
+      }else{
+	    cnt += sprintf(json_str + cnt, "            \"ins1\":\"%c\",\n", bp->ins[0]);
+      }
+      cnt += sprintf(json_str + cnt, "            \"resname1\":\"%s\",\n", bp->resname);
+
+      struct basepair* bp2 = bp->bp[indx];
+//      fprintf(fp, "\"serial2\":%d,\n", bp2->corid);
+      cnt += sprintf(json_str + cnt, "            \"resnum2\":%d,\n", bp2->cifid);
+      cnt += sprintf(json_str + cnt, "            \"chain2\":\"%s\",\n", bp2->chain);
+      if(bp2->ins[0] == '?'){
+	    cnt += sprintf(json_str + cnt, "            \"ins2\":null,\n");
+      }else{
+	    cnt += sprintf(json_str + cnt, "            \"ins2\":\"%c\",\n", bp2->ins[0]);
+      }
+      cnt += sprintf(json_str + cnt, "            \"resname2\":\"%s\",\n", bp2->resname);
+      cnt += sprintf(json_str + cnt, "            \"basepair\":\"%s\",\n", bp2->name);
+      cnt += sprintf(json_str + cnt, "            \"eval\":%-6.2lf\n", bp2->eval);
+      cnt += sprintf(json_str + cnt,"        }");
+
+}
+void rnabp_fprint_json(struct rnabp* self, char* accn, FILE* fp){
+      fprintf(fp,"{\n");
+
+      fprintf(fp, "    \"accn\":\"%s\",\n", accn);
+      fprintf(fp, "    \"basepairs\":");
+      fprintf(fp,"[\n");
+//      fprintf(fp,"        {\n");
+
+      char json_str[1024];
+      json_str[0] = '\0';
+       for(int i=0; i<self->nres; ++i){
+           if(self->bp[i].numbp > 0){
+		 for(int j=0; j<self->bp[i].numbp; ++j){
+		       bp_fprint_json(fp, self-> bp + i, j, json_str);
+		 }
+           }
+       }
+       if(json_str[0] != '\0'){
+	     fprintf(fp,"%s\n", json_str);
+
+       }
+//      fprintf(fp,"        }\n");
+      fprintf(fp,"    ]\n");
+      fprintf(fp,"}\n");
+}
 
 
     void rnabp_fprint(struct rnabp* self, FILE* fp){

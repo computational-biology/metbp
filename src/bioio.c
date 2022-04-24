@@ -278,9 +278,9 @@ static struct atom parse_pdb_line_to_atom(const char* line, int model){
       token[2] = '\0';
       sscanf(token, "%s", atom.symbol);
       atom.model = model;
-if(strncmp(line, "HETATM52148 MG", 14) == 0){
-    printf("id=%d, and resname =%s|\n", atom.id, atom.resname);
-    }
+//if(strncmp(line, "HETATM52148 MG", 14) == 0){
+//    printf("id=%d, and resname =%s|\n", atom.id, atom.resname);
+//    }
       return atom;
 }
 

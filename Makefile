@@ -1,14 +1,14 @@
 #
-# TODO: Move `libmongoclient.a` to /usr/local/lib so this can work on production servers
+# TODO: 	
 #
  
-CC := cc # This is the main compiler
+CC := gcc -std=c99 # This is the main compiler
 # CC := clang --analyze # and comment out the linker last line for sanity
 FF := gfortran
 SRCDIR := src
 BUILDDIR := build
 TARGET := bin/metbp.linux
-LINKCC := cc
+# LINKCC := cc
  
 SRCEXT := c
 FOREXT := f

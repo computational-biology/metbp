@@ -51,6 +51,7 @@ void rnabp_fprint(struct rnabp* self, FILE* fp);
 void rnabp_free(struct rnabp* self);
 
 void rnabp_scanf(struct rnabp* self, char* outfile);
+void rnabp_fprint_json(struct rnabp* self, char* accn, FILE* fp);
 
 
 //void rnabp_free(struct rnabp* self) {

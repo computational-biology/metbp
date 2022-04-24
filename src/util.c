@@ -96,14 +96,15 @@ void now(char output[]){
       struct tm* timeinfo;
       time( &rawtime );
       timeinfo = localtime( &rawtime );
-      sprintf(output, "%d:%d:%d", timeinfo->tm_hour,timeinfo->tm_min, timeinfo->tm_sec);
+      sprintf(output, "%02d:%02d:%02d", timeinfo->tm_hour,timeinfo->tm_min, timeinfo->tm_sec);
 }
 void today(char output[]){
+      char month[12][4] = {"Jan","Feb","Mar","Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
       time_t     rawtime;
       struct tm* timeinfo;
 
       time( &rawtime );
       timeinfo = localtime( &rawtime );
-      sprintf(output, "%d-%d-%d", timeinfo->tm_mday,timeinfo->tm_mon, timeinfo->tm_year+1900);
+      sprintf(output, "%02d-%3s-%4d", timeinfo->tm_mday,month[timeinfo->tm_mon], timeinfo->tm_year+1900);
 }
 

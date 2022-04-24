@@ -41,6 +41,13 @@ struct sysparams{
 	    char file_dir[512];
 	    char accn[100];
 	    char ext[20];
+	    char is_default_metal_prm;
+	    char version[64];
+	    int  pdb_model;
+	    char mode[64];
+	    char mode_code[8];
+	    char diff_file; // This will generate different files for different mode
+	    				//  Like   1n32_bp.met, 1n32_nuc.met etc.
 };
 	    void sysparams_init(struct sysparams* self);
 	    void syspar_print_params(struct sysparams* self, FILE* fp);

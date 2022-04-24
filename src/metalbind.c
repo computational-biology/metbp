@@ -5,10 +5,11 @@
 #include "metalbind.h"
 
 
-void json_write_record(FILE* fp,struct site* site, int i, struct rnabp* rnabp, char* jsonstr ){
+void json_write_record(FILE* fp,struct site* site, int i, struct rnabp* rnabp, char* jsonstr, char* accn){
+      if(site->ligand.restype[i] != 'N') return;
       int resindx = site->ligand.resindx[i];
       struct basepair* bp = rnabp->bp + resindx;
-      if(bp->numbp==0){    /* Exception Handling */ 
+      if(bp->numbp<=0){    /* Exception Handling */ 
 	    return;
 //	    fprintf(stderr, "Error in function %s()... \n", __func__);
 //	    exit(EXIT_FAILURE);
@@ -21,16 +22,18 @@ void json_write_record(FILE* fp,struct site* site, int i, struct rnabp* rnabp, c
 	    fprintf(fp, ",\n");
       }
       int ptrpos = 0;
-      ptrpos += sprintf(jsonstr+ptrpos,"      {\"site\":\n");
-      ptrpos += sprintf(jsonstr+ptrpos,"	    {\n");
-      ptrpos += sprintf(jsonstr+ptrpos,"		  \"pdbid\": \"1n32\",  \n");
-      ptrpos += sprintf(jsonstr+ptrpos,"		  \"siteid\":\"1n32MG1563A1\",\n");
+//      ptrpos += sprintf(jsonstr+ptrpos,"		  \"pdbid\": \"%s\",  \n", accn);
+      ptrpos += sprintf(jsonstr+ptrpos,"		  {\"site\":{\n");
+      ptrpos += sprintf(jsonstr+ptrpos,"		  \"siteid\":\"%s%s%d%s\",\n", accn,
+		  									site->metal->resname,
+											site->metal->resid,
+											site->metal->chain);
       ptrpos += sprintf(jsonstr+ptrpos,"		  \"metal\":\n");
       ptrpos += sprintf(jsonstr+ptrpos,"		  {\n");
       ptrpos += sprintf(jsonstr+ptrpos,"			\"name\":\"%s\", \n", site->metal->resname);
       ptrpos += sprintf(jsonstr+ptrpos,"			\"resid\":%d, \n", site->metal->resid);
       ptrpos += sprintf(jsonstr+ptrpos,"			\"chain\":\"%s\", \n",site->metal->chain);
-      ptrpos += sprintf(jsonstr+ptrpos,"			\"link\":2\n");
+//      ptrpos += sprintf(jsonstr+ptrpos,"			\"link\":2\n");
       ptrpos += sprintf(jsonstr+ptrpos,"		  },\n");
       ptrpos += sprintf(jsonstr+ptrpos,"		  \"bases\": \n");
       ptrpos += sprintf(jsonstr+ptrpos,"		  {\n");
@@ -78,14 +81,14 @@ void json_write_record(FILE* fp,struct site* site, int i, struct rnabp* rnabp, c
 	    ptrpos += sprintf(jsonstr+ptrpos,"		  \"tartiary\":false \n");
       }
       ptrpos += sprintf(jsonstr+ptrpos,"	    }\n");
-      ptrpos += sprintf(jsonstr+ptrpos,"      }");
+      ptrpos += sprintf(jsonstr+ptrpos,"	    }\n");
 }
 
 
-void json_fprint(FILE* fp, struct site* site, struct rnabp* bp, char* jsonstr){
+void json_fprint(FILE* fp, struct site* site, struct rnabp* bp, char* jsonstr, char* accn){
 //      fprintf(fp,"[\n");
       for(int i=0; i<site->ligand.size; ++i){
-	    json_write_record(fp, site, i, bp, jsonstr);
+	    json_write_record(fp, site, i, bp, jsonstr, accn);
       }
 //      fprintf(fp,"]\n");
 
@@ -1435,22 +1438,49 @@ void comp_metal_sites(struct molecule* met,
       }
       fprintf(runpar->metalfp,"\n#\n");
       
-      FILE* jsonfp = fopen("test.json","w");
-      fprintf(jsonfp,"{\"sites\":[\n");
+      char metbp_json_file[512];
+      if(syspar->diff_file == 'F'){
+          file_name_join(metbp_json_file, file_path, file_name, "_metbp.json");
+      }else{
+          	char fname[128];
+		    strcpy(fname, file_name);
+		    strcat(fname, "_diff_");
+		    strcat(fname, syspar->mode_code);
+		    file_name_join(metbp_json_file, file_path, fname, "_metbp.json");
+      }
+      
+      FILE* jsonfp;									/* output-file pointer */
+
+      jsonfp	= fopen( metbp_json_file, "w" );
+      if ( jsonfp == NULL ) {
+	    fprintf ( stderr, "couldn't open file '%s'; %s\n",
+			metbp_json_file, strerror(errno) );
+	    exit (EXIT_FAILURE);
+      }
+      
+      
+      
+      fprintf(jsonfp,"{\n");
+      fprintf(jsonfp, "  \"accn\":\"%s\",\n", syspar->accn);
+      fprintf(jsonfp, "  \"mode\":\"%s\",\n", syspar->mode);
+      fprintf(jsonfp, "\"sites\":[\n");
 	    char jsonstr[1024];
 	    jsonstr[0] = '\0';
       for(int i=0; i<nsites; ++i){
 	    if(runpar->detailflag == 0 && bparray[i] == 0) continue; 
-	    json_fprint(jsonfp, sites+i, rnabp, jsonstr);
+	    json_fprint(jsonfp, sites+i, rnabp, jsonstr, syspar->accn);
       }
       if(jsonstr[0] != '\0'){
 	    fprintf(jsonfp, "%s", jsonstr);
 	    fprintf(jsonfp, "\n");
       }
       fprintf(jsonfp,"  ]\n}\n");
-      fclose(jsonfp);
 
-
+		if( fclose(jsonfp) == EOF ) {			/* close output file   */
+	    fprintf ( stderr, "couldn't close file '%s'; %s\n",
+			metbp_json_file, strerror(errno) );
+	    exit (EXIT_FAILURE);
+      }
 
       flag=0;
       for(int i=0; i<nsites; ++i){
@@ -1468,7 +1498,16 @@ void comp_metal_sites(struct molecule* met,
       }
 
       char pmlfp_file_name[512];
-      file_name_join(pmlfp_file_name, file_path, file_name, ".pml");
+      if(syspar->diff_file == 'F'){
+          file_name_join(pmlfp_file_name, file_path, file_name, ".pml");
+      }else{
+          	char fname[128];
+		    strcpy(fname, file_name);
+		    strcat(fname, "_diff_");
+		    strcat(fname, syspar->mode_code);
+		    file_name_join(pmlfp_file_name, file_path, fname, ".pml");
+      }
+
 
       FILE	*pmlfp;										/* output-file pointer */
 
