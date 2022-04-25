@@ -97,6 +97,10 @@ int main(int argc, char* argv[]) {
 			strcpy(syspar.mode, "ALL (-mode=all)");
 			strcpy(syspar.mode_code, "all");
 			runpar.detailflag = 2;
+		  }if(strcmp(arg+6, "dev") == 0){
+			strcpy(syspar.mode, "DEVELOPER (-mode=dev)");
+			strcpy(syspar.mode_code, "dev");
+			runpar.detailflag = 0;
 		  }else{
 			fprintf(stderr, "Error in function %s()... Invalid value suppled for -comp. Supply \"nuc, bp or all\"\n", __func__);
 			exit(EXIT_FAILURE);
@@ -260,21 +264,24 @@ int main(int argc, char* argv[]) {
 
 
 
-	    FILE	*allbp_json_fp;										/* output-file pointer */
+	    if(strcmp(syspar.mode_code, "dev") == 0 ){
+		  FILE	*allbp_json_fp;										/* output-file pointer */
 
-	    allbp_json_fp	= fopen( allbp_json_file, "w" );
-	    if ( allbp_json_fp == NULL ) {
-		  fprintf ( stderr, "couldn't open file '%s'; %s\n",
-			      allbp_json_file, strerror(errno) );
-		  exit (EXIT_FAILURE);
-	    }
+		  allbp_json_fp	= fopen( allbp_json_file, "w" );
+		  if ( allbp_json_fp == NULL ) {
+			fprintf ( stderr, "couldn't open file '%s'; %s\n",
+				    allbp_json_file, strerror(errno) );
+			exit (EXIT_FAILURE);
+		  }
 
-	    rnabp_fprint_json(&bp, syspar.accn, allbp_json_fp);
-	    
-	    if( fclose(allbp_json_fp) == EOF ) {			/* close output file   */
-		  fprintf ( stderr, "couldn't close file '%s'; %s\n",
-			      allbp_json_file, strerror(errno) );
-		  exit (EXIT_FAILURE);
+		  rnabp_fprint_json(&bp, syspar.accn, allbp_json_fp);
+
+		  if( fclose(allbp_json_fp) == EOF ) {			/* close output file   */
+			fprintf ( stderr, "couldn't close file '%s'; %s\n",
+				    allbp_json_file, strerror(errno) );
+			exit (EXIT_FAILURE);
+		  }
+
 	    }
 
 	    

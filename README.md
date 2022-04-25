@@ -94,7 +94,7 @@ In MetBP, we follow the BPFIND algo
 **-nmrmdl=[number]:** If an NMR structure is supplied, by default the MetBP software reads the first model and works on that. But it can take a specific model of an NMR structure and can compute the metal and base pair interaction on that model also. <br><br><br>
 **EXAMPLE** <br>
 `metbp.linux 2ll9.cif -nmrmdl=4`<br><br><br>
-**-mode=[bp/nuc/all]:** The MetBP program works in three different modes. The ‘bp’ mode, the ‘nuc’ mode and finally the ‘all’ mode.  In ‘bp’ mode, the details of only those metals are reported which are directly coordinating with an atom of nucleic acid (i.e. base part) that forms a base pair with some other bases. (Note: It may be noted that we consider O2’ of pentose sugar as an important atom for base pairs. So, any bond with O2’ will be treated as an atom of base.) In ‘nuc’ mode, it reports the details of all metals which bind with any atom of a nucleic acid residue. i.e. in this mode, if a metal binds with the oxygen of a phosphate group or any atom of the pentose sugar, the details of that metal is considered.<br><br><br>
+**-mode=[bp/nuc/all/dev]:** The MetBP program works in three different modes. The ‘bp’ mode, the ‘nuc’ mode and finally the ‘all’ mode.  In ‘bp’ mode, the details of only those metals are reported which are directly coordinating with an atom of nucleic acid (i.e. base part) that forms a base pair with some other bases. (Note: It may be noted that we consider O2’ of pentose sugar as an important atom for base pairs. So, any bond with O2’ will be treated as an atom of base.) In ‘nuc’ mode, it reports the details of all metals which bind with any atom of a nucleic acid residue. i.e. in this mode, if a metal binds with the oxygen of a phosphate group or any atom of the pentose sugar, the details of that metal is considered. In 'dev' mode, the program runs internally in 'bp' mode but it generates two extra json files. One contains all base pair information and the other contains all metals that has a contact with nucleic acids (The nucleic acis may not form a base pair). <br><br><br>
 **-paramfile=[PATH]:** Default the program takes the metal parameters from the ‘metal.params’ file stored in the NUCLEIC_ACID_DIR path location. If the user wants to alter that metal file, she/he may do that. However, if the user does not want to modify the default metal.params file, she may take a copy of the same in any other location and can supply the same by this switch. <br><br>
 **EXAMPLE** <br>
 `metbp.linux 1n32.cif -paramfile=./metal.params`<br><br>
@@ -133,10 +133,15 @@ In MetBP, we follow the BPFIND algo
 
 ##  List of output files
 
-- **1n32.sum:** This is the summary file. This file reports the number of nucleic acids and protein residues, metals, water molecules found in the structure. Also it gives a summary of every metal binding site, i.e. its coordination, number of nucleic acids, proteins etc to which it binds. <br>
-- **1n32.met:** This is the main output file. This file gives the metal and base pair interaction details. This file also gives the secondary structure of the base with which the metal binds.<br>
-- **1n32.det:** This file gives the details of every metal binding site. It gives the metal to the coordinated atom distances, different atom-metal-atom distances.<br>
-- **1n32.pml:** MetBP generates a [pymol](https://pymol.org/) script. The script, when run through pymol, shows the metal and its different binding residues. To give a better visual effect, the different types of bases are shown in different colors. For example, white bases indicate that they form a base pair. Orange colored base indicates that the  metal binds to any atom of the pentose sugar. Green colored base indicates that the metal binds to the oxygen of the phosphate group.
+- **1n32.sum:** This is the summary file. This file reports the number of nucleic acids and protein residues, metals, water molecules found in the structure. Also it gives a summary of every metal binding site, i.e. its coordination, number of nucleic acids, proteins etc to which it binds. <br><br>
+- **1n32.met:** This is the main output file. This file gives the metal and base pair interaction details. This file also gives the secondary structure of the base with which the metal binds.<br><br>
+- **1n32.det:** This file gives the details of every metal binding site. It gives the metal to the coordinated atom distances, different atom-metal-atom distances.<br><br>
+- **1n32.pml:** MetBP generates a [pymol](https://pymol.org/) script. The script, when run through pymol, shows the metal and its different binding residues. To give a better visual effect, the different types of bases are shown in different colors. For example, white bases indicate that they form a base pair. Orange colored base indicates that the  metal binds to any atom of the pentose sugar. Green colored base indicates that the metal binds to the oxygen of the phosphate group.<br><br>
+- **1n32_metbp.json:** This file gives the metal-base pair interaction details in JSON format.<br><br>
+ - **1n32_basepair.json:** This file gives all the base pair details in JSON format. The get this file the user has to run the program in developer mode . i.e. the program has to be run as
+ `metbp.linux 1n32.cif  -mode=dev`<br><br>
+ - **1n32_metnuc.json:** This file gives the information of all metals that interact with a nucleic acid resisue whether or not that residue forms a pair. The get this file the user has to run the program in developer mode . i.e. the program has to be run as
+ `metbp.linux 1n32.cif  -mode=dev`<br><br>
 
 ## run:
 >
