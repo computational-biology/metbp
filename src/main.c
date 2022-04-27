@@ -97,12 +97,12 @@ int main(int argc, char* argv[]) {
 			strcpy(syspar.mode, "ALL (-mode=all)");
 			strcpy(syspar.mode_code, "all");
 			runpar.detailflag = 2;
-		  }if(strcmp(arg+6, "dev") == 0){
+		  }else if(strcmp(arg+6, "dev") == 0){
 			strcpy(syspar.mode, "DEVELOPER (-mode=dev)");
 			strcpy(syspar.mode_code, "dev");
 			runpar.detailflag = 0;
 		  }else{
-			fprintf(stderr, "Error in function %s()... Invalid value suppled for -comp. Supply \"nuc, bp or all\"\n", __func__);
+			fprintf(stderr, "Error in function %s()... Invalid value suppled for -mode. Supply \"nuc, bp, all or dev\"\n", __func__);
 			exit(EXIT_FAILURE);
 		  }
 
@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
 		  }else if(strcmp(arg+8,"false") == 0){
 			runpar.allbaseflag = 1;
 		  }else{
-			fprintf(stderr, "Error in function %s()... Invalid value suppled for -comp. Supply \"nuc, bp or all\"\n", __func__);
+			fprintf(stderr, "Error in function %s()... Invalid value suppled for -bponly. Supply \"true or false\"\n", __func__);
 			exit(EXIT_FAILURE);
 		  }
 
@@ -719,17 +719,17 @@ void gen_help(){
       fprintf(fp,"		GENERAL\n");
       fprintf(fp,"			Software related command line options are as follows.\n");
       fprintf(fp,"			\n");
-      fprintf(fp,"				–help    :  Shows a small help on the terminal. \n");
+      fprintf(fp,"				–-help    :  Shows a small help on the terminal. \n");
       fprintf(fp,"				\n");
-      fprintf(fp,"				–genhelp :  Generates this metbp-help.md file in the \n");
+      fprintf(fp,"				–-genhelp :  Generates this metbp-help.md file in the \n");
       fprintf(fp,"							current directory. \n");
       fprintf(fp,"\n");
-      fprintf(fp,"				–version :  Prints the version of the program.\n");
+      fprintf(fp,"				–-version :  Prints the version of the program.\n");
       fprintf(fp,"\n");
-      fprintf(fp,"				-pub     :  Shows how to refer to the software \n");
+      fprintf(fp,"				--pub     :  Shows how to refer to the software \n");
       fprintf(fp,"							if it is used by anyone.\n");
       fprintf(fp,"							\n");
-      fprintf(fp,"				-contact :  Prints the contact information for \n");
+      fprintf(fp,"				--contact :  Prints the contact information for \n");
       fprintf(fp,"							query or bug report.\n");
       fprintf(fp,"\n");
       fprintf(fp,"\n");

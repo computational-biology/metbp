@@ -440,6 +440,7 @@ void site_fprint_basepair(struct site* self, FILE* fp, struct rnabp* bp, int* fl
 	    int allbaseflag){
       if(bp == NULL) return;
       int resindx;
+      double dst;
       int link = 0;
       for(int i=0; i<self->ligand.size; ++i){
 	    if(self->ligand.restype[i] == 'N'){
@@ -481,14 +482,10 @@ void site_fprint_basepair(struct site* self, FILE* fp, struct rnabp* bp, int* fl
 
 		  if(*flag == 0){
 			*flag = 1;
-			fprintf(fp, "\n\n      |  Metal Detail       |   Base Pair Details                    |   outcome      "
-				    "         "
-				    "          |\n");
-			fprintf(fp,      "      "
-				    "---------------------------------------------------------------------------------------------------\n");
-			fprintf(fp, "       resid  chn  mtl  lnk  loc  res  atm   resid  chn   resid  chn     pair------>> \n");
-			fprintf(fp, "      "
-				    "---------------------------------------------------------------------------------------------------\n");
+			fprintf(fp, "\n\n      |  Metal Detail       |   Base Pair Details                    |   Outcome                         |\n");
+			fprintf(fp, "      ----------------------------------------------------------------------------------------------------\n");
+			fprintf(fp, "       resid  chn  mtl  lnk  loc  res  atm   resid  chn   resid  chn       pair      E-val    dist  numbp\n");
+			fprintf(fp, "      ----------------------------------------------------------------------------------------------------\n");
 
 
 		  }
@@ -503,19 +500,20 @@ void site_fprint_basepair(struct site* self, FILE* fp, struct rnabp* bp, int* fl
 			      location,
 			      atm->resname,
 			      atm->loc);
+		dst = dist(self->metal->center, atm->center);
 
 		  if(allbaseflag == 0){
-			bp_fprint(bp->bp+resindx,fp);
+			bp_fprint_met(bp->bp+resindx, dst, fp);
 		  }else{
 			if(bp->bp[resindx].numbp <= 0){
 			      fprintf(fp, "    ~~  ~        ~~  ~       ~~~~~~~~    ~~~~  ");
 
 			}else{
-			      bp_fprint(bp->bp+resindx,fp);
+			      bp_fprint_met(bp->bp+resindx, dst, fp);
 			}
 		  }
-		  fprintf(fp, "  %6.3lf", dist(self->metal->center, atm->center));
-		  fprintf(fp, "\n");
+		 // fprintf(fp, "  %6.3lf", dist(self->metal->center, atm->center));
+		  //fprintf(fp, "\n");
 		  // bp->bp[resindx-1].fprint_bp_short(fp,'F', self->metal->resname);
 		  //bp->bp[resindx].fprint_bp_short(fp, 'T', self->metal->resname);
 		  //bp->bp[resindx+1].fprint_bp_short(fp, 'F', self->metal->resname);

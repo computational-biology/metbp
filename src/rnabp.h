@@ -28,11 +28,13 @@ struct basepair {
 };
 
 void bp_free(struct basepair* self);
+
 void bp_fprint_short(struct basepair* self, FILE* fp, char is_target, struct atom* met, struct atom* water, char sec_seq, char* loc);
 
 
 
 void bp_fprint(struct basepair* self, FILE* fp);
+void bp_fprint_met(struct basepair* self, double dst, FILE* fp);
 void bp_fprint_pymol(FILE* fp, struct basepair* self);
 
 

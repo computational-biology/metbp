@@ -86,6 +86,25 @@
 	  fprintf(fp, "\n");
 
     }
+    
+    void bp_fprint_met(struct basepair* self, double dst, FILE* fp){
+	  if(self->numbp <= 0) return;
+	  fprintf(fp, "%6d  %-3s",
+		      self->cifid,
+		      self->chain);
+	  int min = 1 < self->numbp? 1: self->numbp;
+	  for(int i=0; i<min; ++i){
+		fprintf(fp, "  %6d  %-3s     %s:%s-%s  %6.2f  ",
+			    self->bp[i]->cifid,
+			    self->bp[i]->chain,
+			    self->resname,
+			    self->bp[i]->resname,
+			    self->bp[i]->name, self->bp[i]->eval);
+
+	  }
+	  fprintf(fp, "  %6.3lf    %d\n", dst, self->numbp);
+
+    }
 
     void bp_fprint(struct basepair* self, FILE* fp){
 	  if(self->numbp <= 0) return;
