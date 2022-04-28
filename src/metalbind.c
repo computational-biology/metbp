@@ -25,7 +25,7 @@ void json_write_metal(FILE* fp,struct site* site, int i, struct rnabp* rnabp, ch
 //      ptrpos += sprintf(jsonstr+ptrpos,"		  \"pdbid\": \"%s\",  \n", accn);
 //      ptrpos += sprintf(jsonstr+ptrpos,"		  {\"site\":{\n");
       ptrpos += sprintf(jsonstr+ptrpos,"		{\n");
-      ptrpos += sprintf(jsonstr+ptrpos,"			\"siteid\":\"%s%s%d%s\",\n", accn,
+      ptrpos += sprintf(jsonstr+ptrpos,"			\"siteid\":\"%s_%s_%d_%s\",\n", accn,
 		  									site->metal->resname,
 											site->metal->resid,
 											site->metal->chain);
@@ -89,7 +89,7 @@ void json_write_record(FILE* fp,struct site* site, int i, struct rnabp* rnabp, c
       int ptrpos = 0;
 //      ptrpos += sprintf(jsonstr+ptrpos,"		  \"pdbid\": \"%s\",  \n", accn);
       ptrpos += sprintf(jsonstr+ptrpos,"		  {\n");
-      ptrpos += sprintf(jsonstr+ptrpos,"		  \"siteid\":\"%s%s%d%s\",\n", accn,
+      ptrpos += sprintf(jsonstr+ptrpos,"		  \"siteid\":\"%s_%s_%d_%s\",\n", accn,
 		  									site->metal->resname,
 											site->metal->resid,
 											site->metal->chain);
@@ -122,7 +122,7 @@ void json_write_record(FILE* fp,struct site* site, int i, struct rnabp* rnabp, c
       ptrpos += sprintf(jsonstr+ptrpos,"		  },\n");
       ptrpos += sprintf(jsonstr+ptrpos,"		  \"attrib\": \n");
       ptrpos += sprintf(jsonstr+ptrpos,"		  {\n");
-      ptrpos += sprintf(jsonstr+ptrpos,"			\"bpname\":\"%s\",\n", bp->bp[0]->name);
+      ptrpos += sprintf(jsonstr+ptrpos,"			\"bptype\":\"%s\",\n", bp->bp[0]->name);
       char loca[4];
       if(site->ligand.loc[i] == 'N'){
 	    strcpy(loca, "NUC");
@@ -177,7 +177,7 @@ void json_fprint_all_metal_nuc(char* file_path,
       fprintf(jsonfp,"{\n");
       fprintf(jsonfp, "  \"accn\":\"%s\",\n", syspar->accn);
       fprintf(jsonfp, "  \"mode\":\"%s\",\n", syspar->mode_code);
-      fprintf(jsonfp, "\"metal_sites\":[\n");
+      fprintf(jsonfp, "  \"metal_sites\":[\n");
       for(int i=0; i<nsites; ++i){
 //	    if(runpar->detailflag == 0 && bparray[i] == 0) continue; 
 //
@@ -765,7 +765,7 @@ void site_fprint_angle(struct site* self, FILE* fp){
 		  "         |\n");
       fprintf(fp,      "      "
 		  "---------------------------------------------------------------------------------------------\n");
-      fprintf(fp, "       resid  chn  mtl   resid  chn  res  atm      resid  chn  res  atm     angle    \n");
+      fprintf(fp, "       RESID  CHN  MTL   resid  chn  res  atm      resid  chn  res  atm     angle (C1-MTL-C2)    \n");
       fprintf(fp, "      "
 		  "---------------------------------------------------------------------------------------------\n");
       for(int i=0; i<self->ligand.size; ++i){
@@ -1580,7 +1580,7 @@ void comp_metal_sites(struct molecule* met,
       fprintf(jsonfp,"{\n");
       fprintf(jsonfp, "  \"accn\":\"%s\",\n", syspar->accn);
       fprintf(jsonfp, "  \"mode\":\"%s\",\n", syspar->mode_code);
-      fprintf(jsonfp, "\"metbp_sites\":[\n");
+      fprintf(jsonfp, "  \"metbp_sites\":[\n");
 	    char jsonstr[1024];
 	    jsonstr[0] = '\0';
       for(int i=0; i<nsites; ++i){

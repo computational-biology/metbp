@@ -1,0 +1,194 @@
+mmCIF        : 1n32
+Date         : Thu Apr 28 17:27:22 2022
+
+No of Nucleic Acids found:   1532
+              A   : 314  
+              C   : 427  
+              G   : 549  
+              PSU : 1    
+              U   : 241  
+
+-------------------------------------
+         Total Types found: 5
+
+No of Amino Acids found:   2389
+
+            ALA : 206     ARG : 298     ASN : 65      ASP : 89      CYS : 13      
+            GLN : 88      GLU : 160     GLY : 191     HIS : 44      ILE : 136     
+            LEU : 214     LYS : 202     MET : 36      PHE : 57      PRO : 107     
+            SER : 85      THR : 96      TRP : 17      TYR : 82      VAL : 203     
+-------------------------------------
+         Total Types found: 20
+
+No of metals found:    150
+              MG  : 148  
+              ZN  : 2    
+
+-------------------------------------
+         Total Types found: 2
+
+Total no of Water Molecules found :      0
+
+
+
+
+
+            +---------------------- S U M M A R Y  R E P O R T ---------------------+
+
+
+
+      |  Metal Detail  |   Inner Coordination              |
+      ---------------------------------------------
+       resid  chn  mtl  cord   NUC  PRO  H2O  MET 
+      ---------------------------------------------
+SUMM    1546  A    MG     2 =    2    0    0    0
+SUMM    1547  A    MG     1 =    1    0    0    0
+SUMM    1548  A    MG     0 =    0    0    0    0
+SUMM    1549  A    MG     0 =    0    0    0    0
+SUMM    1550  A    MG     0 =    0    0    0    0
+SUMM    1551  A    MG     2 =    2    0    0    0
+SUMM    1552  A    MG     1 =    1    0    0    0
+SUMM    1553  A    MG     1 =    1    0    0    0
+SUMM    1554  A    MG     0 =    0    0    0    0
+SUMM    1555  A    MG     0 =    0    0    0    0
+SUMM    1556  A    MG     0 =    0    0    0    0
+SUMM    1557  A    MG     0 =    0    0    0    0
+SUMM    1558  A    MG     1 =    1    0    0    0
+SUMM    1559  A    MG     0 =    0    0    0    0
+SUMM    1560  A    MG     0 =    0    0    0    0
+SUMM    1561  A    MG     1 =    1    0    0    0
+SUMM    1562  A    MG     1 =    1    0    0    0
+SUMM    1563  A    MG     2 =    2    0    0    0
+SUMM    1564  A    MG     0 =    0    0    0    0
+SUMM      71  A    MG     0 =    0    0    0    0
+SUMM    1565  A    MG     0 =    0    0    0    0
+SUMM    1566  A    MG     1 =    1    0    0    0
+SUMM    1567  A    MG     1 =    1    0    0    0
+SUMM    1568  A    MG     1 =    1    0    0    0
+SUMM    1569  A    MG     0 =    0    0    0    0
+SUMM    1570  A    MG     0 =    0    0    0    0
+SUMM      86  A    MG     1 =    1    0    0    0
+SUMM      87  A    MG     0 =    0    0    0    0
+SUMM    1571  A    MG     2 =    2    0    0    0
+SUMM    1573  A    MG     0 =    0    0    0    0
+SUMM    1574  A    MG     2 =    2    0    0    0
+SUMM    1575  A    MG     3 =    3    0    0    0
+SUMM    1576  A    MG     2 =    2    0    0    0
+SUMM    1577  A    MG     1 =    1    0    0    0
+SUMM    1578  A    MG     3 =    3    0    0    0
+SUMM    1579  A    MG     0 =    0    0    0    0
+SUMM    1580  A    MG     1 =    1    0    0    0
+SUMM    1581  A    MG     0 =    0    0    0    0
+SUMM    1582  A    MG     2 =    2    0    0    0
+SUMM    1583  A    MG     2 =    2    0    0    0
+SUMM    1584  A    MG     0 =    0    0    0    0
+SUMM    1585  A    MG     0 =    0    0    0    0
+SUMM    1586  A    MG     1 =    1    0    0    0
+SUMM    1587  A    MG     1 =    1    0    0    0
+SUMM    1588  A    MG     2 =    2    0    0    0
+SUMM    1589  A    MG     2 =    2    0    0    0
+SUMM    1590  A    MG     0 =    0    0    0    0
+SUMM    1591  A    MG     1 =    1    0    0    0
+SUMM    1592  A    MG     1 =    1    0    0    0
+SUMM    1593  A    MG     2 =    2    0    0    0
+SUMM    1594  A    MG     1 =    1    0    0    0
+SUMM    1595  A    MG     2 =    2    0    0    0
+SUMM    1596  A    MG     0 =    0    0    0    0
+SUMM    1597  A    MG     1 =    1    0    0    0
+SUMM    1598  A    MG     1 =    1    0    0    0
+SUMM    1599  A    MG     1 =    1    0    0    0
+SUMM    1600  A    MG     1 =    1    0    0    0
+SUMM     210  A    MG     0 =    0    0    0    0
+SUMM     211  A    MG     0 =    0    0    0    0
+SUMM     213  A    MG     0 =    0    0    0    0
+SUMM     214  A    MG     0 =    0    0    0    0
+SUMM    1601  A    MG     0 =    0    0    0    0
+SUMM    1602  A    MG     0 =    0    0    0    0
+SUMM    1603  A    MG     0 =    0    0    0    0
+SUMM    1604  A    MG     1 =    1    0    0    0
+SUMM    1605  A    MG     0 =    0    0    0    0
+SUMM    1606  A    MG     3 =    3    0    0    0
+SUMM    1607  A    MG     0 =    0    0    0    0
+SUMM    1608  A    MG     1 =    1    0    0    0
+SUMM    1609  A    MG     1 =    1    0    0    0
+SUMM    1610  A    MG     1 =    1    0    0    0
+SUMM    1611  A    MG     0 =    0    0    0    0
+SUMM    1612  A    MG     0 =    0    0    0    0
+SUMM    1613  A    MG     0 =    0    0    0    0
+SUMM    1614  A    MG     1 =    1    0    0    0
+SUMM    1616  A    MG     0 =    0    0    0    0
+SUMM    1617  A    MG     0 =    0    0    0    0
+SUMM    1619  A    MG     0 =    0    0    0    0
+SUMM    1620  A    MG     0 =    0    0    0    0
+SUMM    1621  A    MG     0 =    0    0    0    0
+SUMM    1622  A    MG     0 =    0    0    0    0
+SUMM    1623  A    MG     0 =    0    0    0    0
+SUMM    1624  A    MG     0 =    0    0    0    0
+SUMM    1625  A    MG     2 =    2    0    0    0
+SUMM    1626  A    MG     1 =    1    0    0    0
+SUMM    1627  A    MG     1 =    1    0    0    0
+SUMM    1628  A    MG     1 =    1    0    0    0
+SUMM    1629  A    MG     0 =    0    0    0    0
+SUMM    1630  A    MG     1 =    1    0    0    0
+SUMM    1631  A    MG     1 =    1    0    0    0
+SUMM    1632  A    MG     0 =    0    0    0    0
+SUMM    1633  A    MG     2 =    2    0    0    0
+SUMM    1634  A    MG     2 =    1    1    0    0
+SUMM    1635  A    MG     0 =    0    0    0    0
+SUMM    1637  A    MG     0 =    0    0    0    0
+SUMM    1638  A    MG     0 =    0    0    0    0
+SUMM    1639  A    MG     0 =    0    0    0    0
+SUMM    1640  A    MG     0 =    0    0    0    0
+SUMM    1641  A    MG     0 =    0    0    0    0
+SUMM    1642  A    MG     1 =    1    0    0    0
+SUMM    1643  A    MG     1 =    1    0    0    0
+SUMM    1646  A    MG     1 =    1    0    0    0
+SUMM     441  A    MG     1 =    1    0    0    0
+SUMM    1648  A    MG     0 =    0    0    0    0
+SUMM    1649  A    MG     0 =    0    0    0    0
+SUMM    1650  A    MG     2 =    1    1    0    0
+SUMM    1651  A    MG     0 =    0    0    0    0
+SUMM    1652  A    MG     2 =    2    0    0    0
+SUMM    1653  A    MG     0 =    0    0    0    0
+SUMM    1654  A    MG     0 =    0    0    0    0
+SUMM    1655  A    MG     0 =    0    0    0    0
+SUMM    1656  A    MG     1 =    1    0    0    0
+SUMM    1657  A    MG     1 =    1    0    0    0
+SUMM    1658  A    MG     0 =    0    0    0    0
+SUMM    1659  A    MG     0 =    0    0    0    0
+SUMM    1660  A    MG     1 =    1    0    0    0
+SUMM    1661  A    MG     1 =    1    0    0    0
+SUMM    1662  A    MG     0 =    0    0    0    0
+SUMM    1663  A    MG     0 =    0    0    0    0
+SUMM     464  A    MG     0 =    0    0    0    0
+SUMM     465  A    MG     1 =    1    0    0    0
+SUMM     466  A    MG     0 =    0    0    0    0
+SUMM     467  A    MG     1 =    1    0    0    0
+SUMM     469  A    MG     2 =    2    0    0    0
+SUMM     470  A    MG     0 =    0    0    0    0
+SUMM     471  A    MG     0 =    0    0    0    0
+SUMM     473  A    MG     0 =    0    0    0    0
+SUMM    1664  A    MG     0 =    0    0    0    0
+SUMM    1665  A    MG     0 =    0    0    0    0
+SUMM    1666  A    MG     0 =    0    0    0    0
+SUMM    1667  A    MG     0 =    0    0    0    0
+SUMM    1668  A    MG     0 =    0    0    0    0
+SUMM    1669  A    MG     2 =    2    0    0    0
+SUMM    1670  A    MG     1 =    1    0    0    0
+SUMM    1671  A    MG     0 =    0    0    0    0
+SUMM    1672  A    MG     1 =    1    0    0    0
+SUMM    1674  A    MG     1 =    1    0    0    0
+SUMM    1675  A    MG     0 =    0    0    0    0
+SUMM    1676  A    MG     1 =    1    0    0    0
+SUMM    1677  A    MG     0 =    0    0    0    0
+SUMM    1678  A    MG     0 =    0    0    0    0
+SUMM    1679  A    MG     0 =    0    0    0    0
+SUMM    1680  A    MG     0 =    0    0    0    0
+SUMM     493  A    MG     0 =    0    0    0    0
+SUMM     215  D    MG     2 =    0    2    0    0
+SUMM     306  D    ZN     3 =    0    3    0    0
+SUMM     468  E    MG     0 =    0    0    0    0
+SUMM     449  J    MG     0 =    0    0    0    0
+SUMM     475  M    MG     2 =    0    2    0    0
+SUMM     307  N    ZN     2 =    0    2    0    0
+#

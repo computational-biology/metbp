@@ -1,0 +1,36 @@
+mmCIF        : 1kf1
+Date         : Thu Apr 28 17:27:39 2022
+
+No of Nucleic Acids found:     22
+              DA  : 4    
+              DG  : 12   
+              DT  : 6    
+
+-------------------------------------
+         Total Types found: 3
+
+No of Amino Acids found:      0
+No of metals found:      3
+              K   : 3    
+
+-------------------------------------
+         Total Types found: 1
+
+Total no of Water Molecules found :     68
+
+
+
+
+
+            +---------------------- S U M M A R Y  R E P O R T ---------------------+
+
+
+
+      |  Metal Detail  |   Inner Coordination              |
+      ---------------------------------------------
+       resid  chn  mtl  cord   NUC  PRO  H2O  MET 
+      ---------------------------------------------
+SUMM      24  A    K      8 =    8    0    0    0
+SUMM      25  A    K      8 =    8    0    0    0
+SUMM      26  A    K      4 =    4    0    0    0
+#

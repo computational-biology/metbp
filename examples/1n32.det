@@ -1,0 +1,299 @@
+  ________________________________________________________________________ 
+ |                                                                        |
+ |             METBP  :  A metal, base-pair detection software            |
+ |                            (Version: 1.2.4)                            |
+ |             MetBP is a stand-alone program for computing metal         |
+ |               and base pairinteractions from mmCIF/PDB files.          |
+ |________________________________________________________________________|
+
+---------------------------P A R A M S    O P T E D ---------------------
+PARAM   ACCN: 1n32
+PARAM   FILE TYPE: mmCIF
+PARAM   HETATM REQUESTED
+PARAM   HYDROGEN BOND DIST(FOR BASE PAIR)    3.8A (DEFAULT)
+PARAM   C-H...O/N MEDIATED BASE PAIR   REQUESTED
+PARAM   SUGAR O2' MEDIATED BASE PAIR   REQUESTED
+PARAM   METAL PARAMS OPTED:   DEFAULT (run the program with -default to see the default metal params.)
+PARAM   MODE OF OPERATION: BASE-PAIR (-mode=bp)
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1563  A    MG    NUC  G    N7      858  A    2.450
+BIND    1563  A    MG    NUC  G    N7      869  A    2.288
+#
+      |  Metal Detail  |  C-1 atom detail      |   C-2 atom detail      |      outcome            |
+      ---------------------------------------------------------------------------------------------
+       RESID  CHN  MTL   resid  chn  res  atm      resid  chn  res  atm     angle (C1-MTL-C2)    
+      ---------------------------------------------------------------------------------------------
+ANGL    1563  A    MG      858  A    G    N7   :     869  A    G    N7      77.89
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1568  A    MG    NUC  G    O6     1370  A    2.296
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1576  A    MG    NUC  G    O6      299  A    2.191
+BIND    1576  A    MG    PHP  G    OP1     558  A    2.242
+#
+      |  Metal Detail  |  C-1 atom detail      |   C-2 atom detail      |      outcome            |
+      ---------------------------------------------------------------------------------------------
+       RESID  CHN  MTL   resid  chn  res  atm      resid  chn  res  atm     angle (C1-MTL-C2)    
+      ---------------------------------------------------------------------------------------------
+ANGL    1576  A    MG      299  A    G    O6   :     558  A    G    OP1    113.37
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1577  A    MG    NUC  G    N7      324  A    2.360
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1586  A    MG    NUC  G    O6     1511  A    2.491
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1595  A    MG    NUC  C    O2      372  A    2.353
+BIND    1595  A    MG    NUC  U    O4      387  A    2.550
+#
+      |  Metal Detail  |  C-1 atom detail      |   C-2 atom detail      |      outcome            |
+      ---------------------------------------------------------------------------------------------
+       RESID  CHN  MTL   resid  chn  res  atm      resid  chn  res  atm     angle (C1-MTL-C2)    
+      ---------------------------------------------------------------------------------------------
+ANGL    1595  A    MG      372  A    C    O2   :     387  A    U    O4      93.29
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1598  A    MG    NUC  U    O4     1199  A    2.059
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1606  A    MG    NUC  C    N3      121  A    2.657
+BIND    1606  A    MG    NUC  G    O6      124  A    2.368
+BIND    1606  A    MG    NUC  G    O6      236  A    2.447
+#
+      |  Metal Detail  |  C-1 atom detail      |   C-2 atom detail      |      outcome            |
+      ---------------------------------------------------------------------------------------------
+       RESID  CHN  MTL   resid  chn  res  atm      resid  chn  res  atm     angle (C1-MTL-C2)    
+      ---------------------------------------------------------------------------------------------
+ANGL    1606  A    MG      121  A    C    N3   :     124  A    G    O6     101.67
+ANGL    1606  A    MG      121  A    C    N3   :     236  A    G    O6     115.22
+ANGL    1606  A    MG      124  A    G    O6   :     236  A    G    O6      82.03
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1609  A    MG    NUC  U    O4       98  A    2.430
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1610  A    MG    NUC  G    O6      105  A    2.538
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1614  A    MG    SUG  U    O2*       3  Z    2.520
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1625  A    MG    SUG  G    O2*     181  A    2.298
+BIND    1625  A    MG    NUC  G    N7      183  A    2.354
+#
+      |  Metal Detail  |  C-1 atom detail      |   C-2 atom detail      |      outcome            |
+      ---------------------------------------------------------------------------------------------
+       RESID  CHN  MTL   resid  chn  res  atm      resid  chn  res  atm     angle (C1-MTL-C2)    
+      ---------------------------------------------------------------------------------------------
+ANGL    1625  A    MG      181  A    G    O2*  :     183  A    G    N7     100.51
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1628  A    MG    NUC  G    N7      758  A    2.681
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1633  A    MG    NUC  U    O4      516  A    1.995
+BIND    1633  A    MG    PHP  A    OP1     533  A    2.298
+#
+      |  Metal Detail  |  C-1 atom detail      |   C-2 atom detail      |      outcome            |
+      ---------------------------------------------------------------------------------------------
+       RESID  CHN  MTL   resid  chn  res  atm      resid  chn  res  atm     angle (C1-MTL-C2)    
+      ---------------------------------------------------------------------------------------------
+ANGL    1633  A    MG      516  A    U    O4   :     533  A    A    OP1    136.95
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1642  A    MG    NUC  G    O6     1486  A    2.485
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1643  A    MG    NUC  G    O6     1416  A    2.564
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1646  A    MG    NUC  G    O6      786  A    2.418
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND     441  A    MG    NUC  G    O6      853  A    2.320
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1652  A    MG    SUG  G    O2*     115  A    2.497
+BIND    1652  A    MG    PHP  A    OP2     116  A    2.427
+#
+      |  Metal Detail  |  C-1 atom detail      |   C-2 atom detail      |      outcome            |
+      ---------------------------------------------------------------------------------------------
+       RESID  CHN  MTL   resid  chn  res  atm      resid  chn  res  atm     angle (C1-MTL-C2)    
+      ---------------------------------------------------------------------------------------------
+ANGL    1652  A    MG      115  A    G    O2*  :     116  A    A    OP2     67.07
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND     465  A    MG    NUC  U    O4      229  A    2.475
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1672  A    MG    SUG  G    O2*    1048  A    2.426
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1674  A    MG    NUC  G    O6     1417  A    2.316
+#
+
+
+        +---------------------S I T E    S U M M A R Y---------------------+
+
+      |  Metal Detail  |      Coordination atom detail    |
+      -----------------------------------------------------
+       resid  chn  mtl   loc  res  atm   resid  chn   dist
+      -----------------------------------------------------
+BIND    1676  A    MG    NUC  G    O6       46  A    2.580
+#

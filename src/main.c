@@ -57,6 +57,11 @@ int main(int argc, char* argv[]) {
 		  exit(EXIT_SUCCESS);
 	    	  
 	    }
+	    if(strncmp(arg, "-h", 2) == 0 ){
+		  show_help();
+		  exit(EXIT_SUCCESS);
+	    	  
+	    }
 	    if(strncmp(arg, "--version", 9) == 0 ){
 		  fprintf(stdout, "MetBP Release: %s\n", global_version);
 		  exit(EXIT_SUCCESS);
@@ -134,6 +139,9 @@ int main(int argc, char* argv[]) {
 		  strcpy(syspar.chparam, "-CH");
 	    }else if(strncmp(arg, "-hetatm=false",13)== 0){
 		  strcpy(syspar.htparam, "-dummyval");
+	    }else if(arg[0] == '-'){
+		  fprintf(stderr, "\nError... Invalid switch %s. Please try -h or --help for command line options\n\n", arg);
+		  exit(EXIT_SUCCESS);
 	    }else{
 		  strcpy(file_array[file_count], arg);
 		  file_count++;

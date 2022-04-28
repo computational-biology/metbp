@@ -556,25 +556,30 @@ static struct atom parse_cif_line_to_atom(char* line, struct cif_attrloc* attrlo
 
       atom.id = atol(tokary[attrloc->idloc]);
       if(strlen(tokary[attrloc->type_symbloc]) > 2){
-	    printf("atom is=%d\n", atom.id);
+	    //printf("atom is=%d\n", atom.id);
+	    ;
       }
       strcpy(atom.symbol, tokary[attrloc->type_symbloc]);
       atom.resid = atol(tokary[attrloc->residloc]);
       if(strlen(tokary[attrloc->locloc]) > 4){
-	    printf("atom is=%d\n", atom.id);
+	    //printf("atom is=%d\n", atom.id);
+	    ;
       }
       strcpy(atom.loc, tokary[attrloc->locloc]);
       atom.altloc = tokary[attrloc->altloc][0]== '.'  ? ' '  :   tokary[attrloc->altloc][0];
       if(strlen(tokary[attrloc->resnameloc]) > 3){
-	    printf("atom is=%d\n", atom.id);
+	    //printf("atom is=%d\n", atom.id);
+	    ;
       }
       strcpy(atom.resname, tokary[attrloc->resnameloc]);
       if(strlen(tokary[attrloc->chainloc]) > 2){
-	    printf("atom is=%d\n", atom.id);
+	    //printf("atom is=%d\n", atom.id);
+	    ;
       }
       strcpy(atom.chain, tokary[attrloc->chainloc]);
       if(strlen(tokary[attrloc->insloc]) > 4){
-	    printf("atom is=%d\n", atom.id);
+	    //printf("atom is=%d\n", atom.id);
+	    ;
       }
       strcpy(atom.ins, tokary[attrloc->insloc]);
       atom.model = atoi(tokary[attrloc->modelloc]);

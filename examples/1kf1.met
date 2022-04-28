@@ -1,0 +1,160 @@
+  ________________________________________________________________________ 
+ |                                                                        |
+ |             METBP  :  A metal, base-pair detection software            |
+ |                            (Version: 1.2.4)                            |
+ |             MetBP is a stand-alone program for computing metal         |
+ |               and base pairinteractions from mmCIF/PDB files.          |
+ |________________________________________________________________________|
+
+---------------------------P A R A M S    O P T E D ---------------------
+PARAM   ACCN: 1kf1
+PARAM   FILE TYPE: mmCIF
+PARAM   HETATM REQUESTED
+PARAM   HYDROGEN BOND DIST(FOR BASE PAIR)    3.8A (DEFAULT)
+PARAM   C-H...O/N MEDIATED BASE PAIR   REQUESTED
+PARAM   SUGAR O2' MEDIATED BASE PAIR   REQUESTED
+PARAM   METAL PARAMS OPTED:   DEFAULT (run the program with -default to see the default metal params.)
+PARAM   MODE OF OPERATION: BASE-PAIR (-mode=bp)
+
+
+
+
+        +--------------------- D E T A I L  R E P O R T ---------------------+
+
+
+
+
+
+      |  Metal Detail       |   Base Pair Details                    |   Outcome                         |
+      ----------------------------------------------------------------------------------------------------
+       resid  chn  mtl  lnk  loc  res  atm   resid  chn   resid  chn       pair      E-val    dist  numbp
+      ----------------------------------------------------------------------------------------------------
+BP        24  A    K      8  NUC   DG  O6        3  A         9  A       DG:DG-W:HC    0.33     3.178    2
+BP        24  A    K      8  NUC   DG  O6        4  A        10  A       DG:DG-W:HC    0.40     2.594    2
+BP        24  A    K      8  NUC   DG  O6        9  A         3  A       DG:DG-H:WC    0.33     2.904    2
+BP        24  A    K      8  NUC   DG  O6       10  A         4  A       DG:DG-H:WC    0.40     2.434    2
+BP        24  A    K      8  NUC   DG  O6       15  A        21  A       DG:DG-W:HC    0.31     3.011    2
+BP        24  A    K      8  NUC   DG  O6       16  A        22  A       DG:DG-W:HC    0.33     2.612    2
+BP        24  A    K      8  NUC   DG  O6       21  A        15  A       DG:DG-H:WC    0.31     2.917    2
+BP        24  A    K      8  NUC   DG  O6       22  A        16  A       DG:DG-H:WC    0.33     2.629    2
+BP        25  A    K      8  NUC   DG  O6        2  A         8  A       DG:DG-W:HC    0.22     2.738    2
+BP        25  A    K      8  NUC   DG  O6        3  A         9  A       DG:DG-W:HC    0.33     2.657    2
+BP        25  A    K      8  NUC   DG  O6        8  A         2  A       DG:DG-H:WC    0.22     2.785    2
+BP        25  A    K      8  NUC   DG  O6        9  A         3  A       DG:DG-H:WC    0.33     2.684    2
+BP        25  A    K      8  NUC   DG  O6       14  A        20  A       DG:DG-W:HC    0.28     2.777    2
+BP        25  A    K      8  NUC   DG  O6       15  A        21  A       DG:DG-W:HC    0.31     2.735    2
+BP        25  A    K      8  NUC   DG  O6       20  A        14  A       DG:DG-H:WC    0.28     2.858    2
+BP        25  A    K      8  NUC   DG  O6       21  A        15  A       DG:DG-H:WC    0.31     2.787    2
+BP        26  A    K      4  NUC   DG  O6        2  A         8  A       DG:DG-W:HC    0.22     2.828    2
+BP        26  A    K      4  NUC   DG  O6        8  A         2  A       DG:DG-H:WC    0.22     2.814    2
+BP        26  A    K      4  NUC   DG  O6       14  A        20  A       DG:DG-W:HC    0.28     2.803    2
+BP        26  A    K      4  NUC   DG  O6       20  A        14  A       DG:DG-H:WC    0.28     2.620    2
+#
+
+#
+
+
+      |  Metal Detail  |   Base Pair Details                                                       |
+      ----------------------------------------------------------------------------------------------
+       resid  chn  mtl sec  bp    type   atm         resid 
+      ----------------------------------------------------------------------------------------------
+MOTF                    T  DG-DG  W:HC 
+MOTF      24  A    K->  T  DG-DG  W:HC   O6   +1      A       3
+MOTF                    T  DG-DG  W:HC 
+
+
+MOTF                    T  DG-DG  W:HC 
+MOTF      24  A    K->  T  DG-DG  W:HC   O6   +1      A       4
+MOTF                    C  DT-
+
+
+MOTF                    T  DG-DG  H:WC 
+MOTF      24  A    K->  T  DG-DG  H:WC   O6   +1      A       9
+MOTF                    T  DG-DG  H:WC 
+
+
+MOTF                    T  DG-DG  H:WC 
+MOTF      24  A    K->  T  DG-DG  H:WC   O6   +1      A      10
+MOTF                    C  DT-
+
+
+MOTF                    T  DG-DG  W:HC 
+MOTF      24  A    K->  T  DG-DG  W:HC   O6   +1      A      15
+MOTF                    T  DG-DG  W:HC 
+
+
+MOTF                    T  DG-DG  W:HC 
+MOTF      24  A    K->  T  DG-DG  W:HC   O6   +1      A      16
+MOTF                    C  DT-
+
+
+MOTF                    T  DG-DG  H:WC 
+MOTF      24  A    K->  T  DG-DG  H:WC   O6   +1      A      21
+MOTF                    T  DG-DG  H:WC 
+
+
+MOTF                    T  DG-DG  H:WC 
+MOTF      24  A    K->  T  DG-DG  H:WC   O6   +1      A      22
+
+
+MOTF                    C  DA-
+MOTF      25  A    K->  T  DG-DG  W:HC   O6   +1      A       2
+MOTF                    T  DG-DG  W:HC 
+
+
+MOTF                    T  DG-DG  W:HC 
+MOTF      25  A    K->  T  DG-DG  W:HC   O6   +1      A       3
+MOTF                    T  DG-DG  W:HC 
+
+
+MOTF                    C  DA-
+MOTF      25  A    K->  T  DG-DG  H:WC   O6   +1      A       8
+MOTF                    T  DG-DG  H:WC 
+
+
+MOTF                    T  DG-DG  H:WC 
+MOTF      25  A    K->  T  DG-DG  H:WC   O6   +1      A       9
+MOTF                    T  DG-DG  H:WC 
+
+
+MOTF                    C  DA-
+MOTF      25  A    K->  T  DG-DG  W:HC   O6   +1      A      14
+MOTF                    T  DG-DG  W:HC 
+
+
+MOTF                    T  DG-DG  W:HC 
+MOTF      25  A    K->  T  DG-DG  W:HC   O6   +1      A      15
+MOTF                    T  DG-DG  W:HC 
+
+
+MOTF                    C  DA-
+MOTF      25  A    K->  T  DG-DG  H:WC   O6   +1      A      20
+MOTF                    T  DG-DG  H:WC 
+
+
+MOTF                    T  DG-DG  H:WC 
+MOTF      25  A    K->  T  DG-DG  H:WC   O6   +1      A      21
+MOTF                    T  DG-DG  H:WC 
+
+
+MOTF                    C  DA-
+MOTF      26  A    K->  T  DG-DG  W:HC   O6   +1      A       2
+MOTF                    T  DG-DG  W:HC 
+
+
+MOTF                    C  DA-
+MOTF      26  A    K->  T  DG-DG  H:WC   O6   +1      A       8
+MOTF                    T  DG-DG  H:WC 
+
+
+MOTF                    C  DA-
+MOTF      26  A    K->  T  DG-DG  W:HC   O6   +1      A      14
+MOTF                    T  DG-DG  W:HC 
+
+
+MOTF                    C  DA-
+MOTF      26  A    K->  T  DG-DG  H:WC   O6   +1      A      20
+MOTF                    T  DG-DG  H:WC 
+
+
+#

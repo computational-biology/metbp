@@ -69,7 +69,14 @@ char get_res_loc(struct atom* atom, char restype){
 
 void file_name_split(char* file_path, char* file_name, char* file_ext, char* src_file){
     char* ext = strrchr(src_file,'.');
-    assert(ext != NULL && ext != src_file);
+    if(ext == NULL){
+        fprintf(stderr, "Error.... in function %s(). File extension cannot be blank.\n", __func__);
+        exit(EXIT_FAILURE);
+    }
+    if(ext == src_file){
+        fprintf(stderr, "Error.... in function %s(). File has only extention. Basename cannot be blank.\n", __func__);
+        exit(EXIT_FAILURE);
+    }
     strcpy(file_ext, ext);
     char* file_sep = strrchr(src_file, '/');
 
