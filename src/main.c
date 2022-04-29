@@ -568,10 +568,10 @@ int main(int argc, char* argv[]) {
 
 	    
 	    
-	    if( remove(out_file) != 0 ){    /* Exception Handling */ 
-		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
-		  exit(EXIT_FAILURE);
-	    }
+	    //if( remove(out_file) != 0 ){    /* Exception Handling */ 
+		//  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
+		//  exit(EXIT_FAILURE);
+	    //}
 	    
 	    if( remove(dat_file) != 0 ){    /* Exception Handling */ 
 		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);

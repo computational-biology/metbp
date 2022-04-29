@@ -17,7 +17,7 @@ struct basepair {
       int corid;
       int cifid;
       char resname[4];
-      char chain[4];
+      char chain[6];
       char ins[5];
       char name[5];
       char type[3];
