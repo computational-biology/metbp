@@ -7,25 +7,25 @@
 > Metal Basepair interaction program is a software tool that detects and analyzes metal interactions with RNA (It can handle DNA anso) base pairs from the crystal structure files stored in mmCIF or PDB format. The program gives results in suitable format in plain text as well as in machine readible JSON and CSV formats also. The program is a stand alone command line based tool developped for Linux. The program is written in C and FORTRAN.
 
 ## Installation 
->Download at least all the files of sys and bin directory.
-	Transfer the 'bin/metallic' executable file to some path folder
-	and transfer all the files of *'sys'* folder to some suitable location.
-	We prefer the following.
-
->		sudo cp bin/metbp.linux   /usr/local/bin/
-	
->		sudo cp sys/*   /usr/local/bin/
+>Download the binary executable metbp.linux from the latest release into your computer and then add that folder to your PATH variable. Done.
 
 
 ## Compilation
-> run make. The executable file will be stored in the bin directory.
+> If the executable from downloaded from the release does not work for you, then download the source file given in the release and extract them. go to the directory where the Makefile resides. rum the make command from that directory. The 'metbp.linux' will be created and will be stored in bin directory. place it to a suitable directory and then add that folder to your PATH variable. Done.
 ## Dependencies
 > The compilation process needs a C and a FORTRAN compiler. We have assumed *gcc* for C and *gfortran* for FORTRAN. We have made the Makefile accordingly. If the user wants a different compiler, change the makefile accordingly. 
 
-## About The Makefile
+## A word about the Makefile
 > 
 We have given a ready made make file for easy compilation.  The Makefile assumes *gcc* as C compiler and *gfortran* as FORTRAN compiler. If, however, the user do not have access to these compilers and to something else instead, they need a small modification in the Makefile. For example, if you have *clang* as C compiler and *f77* as fortran compiler, then chage the following in the Makefile. 
 	change `CC := gcc -std=c99` to `CC := clang` and change `FF := gfortran` to `FF := f77`
+
+## How to run
+> To run the program use the following command.
+`metbp.linux [OPTIONS] [mmCIF/PDB]`<br>
+options are given in detail in the cpmmand-line option section of this document.
+**EXAMPLE:**<br>
+`metbp.linux 1ehz.cif`<br>
 
 ##  Basepairs
 >Nucleic acids forms base-base interactions for their stebelization. These base-base interactions are called basepairs. In DNA we mainly observe that a Guanine forms a basepair with a Cytosine and an Adenine forms a baspair with Thymie. In RNA, however, varieties of basepairs are observed. Typically 158 types of base pairs are theoratically possible, though only 126 of them are found in nature. Out of them five base pairs are called canonical and the rest are called non-canonical. The canonical basepairs are GC cWW, AU cWW and GU   cWW. 
@@ -56,11 +56,11 @@ This means a Guaning forms a basepair with Cytosine in Cis orientation and Guani
 	TP - Tartiary pair.
 	BF - Bifurcated pair indicating a single edge of the central base is paired to two bases simultaneously 
 	
-([Following our paper BPFIND,2006](https://doi.org/10.1080/07391102.2006.10507108))
+>([Follow our paper BPFIND,2006](https://doi.org/10.1080/07391102.2006.10507108))
 	
 
 ## Basepair rule
-In MetBP, we follow the BPFIND algo
+>In MetBP, we follow the BPFIND algo for detection of base pairs. So, to know the detail of the algorithm the user needs to follow the paper that describes BPFIND. ([BPFIND, 2006](https://doi.org/10.1080/07391102.2006.10507108))
 
 
 ## Command-line options
@@ -103,9 +103,7 @@ In MetBP, we follow the BPFIND algo
 
 
 
-| Metal Symbol | Atomic No | Oxygen Dist | Nitrogen Dist | H2O Dist | Carbon Dist | Sulfur Dist | Phosp Dist | Metal Dist|
-|---------|---------|---------|---------|---------|---------|---------|---------|---------
-|   Na   | 11      | 2.90  | 3.1    | 3        | ?        |?         | ? | 2.9|
+
 
 
 
@@ -132,7 +130,7 @@ In MetBP, we follow the BPFIND algo
 
 
 ##  List of output files
-
+**Let us assume that we have supplied 1n32.cif file to the MetBP program. The following will be the list of output files.**<br>
 - **1n32.sum:** This is the summary file. This file reports the number of nucleic acids and protein residues, metals, water molecules found in the structure. Also it gives a summary of every metal binding site, i.e. its coordination, number of nucleic acids, proteins etc to which it binds. <br><br>
 - **1n32.met:** This is the main output file. This file gives the metal and base pair interaction details. This file also gives the secondary structure of the base with which the metal binds.<br><br>
 - **1n32.det:** This file gives the details of every metal binding site. It gives the metal to the coordinated atom distances, different atom-metal-atom distances.<br><br>
@@ -143,11 +141,156 @@ In MetBP, we follow the BPFIND algo
  - **1n32_metnuc.json:** This file gives the information of all metals that interact with a nucleic acid resisue whether or not that residue forms a pair. The get this file the user has to run the program in developer mode . i.e. the program has to be run as
  `metbp.linux 1n32.cif  -mode=dev`<br><br>
 
-## run:
->
-`metbp.linux [OPTIONS] [mmCIF/PDB]`<br>
-**EXAMPLE:**<br>
-`metbp.linux 1ehz.cif`<br>
+## Output file format
+### .met file format
+#### BP TAG
+          |  Metal Detail       |   Base Pair Details                    |   Outcome                         |
+          ----------------------------------------------------------------------------------------------------
+           resid  chn  mtl  lnk  loc  res  atm   resid  chn   resid  chn       pair      E-val    dist  numbp
+          ----------------------------------------------------------------------------------------------------
+	BP      1563  A    MG     1  NUC    G  N7      858  A       828  A       G:A-S:HT    0.22     2.450    1
+	BP      1568  A    MG     1  NUC    G  O6     1370  A      1352  A       G:C-W:WC    0.65     2.296    1
+	BP      1576  A    MG     2  NUC    G  O6      299  A       566  A       G:G-W:HC    0.16     2.191    1
+	BP      1577  A    MG     1  NUC    G  N7      324  A       109  A       G:A-S:HT    0.48     2.360    1
+
+The output has three parts. first the metal detail which gives the residue ID, chain, name of the metal and a link. This link says how may bases does a metal bind.
+#### MOTF TAG
+          |  Metal Detail  |   Base Pair Details                                                       |
+          ----------------------------------------------------------------------------------------------
+           resid  chn  mtl sec  bp    type   atm         resid 
+          ----------------------------------------------------------------------------------------------
+	MOTF                    H   C-G   W:WC 
+	MOTF    1563  A   MG->  H   G-A   S:HT   N7           A     858
+	MOTF                    H   A-U   W:SC 
+
+
+	MOTF                    W   C-G   W:WC 
+	MOTF    1563  A   MG->  C   G-           N7           A     869
+	MOTF                    C   U-
+
+This tag gives another view for the metal- base pair interaction. Here the *sec* tag is indicating the secondary positions. This tag also gives the base pairs above and below the target base pair where the ion binds.
+
+### .det file format
+If a metal is bind to a base that forms a base pair, then that metal's other coordination details come under this file. 
+#### BIND tag
+         |  Metal Detail  |      Coordination atom detail    |
+         -----------------------------------------------------
+           resid  chn  mtl   loc  res  atm   resid  chn   dist
+         -----------------------------------------------------
+	BIND    8004  0    MG    NUC  G    O6      456  0    2.077
+	BIND    8004  0    MG    PHP  A    OP1     459  0    1.929
+	BIND    8004  0    MG    H2O  HOH  O      3305  0    1.930
+	BIND    8004  0    MG    H2O  HOH  O      7267  0    2.058
+	BIND    8004  0    MG    H2O  HOH  O      8567  0    1.958
+	BIND    8004  0    MG    H2O  HOH  O      9300  0    2.050
+In this tag, the other binding details of the Magnasium has been shown. 
+
+#### ANGLE tag
+          |  Metal Detail  |  C-1 atom detail      |   C-2 atom detail      |      outcome            |
+          ---------------------------------------------------------------------------------------------
+           RESID  CHN  MTL   resid  chn  res  atm      resid  chn  res  atm     angle (C1-MTL-C2)
+          ---------------------------------------------------------------------------------------------
+	ANGL    8004  0    MG      456  0    G    O6   :     459  0    A    OP1     87.24
+	ANGL    8004  0    MG      456  0    G    O6   :    3305  0    HOH  O       87.66
+	ANGL    8004  0    MG      456  0    G    O6   :    7267  0    HOH  O       94.68
+	ANGL    8004  0    MG      456  0    G    O6   :    8567  0    HOH  O       85.21
+	ANGL    8004  0    MG      456  0    G    O6   :    9300  0    HOH  O      174.00
+	ANGL    8004  0    MG      459  0    A    OP1  :    3305  0    HOH  O       90.74
+	ANGL    8004  0    MG      459  0    A    OP1  :    7267  0    HOH  O      170.30
+	ANGL    8004  0    MG      459  0    A    OP1  :    8567  0    HOH  O       99.02
+	ANGL    8004  0    MG      459  0    A    OP1  :    9300  0    HOH  O       90.78
+	ANGL    8004  0    MG     3305  0    HOH  O    :    7267  0    HOH  O       79.86
+	ANGL    8004  0    MG     3305  0    HOH  O    :    8567  0    HOH  O      167.60
+	ANGL    8004  0    MG     3305  0    HOH  O    :    9300  0    HOH  O       98.03
+	ANGL    8004  0    MG     7267  0    HOH  O    :    8567  0    HOH  O       90.61
+	ANGL    8004  0    MG     7267  0    HOH  O    :    9300  0    HOH  O       88.21
+	ANGL    8004  0    MG     8567  0    HOH  O    :    9300  0    HOH  O       89.51
+Under this tag, all the coordination atom-metal-atoms are shown. Angles are shown in degree.
+
+### .json files
+The software generates a json file for metal-base pair interactions. The software also generates two other json files in developer mode (-mode=dev). Assuming the mmCIF file or PDB fle accn number is 1n32, then the file names will be 1n32_metbp.json for the metal-base pair interaction file. The other two files that are generated in the developer mode shows the following. The 1n32_basepair.json file stores all the base pair information and the 1n32_metnuc.json file stores the information of all the metal that binds to a base (whether or not the base forms a pair).
+
+#### 1n32_metbp.json
+A sample record of metbp.json file will be as follows. Here acc. is the accn number, mode is the mode in which the file has been generated. Then the metal sites as an array. where a site id is given. then the metal detail, then the *bases* tag which gives the details of the bases that forms pair, then the attrib tag gives the base pair type, loc of the bind, atom name, E-value, distance of the atom from the metal and an extra tartiary information to indicate whether the base to which the metal binds has made more than one base pairs or not. If tartiary=true, then it forms more than one base pairs. It can be noted that the siteid may not be unique. If the metal binds with more than one nucleic acids, then for all those sites the siteid will be same. In fact this is a handy tool to check whether a metal has binds to more than one nucleic acids or not.
+
+		{
+		  "accn":"1n32",
+		  "mode":"bp",
+		  "metbp_sites":[
+				  {
+				  "siteid":"1n32_MG_1563_A",
+				  "metal":
+				  {
+					"name":"MG", 
+					"resid":1563, 
+					"chain":"A"
+				  },
+				  "bases": 
+				  {
+					"name1":"G", 
+					"resid1":858, 
+					"chain1":"A",
+					"ins1":null,
+					"name2":"A", 
+					"resid2":828, 
+					"chain2":"A",
+					"ins2":null
+				  },
+				  "attrib": 
+				  {
+					"bptype":"S:HT",
+					"loc": "NUC",
+					"atom":"N7",
+					"eval":0.22  ,
+					"dist":2.45  
+				  },
+				  "tartiary":false 
+			    }
+			    ]
+		}
+#### 1n32_metnuc.json
+The metnuc.json file gives the information about metal-nucleic acid interactions whether or not the nucleic acid forms a pair. This file is generated only in developer mode (-mode=dev). siteid may not be unique as stated abobe.
+
+	{
+	  "accn":"1n32",
+	  "mode":"dev",
+	  "metal_sites":[
+			{
+				"siteid":"1n32_MG_1546_A",
+				"metal_name":"MG", 
+				"metal_resid":1546, 
+				"metal_chain":"A", 
+				"base_name":"G", 
+				"base_resid":944, 
+				"base_chain":"A",
+				"base_ins":null,
+				"loc": "PHP",
+				"atom":"OP1",
+				"dist":2.02  ,
+				"paired":true 
+			}
+			]
+	}
+#### 1n32_basepair.json.
+This file presents the base pair details. Here all the information are self explanatory. The ins code is set to null if the ins code is missing.
+
+	{
+	    "accn":"1n32",
+	    "basepairs":[
+		{
+		    "resnum1":9,
+		    "chain1":"A",
+		    "ins1":null,
+		    "resname1":"G",
+		    "resnum2":25,
+		    "chain2":"A",
+		    "ins2":null,
+		    "resname2":"C",
+		    "basepair":"W:WC",
+		    "eval":0.20
+		}
+		]
+	}
 
 ## bug-report:
 
