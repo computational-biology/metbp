@@ -23,6 +23,8 @@ int main(int argc, char* argv[]) {
 
       struct sysparams syspar;
       sysparams_init(&syspar);
+      
+      char occu_rule = 'B';
 
       strcpy(syspar.version, global_version);
 
@@ -46,7 +48,7 @@ int main(int argc, char* argv[]) {
       parameters_create_default(&metparams);
       printf("Welcome to Metal Detection Program!\n");
 
-      char file_array[1000][512];
+      char file_array[1500][512];
       char arg[512];
       int file_count = 0;
       for (int i = 1; i < argc; ++i) {
@@ -86,6 +88,17 @@ int main(int argc, char* argv[]) {
 	    }
 	    if(strncmp(arg, "-diff", 5) == 0){
 		  syspar.diff_file = 'T';
+	    }else if(strncmp(arg, "-occu=", 6) == 0){
+			  if(arg[6] == 'S'){
+				   occu_rule = 'S';
+			  }else if(arg[6] == 'B'){
+				   occu_rule = 'B';
+			  }else if(arg[6] == 'A'){
+				   occu_rule = 'A';
+			  }else{
+				   fprintf(stdout, "Error... Invalid occupancy rule selected. Choose from S, B or A\n");
+				   exit(EXIT_SUCCESS);
+			  }
 	    }else if(strncmp(arg, "-paramfile=", 11) == 0){
 		  parameters_create(&metparams, arg + 11);
 		  syspar.is_default_metal_prm = 'F';
@@ -339,10 +352,10 @@ int main(int argc, char* argv[]) {
 	    
 	    
 	    if(strcmp(ext, ".cif") == 0){
-		  scancif(cif_file, is_std_amino, NULL, NULL, &atoms, &numatoms, PRO_TYPE, "auth", 'S');
+		  scancif(cif_file, is_std_amino, NULL, NULL, &atoms, &numatoms, PRO_TYPE, "auth", occu_rule);
 		  
 	    }else if(strcmp(ext, ".pdb") ==0 ){
-		  scanpdb(cif_file, is_std_amino, NULL, NULL, &atoms, &numatoms, PRO_TYPE, 'S');
+		  scanpdb(cif_file, is_std_amino, NULL, NULL, &atoms, &numatoms, PRO_TYPE, occu_rule);
 	    }else{
 		  fprintf(stderr, "Error in function %s()... Unrecognized file type supplied.\n", __func__);
 		  exit(EXIT_FAILURE);
@@ -375,9 +388,9 @@ int main(int argc, char* argv[]) {
 
 
 	    if(strcmp(ext, ".cif") == 0){
-		  scancif(cif_file, is_metal, NULL, NULL, &atoms, &numatoms, METAL_TYPE, "auth", 'S');
+		  scancif(cif_file, is_metal, NULL, NULL, &atoms, &numatoms, METAL_TYPE, "auth", occu_rule);
 	    }else if(strcmp(ext, ".pdb") ==0 ){
-		  scanpdb(cif_file, is_metal, NULL, NULL, &atoms, &numatoms, METAL_TYPE, 'S');
+		  scanpdb(cif_file, is_metal, NULL, NULL, &atoms, &numatoms, METAL_TYPE, occu_rule);
 	    }else{
 		  fprintf(stderr, "Error in function %s()... Unrecognized file type supplied.\n", __func__);
 		  exit(EXIT_FAILURE);
@@ -419,9 +432,9 @@ int main(int argc, char* argv[]) {
 	    }
 
 	    if(strcmp(ext, ".cif") == 0){
-		  scancif(cif_file, is_HOH, NULL, NULL, &atoms, &numatoms, SOLVENT_TYPE, "auth", 'S');
+		  scancif(cif_file, is_HOH, NULL, NULL, &atoms, &numatoms, SOLVENT_TYPE, "auth", occu_rule);
 	    }else if(strcmp(ext, ".pdb") ==0 ){
-		  scanpdb(cif_file, is_HOH, NULL, NULL, &atoms, &numatoms, SOLVENT_TYPE, 'S');
+		  scanpdb(cif_file, is_HOH, NULL, NULL, &atoms, &numatoms, SOLVENT_TYPE, occu_rule);
 	    }else{
 		  fprintf(stderr, "Error in function %s()... Unrecognized file type supplied.\n", __func__);
 		  exit(EXIT_FAILURE);

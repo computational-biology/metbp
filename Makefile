@@ -7,6 +7,7 @@ CC := gcc -std=c99 # This is the main compiler
 FF := gfortran
 SRCDIR := src
 BUILDDIR := build
+TARGETDIR := bin
 TARGET := bin/metbp.linux
 # LINKCC := cc
  
@@ -21,6 +22,7 @@ LIB := -lm -lgfortran -lquadmath #-pthread -lmongoclient -L lib -lboost_thread-m
 
 $(TARGET): $(OBJECTS)
 	@echo " Linking..."
+	@mkdir -p $(TARGETDIR)
 	@echo " $(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
