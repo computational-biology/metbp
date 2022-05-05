@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
       struct sysparams syspar;
       sysparams_init(&syspar);
       
-      char occu_rule = 'B';
+      char occu_rule = 'S';
 
       strcpy(syspar.version, global_version);
 
