@@ -32,13 +32,13 @@ int main(int argc, char* argv[]) {
       runpar.detailflag = 0;
       runpar.allbaseflag = 0;
 
-      char* nucdir = getenv("NUCLEIC_ACID_DIR");
+     /* char* nucdir = getenv("NUCLEIC_ACID_DIR");
       if(nucdir == NULL){
 	    fprintf(stderr, "Error... NUCLEIC_ACID_DIR not Defined.\n");
 	    exit(EXIT_FAILURE);
       }
       char nucfiledir[512];
-      strcpy(nucfiledir,nucdir);
+      strcpy(nucfiledir,nucdir);*/
       //Paremeters metparams = Paremeters("/usr/local/bin/metal_params.cif");
 
       //char param_path[512];
