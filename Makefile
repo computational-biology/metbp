@@ -27,11 +27,11 @@ $(TARGET): $(OBJECTS)
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)
-	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
+	@echo " $(CC) $(CFLAGS) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) -c -o $@ $<
 	
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(FOREXT)
 	@mkdir -p $(BUILDDIR)
-	@echo " $(FF)  -c -o $@ $<"; $(FF)  -c -o $@ $<
+	@echo " $(FF)  -c -o $@ $<"; $(FF)  -c -static -o $@ $<
 
 clean:
 	@echo " Cleaning..."; 

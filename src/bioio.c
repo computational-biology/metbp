@@ -390,7 +390,7 @@ final:
 }
 
 
-static void init_cif_attrib_loc(struct cif_attrloc* attribloc){
+/*static void init_cif_attrib_loc(struct cif_attrloc* attribloc){
       attribloc->grouploc=-1;  // group_PDB
       attribloc->type_symbloc = -1;
       attribloc->idloc = -1;   // id
@@ -406,7 +406,7 @@ static void init_cif_attrib_loc(struct cif_attrloc* attribloc){
       attribloc->xloc = -1;
       attribloc->yloc = -1;
       attribloc->zloc = -1;
-}
+}*/
 static void set_cif_attrib_loc(struct cif_attrloc* attribloc, char* line, char* type, FILE* fp){
       int count = 0;
       attribloc->grouploc = count;
@@ -519,7 +519,7 @@ static int guess_size_cif(FILE* fp, char* line, enum polymer_type polytype){
       }else if(polytype == PRO_TYPE){
 	    max_size = proatm;  // buffer is extra space for some extra atoms.
       }else if(polytype == SOLVENT_TYPE){
-	    max_size = nucatm;  // buffer is extra space for some extra atoms.
+	    max_size = hohatm;  // buffer is extra space for some extra atoms.
       }else if(polytype == METAL_TYPE){
 	    max_size = ligatm;  // buffer is extra space for some extra atoms.
       }else if(polytype == ALL_TYPE){

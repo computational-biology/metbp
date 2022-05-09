@@ -1,6 +1,7 @@
 *.o
 CMakeCache.txt
 ctags
+bin/*
 src/ctags
 cmake_install.cmake
 /CMakeFiles/*

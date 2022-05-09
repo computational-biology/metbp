@@ -582,10 +582,10 @@ int main(int argc, char* argv[]) {
 
 	    
 	    
-	    //if( remove(out_file) != 0 ){    /* Exception Handling */ 
-		//  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
-		//  exit(EXIT_FAILURE);
-	    //}
+	    if( remove(out_file) != 0 ){    /* Exception Handling */ 
+		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
+		  exit(EXIT_FAILURE);
+	    }
 	    
 	    if( remove(dat_file) != 0 ){    /* Exception Handling */ 
 		  fprintf(stderr, "Error in function %s()... file deletion error.\n", __func__);
@@ -674,56 +674,23 @@ void gen_help(){
       fprintf(fp,"	in pure C language. To be very specific, it is written\n");
       fprintf(fp,"	in C-99 standard. The software does not use any \n");
       fprintf(fp,"	third party library files. It uses only ANSI standard \n");
-      fprintf(fp,"	library files recommended for C-99.\n");
-      fprintf(fp,"	\n");
-      fprintf(fp,"	\n");
+      fprintf(fp,"	library files recommended for C-99.\n\n");
+      //fprintf(fp,"	(Follow github (https://github.com/computational-biology/metbp)\n     readme.md file for detailed information.)\n");
+      //fprintf(fp,"	\n");
+      //fprintf(fp,"	\n");
+      fprintf(fp,"AVAILABILITY\n\n");
+	  fprintf(fp,"    MetBP is available on github.\n");
+	  fprintf(fp,"    https://github.com/computational-biology/metbp\n\n");
       fprintf(fp,"INSTALLATION AND SETUP \n");
       fprintf(fp,"\n");
       fprintf(fp,"	EASY-METHOD \n");
-      fprintf(fp,"			The easiest way to get a copy of the software is to download the \n");
-      fprintf(fp,"			executable of the MetBP from its github repository. The github\n");
-      fprintf(fp,"			repository for MetBP software is \n");
-      fprintf(fp,"			https://github.com/computational-biology/metbp; branch:master. \n");
-      fprintf(fp,"			Download the binary executable ‘metbp.linux’ from the ‘bin’ \n");
-      fprintf(fp,"			directory of github and place it in a suitable folder. \n");
-      fprintf(fp,"			Setup the path following the PATH-SETUP subsection of this manual.\n");
-      fprintf(fp,"			Done. \n");
+      fprintf(fp,"			Download the binary executable metbp.linux from the latest release \n");
+      fprintf(fp,"			into your computer and then add that folder to your PATH variable. Done.\n");
       fprintf(fp,"\n");
       fprintf(fp,"	HARD-METHOD \n");
       fprintf(fp,"			If the above mentioned process does not work for you for any reason, \n");
       fprintf(fp,"			then download the ‘metbp’ directory and unzip it. Then compile the \n");
-      fprintf(fp,"			same following the instructions given below. \n");
-      fprintf(fp,"\n");
-      fprintf(fp,"			COMPILE \n");
-      fprintf(fp,"					Inside the ‘metbp’ directory, one Makefile is present. \n");
-      fprintf(fp,"					Run it from the terminal using the following command.\n");
-      fprintf(fp,"                 \n");
-      fprintf(fp,"							cd metbp\n");
-      fprintf(fp,"							make clean \n");
-      fprintf(fp,"							make \n");
-      fprintf(fp,"\n");
-      fprintf(fp,"					Then move the binary executable ‘bpnet.linux’ to your \n");
-      fprintf(fp,"					suitable directory. \n");
-      fprintf(fp,"	\n");
-      fprintf(fp,"PATH-SETUP \n");
-      fprintf(fp,"		MetBP uses several files during its computations. \n");
-      fprintf(fp,"		These are kept in the ‘$HOME/metbp/sys’ directory. \n");
-      fprintf(fp,"		Copy all of them and paste them in a suitable folder. \n");
-      fprintf(fp,"		We prefer the following. \n");
-      fprintf(fp,"	\n");
-      fprintf(fp,"						/usr/local/bin \n");
-      fprintf(fp,"\n");
-      fprintf(fp,"		MetBP reads system files through an environment variable\n");
-      fprintf(fp,"		called NUCLEIC_ACID_DIR (All upper cases). Suppose you \n");
-      fprintf(fp,"		have put all the files of ‘sys’ directory in the following. \n");
-      fprintf(fp,"\n");
-      fprintf(fp,"						/usr/local/bin \n");
-      fprintf(fp,"						\n");
-      fprintf(fp,"		then put the following line in your ‘.bashrc’ file. \n");
-      fprintf(fp,"		\n");
-      fprintf(fp,"						export NUCLEIC_ACID_DIR=/usr/local/bin/ \n");
-      fprintf(fp,"							\n");
-      fprintf(fp,"\n");
+      fprintf(fp,"			same following the instructions given in github readme file. \n");
       fprintf(fp,"RUNNING THE SOFTWARE\n");
       fprintf(fp,"\n");
       fprintf(fp,"		To run the program, go to the directory where the structure \n");
@@ -743,10 +710,10 @@ void gen_help(){
       fprintf(fp,"			\n");
       fprintf(fp,"				--help    :  Shows a small help on the terminal. \n");
       fprintf(fp,"				\n");
-      fprintf(fp,"				–-genhelp :  Generates this metbp-help.md file in the \n");
+      fprintf(fp,"				--genhelp :  Generates this metbp-help.md file in the \n");
       fprintf(fp,"							current directory. \n");
       fprintf(fp,"\n");
-      fprintf(fp,"				–-version :  Prints the version of the program.\n");
+      fprintf(fp,"				--version :  Prints the version of the program.\n");
       fprintf(fp,"\n");
       fprintf(fp,"				--pub     :  Shows how to refer to the software \n");
       fprintf(fp,"							if it is used by anyone.\n");
@@ -758,7 +725,7 @@ void gen_help(){
       fprintf(fp,"\n");
       fprintf(fp,"		DOMAIN RELATED\n");
       fprintf(fp,"\n");
-      fprintf(fp,"				–hbdist=[value]    \n");
+      fprintf(fp,"				-hbdist=[value]    \n");
       fprintf(fp,"									MetBP uses 3.8A as default distance\n");
       fprintf(fp,"									for donor-acceptor atom distance for \n");
       fprintf(fp,"									hydrogen bonding interactions. However, \n");
