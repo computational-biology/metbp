@@ -226,7 +226,7 @@ int main(int argc, char* argv[]) {
 	    strcpy(syspar.accn, file_name);
 	    strcpy(syspar.ext, ext);
 	    strcpy(syspar.file_dir, file_path);
-	    if (strcmp(ext, ".cif") != 0 && strcmp(ext, ".pdb") != 0) {
+	    if (strcmp(ext, ".cif") != 0 && strncmp(ext, ".pdb", 4) != 0 && strcmp(ext, ".ent") != 0) {
 		  printf("Error... please supply .cif or .pdb file.\n");
 		  exit(EXIT_FAILURE);
 	    }
@@ -354,7 +354,7 @@ int main(int argc, char* argv[]) {
 	    if(strcmp(ext, ".cif") == 0){
 		  scancif(cif_file, is_std_amino, NULL, NULL, &atoms, &numatoms, PRO_TYPE, "auth", occu_rule);
 		  
-	    }else if(strcmp(ext, ".pdb") ==0 ){
+	    }else if(strncmp(ext, ".pdb", 4) ==0 || strcmp(ext, ".ent") == 0){
 		  scanpdb(cif_file, is_std_amino, NULL, NULL, &atoms, &numatoms, PRO_TYPE, occu_rule);
 	    }else{
 		  fprintf(stderr, "Error in function %s()... Unrecognized file type supplied.\n", __func__);
@@ -389,7 +389,7 @@ int main(int argc, char* argv[]) {
 
 	    if(strcmp(ext, ".cif") == 0){
 		  scancif(cif_file, is_metal, NULL, NULL, &atoms, &numatoms, METAL_TYPE, "auth", occu_rule);
-	    }else if(strcmp(ext, ".pdb") ==0 ){
+	    }else if(strncmp(ext, ".pdb", 4) ==0 || strcmp(ext, ".ent") ==0){
 		  scanpdb(cif_file, is_metal, NULL, NULL, &atoms, &numatoms, METAL_TYPE, occu_rule);
 	    }else{
 		  fprintf(stderr, "Error in function %s()... Unrecognized file type supplied.\n", __func__);
@@ -433,7 +433,8 @@ int main(int argc, char* argv[]) {
 
 	    if(strcmp(ext, ".cif") == 0){
 		  scancif(cif_file, is_HOH, NULL, NULL, &atoms, &numatoms, SOLVENT_TYPE, "auth", occu_rule);
-	    }else if(strcmp(ext, ".pdb") ==0 ){
+	    //}else if(strcmp(ext, ".pdb") ==0 ){
+	    }else if(strncmp(ext, ".pdb", 4) ==0 || strcmp(ext, ".ent") ==0){
 		  scanpdb(cif_file, is_HOH, NULL, NULL, &atoms, &numatoms, SOLVENT_TYPE, occu_rule);
 	    }else{
 		  fprintf(stderr, "Error in function %s()... Unrecognized file type supplied.\n", __func__);
@@ -628,8 +629,8 @@ void show_help(){
       fprintf(fp, " |    MetBP is a stand alone program for computing metal and base pair    |\n");
       fprintf(fp, " |    interactions from mmCIF/PDB files.                                  |\n");
       fprintf(fp, " |________________________________________________________________________|\n");
-      fprintf(fp,"      –help: Shows a small help on the terminal. \n");
-      fprintf(fp,"      –genhelp: Generates this metbp-help.md file in the current directory.\n");
+      fprintf(fp,"      --help: Shows a small help on the terminal. \n");
+      fprintf(fp,"      --genhelp: Generates this metbp-help.md file in the current directory.\n");
       fprintf(fp,"      –hbdist=[value]: Sets default distance for donor-acceptor atom\n");
       fprintf(fp,"                       distance for hydrogen bond. Default 3.8A.\n");
       fprintf(fp,"      -sugmed=[true/false]: To exclude sugar O2' atom, set it to false.\n");
@@ -740,7 +741,7 @@ void gen_help(){
       fprintf(fp,"		GENERAL\n");
       fprintf(fp,"			Software related command line options are as follows.\n");
       fprintf(fp,"			\n");
-      fprintf(fp,"				–-help    :  Shows a small help on the terminal. \n");
+      fprintf(fp,"				--help    :  Shows a small help on the terminal. \n");
       fprintf(fp,"				\n");
       fprintf(fp,"				–-genhelp :  Generates this metbp-help.md file in the \n");
       fprintf(fp,"							current directory. \n");
@@ -821,7 +822,7 @@ void gen_help(){
       fprintf(fp,"\n");
       fprintf(fp,"\n");
       fprintf(fp,"\n");
-      fprintf(fp,"				-mode=[bp/nuc/all]\n");
+      fprintf(fp,"				-mode=[bp/nuc/all/dev]\n");
       fprintf(fp,"									The MetBP program works in three different modes. \n");
       fprintf(fp,"									The ‘bp’ mode, the ‘nuc’ mode and finally the \n");
       fprintf(fp,"									‘all’ mode. In ‘bp’ mode, the details of only \n");
@@ -837,6 +838,7 @@ void gen_help(){
       fprintf(fp,"									mode, if a metal binds with the oxygen of a \n");
       fprintf(fp,"									phosphate group or any atom of the pentose sugar, \n");
       fprintf(fp,"									the details of that metal is considered.\n");
+      fprintf(fp,"									In dev mode, the program generates two extra json files.\n");
       fprintf(fp,"\n");
       fprintf(fp,"\n");
       fprintf(fp,"EXIT STATUS\n");

@@ -100,6 +100,13 @@ This means a Guaning forms a basepair with Cytosine in Cis orientation and Guani
 `metbp.linux 1n32.cif -paramfile=./metal.params`<br><br>
 **Note:**  *If the user supplies the parameter file in this way, then all the parameters will be taken from this file. * <br><br>
 **Caution!!!** *This is not an update of the existing values. It is the resetting all the values. For example, if the user supplies the values for Magnesium, then the system will consider only Magnesium and no other metals.* <br><br><br>
+**-diff:** With this command if we run the program, files names will be different in different modes. In the MetBP program, there are four files whose contents are changed when modes are changed. These files are .met (metal-base pair info), .det (metal-base pair details), .pml (the pymol script) and _metbp.json (Newly added after the revision). All other files are invariant of mode, as for example, .sum (summary file). So, we have given this mode tag with the file names for only those four files.
+However, the default mode will still produce the files names without the mode tag. To get this facility, we need to supply the "-diff" flag as a command-line argument. If we supply -diff, then the files will be different for different modes.
+ <br>
+**Example:**
+	`metbp.linux   1n32.cif      -diff  -mode=bp`
+The file will generate files like 1n32_diff_bp.met, 1n32_diff_bp.det etc.  The reason we have added the extra _diff_ in the file name is because the user can easily work with these files when the directory contains files without  -diff mode, like 1n32.met. So, user can easily copy or remove these files using    cp \*_diff_\* or rm \*_diff_\* and can bypass the other files.
+<br><br><br>
 
 
 
@@ -142,6 +149,8 @@ This means a Guaning forms a basepair with Cytosine in Cis orientation and Guani
  `metbp.linux 1n32.cif  -mode=dev`<br><br>
 
 ## Output file format
+
+**Note: We use _atom_site.auth_asym_id, _atom_site.auth_seq_id and _atom_site.pdbx_PDB_ins_code when consider mmCIF files. **
 ### .met file format
 #### BP TAG
           |  Metal Detail       |   Base Pair Details                    |   Outcome                         |
