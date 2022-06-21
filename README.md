@@ -9,7 +9,7 @@
 
 ## Reference
 > If you use this software, please refer it as follows:
->>Parthajit Roy, Dhananjay Bhattacharyya, MetBP: a software tool for detection of interaction between metal ion–RNA base pairs, Bioinformatics, 2022;, btac392, https://doi.org/10.1093/bioinformatics/btac392**
+>>Parthajit Roy, Dhananjay Bhattacharyya, MetBP: a software tool for detection of interaction between metal ion–RNA base pairs, Bioinformatics, 2022;, btac392, https://doi.org/10.1093/bioinformatics/btac392
 
 ## Installation 
 >Download the binary executable metbp.linux from the latest release into your computer and then add that folder to your PATH variable. Done.
