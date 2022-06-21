@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
 		  exit(EXIT_SUCCESS);
 	    }
 	    if(strncmp(arg, "--pub", 5) == 0 ){
-	      fprintf(stdout, "Please refer the paper as follows:\n");
+	      fprintf(stdout, "Please refer the software as follows:\n");
 		  fprintf(stdout, "Parthajit Roy, Dhananjay Bhattacharyya, \"MetBP: a software tool for detection of interaction between metal ion–RNA base pairs\", Bioinformatics, 2022;\nDOI:https://doi.org/10.1093/bioinformatics/btac392\n");
 		  exit(EXIT_SUCCESS);
 	    }
