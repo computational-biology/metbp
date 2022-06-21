@@ -1,23 +1,29 @@
 ## MetBP : *A standalone command line tool for detection and analysis of metal-ion and Basepair interactions*
 
 
+
 ## Synopsis  
 
 
-> Metal Basepair interaction program is a software tool that detects and analyzes metal interactions with RNA (It can handle DNA anso) base pairs from the crystal structure files stored in mmCIF or PDB format. The program gives results in suitable format in plain text as well as in machine readible JSON and CSV formats also. The program is a stand alone command line based tool developped for Linux. The program is written in C and FORTRAN.
+> Metal Basepair interaction program is a software tool that detects and analyzes metal interactions with RNA (and DNA) base pairs from the crystal structure files stored in mmCIF or PDB format. The program gives results in suitable format in plain text as well as in machine readible JSON and CSV formats. The program is a stand alone command line based tool developped for Linux. The program is written in C and FORTRAN.
+
+## Reference
+> If you use this software then please refer the software as follows:
+>>Parthajit Roy, Dhananjay Bhattacharyya, MetBP: a software tool for detection of interaction between metal ion–RNA base pairs, Bioinformatics, 2022;, btac392, https://doi.org/10.1093/bioinformatics/btac392**
 
 ## Installation 
 >Download the binary executable metbp.linux from the latest release into your computer and then add that folder to your PATH variable. Done.
 
 
+
 ## Compilation
-> If the executable from downloaded from the release does not work for you, then download the source file given in the release and extract them. go to the directory where the Makefile resides. rum the make command from that directory. The 'metbp.linux' will be created and will be stored in bin directory. place it to a suitable directory and then add that folder to your PATH variable. Done.
+> If the executable from downloaded from the release does not work for you, then download the source file given in the release and extract them. go to the directory where the Makefile resides. Run the make command from that directory. The 'metbp.linux' will be created and will be stored in bin directory. place it to a suitable directory and then add that folder to your PATH variable. Done.
 ## Dependencies
 > The compilation process needs a C and a FORTRAN compiler. We have assumed *gcc* for C and *gfortran* for FORTRAN. We have made the Makefile accordingly. If the user wants a different compiler, change the makefile accordingly. 
 
 ## A word about the Makefile
 > 
-We have given a ready made make file for easy compilation.  The Makefile assumes *gcc* as C compiler and *gfortran* as FORTRAN compiler. If, however, the user do not have access to these compilers and to something else instead, they need a small modification in the Makefile. For example, if you have *clang* as C compiler and *f77* as fortran compiler, then chage the following in the Makefile. 
+We have given a ready made make file for easy compilation.  The Makefile assumes *gcc* as C compiler and *gfortran* as FORTRAN compiler. If, however, the user do not have access to these compilers and to something else instead, they need a small modification in the Makefile. For example, if you have *clang* as C compiler and *f77* as fortran compiler, then change the following in the Makefile. 
 	change `CC := gcc -std=c99` to `CC := clang` and change `FF := gfortran` to `FF := f77`
 
 ## How to run
@@ -28,16 +34,16 @@ options are given in detail in the cpmmand-line option section of this document.
 `metbp.linux 1ehz.cif`<br>
 
 ##  Basepairs
->Nucleic acids forms base-base interactions for their stebelization. These base-base interactions are called basepairs. In DNA we mainly observe that a Guanine forms a basepair with a Cytosine and an Adenine forms a baspair with Thymie. In RNA, however, varieties of basepairs are observed. Typically 158 types of base pairs are theoratically possible, though only 126 of them are found in nature. Out of them five base pairs are called canonical and the rest are called non-canonical. The canonical basepairs are GC cWW, AU cWW and GU   cWW. 
+>Nucleic acids forms base-base interactions for their stabilization. These base-base interactions are called basepairs. In DNA we mainly observe that a Guanine forms a basepair with a Cytosine and an Adenine forms a baspair with Thymine. In RNA, however, varieties of basepairs are observed. Typically 158 types of base pairs are theoretically possible, though only 126 of them are found in nature. Out of them five base pairs are called canonical and the rest are called non-canonical. The canonical basepairs are GC cWW, AU cWW and GU   cWW. 
 
-##  A note about basepair writing convension
+##  A note about basepair writing convention
 >The most popular notation for basepair is due to Leontis-Westhof. Their notation looks like this.
 >
 		     GC cHW (Leontis-Westhof nomenclature)
-This means a Guaning forms a basepair with Cytosine in Cis orientation and Guaninen’s Hoogsteen edge and Cytosin’s Watson-Crick edge forms the basepair. In our case, we write the the same as follows,
+This means a Guanine forms a basepair with Cytosine in Cis orientation and Guanine’s Hoogsteen edge and Cytosine’s Watson-Crick edge forms the basepair. In our case, we write the the same as follows,
 >
 	         G:C H:WC (BPFind nomenclature that is followed by MetBP)
-> The reason is in MetBP program, we consider C-H…O/N mediated basepairs as separate basepairs and we denote them in small letters. So, in MetBP G:C H:WC and G:C h:wC carries different meaning. G:C H:WC is a normal basepair whereas G:C h:wC is a basepair that contains C-H…O/N interations. Leontis-Westhof nomenclature does not differentiate them. Futrher, MetBP program considers protonated base pairs also and reports them differently. Following is the full base pair nomenclature that MetBP follows.
+> The reason is in MetBP program, we consider C-H…O/N mediated basepairs as separate basepairs and we denote them in small letters. So, in MetBP G:C H:WC and G:C h:wC carries different meaning. G:C H:WC is a normal basepair whereas G:C h:wC is a basepair that contains C-H…O/N interactions. Leontis-Westhof nomenclature does not differentiate them. Futrher, MetBP program considers protonated base pairs also and reports them differently. Following is the full base pair nomenclature that MetBP follows.
 >	
 			W - Watson-Crick edge (Capital W).
 			H - Hoogsteen edge (Capital H).
@@ -53,14 +59,14 @@ This means a Guaning forms a basepair with Cytosine in Cis orientation and Guani
 > BPNet used three types of basepair types. These are as follows
 >
 	BP - Normal base pair.
-	TP - Tartiary pair.
+	TP - Tertiary pair.
 	BF - Bifurcated pair indicating a single edge of the central base is paired to two bases simultaneously 
 	
 >([Follow our paper BPFIND,2006](https://doi.org/10.1080/07391102.2006.10507108))
 	
 
 ## Basepair rule
->In MetBP, we follow the BPFIND algo for detection of base pairs. So, to know the detail of the algorithm the user needs to follow the paper that describes BPFIND. ([BPFIND, 2006](https://doi.org/10.1080/07391102.2006.10507108))
+>In MetBP, we follow the BPFIND algorithm for detection of base pairs. So, to know the detail of the algorithm the user needs to follow the paper that describes BPFIND. ([BPFIND, 2006](https://doi.org/10.1080/07391102.2006.10507108))
 
 
 ## Command-line options
