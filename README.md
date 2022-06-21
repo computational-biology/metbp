@@ -8,7 +8,7 @@
 > Metal Basepair interaction program is a software tool that detects and analyzes metal interactions with RNA (and DNA) base pairs from the crystal structure files stored in mmCIF or PDB format. The program gives results in suitable format in plain text as well as in machine readible JSON and CSV formats. The program is a stand alone command line based tool developped for Linux. The program is written in C and FORTRAN.
 
 ## Reference
-> If you use this software then please refer the software as follows:
+> If you use this software, please refer it as follows:
 >>Parthajit Roy, Dhananjay Bhattacharyya, MetBP: a software tool for detection of interaction between metal ion–RNA base pairs, Bioinformatics, 2022;, btac392, https://doi.org/10.1093/bioinformatics/btac392**
 
 ## Installation 
