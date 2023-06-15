@@ -506,7 +506,7 @@ void site_fprint_basepair(struct site* self, FILE* fp, struct rnabp* bp, int* fl
 			bp_fprint_met(bp->bp+resindx, dst, fp);
 		  }else{
 			if(bp->bp[resindx].numbp <= 0){
-			      fprintf(fp, "    ~~  ~        ~~  ~       ~~~~~~~~    ~~~~  ");
+			      fprintf(fp, "    ~~  ~        ~~  ~       ~~~~~~~~    ~~~~  \n");
 
 			}else{
 			      bp_fprint_met(bp->bp+resindx, dst, fp);
